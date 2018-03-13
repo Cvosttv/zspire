@@ -5,6 +5,16 @@ namespace ZSpire {
 		unsigned int HEIGHT;
 
 		char WINDOW_TITLE[256];
+
+		bool isResizable;
+
+		ZSWindowDesc() {
+			WIDTH = 640;
+			HEIGHT = 480;
+
+			isResizable = true;
+		}
+
 	};
 
 	class ZSpireApp {

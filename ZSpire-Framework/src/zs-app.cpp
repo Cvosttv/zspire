@@ -26,7 +26,12 @@ bool ZSpire::ZSpireApp::createWindow(ZSWindowDesc desc){
 	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 6);
 	SDL_DisplayMode current;
 	SDL_GetCurrentDisplayMode(0, &current);
-	window = SDL_CreateWindow(desc.WINDOW_TITLE, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, desc.WIDTH, desc.HEIGHT, SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE);
+
+	int RESIZABLE_FLAG = SDL_WINDOW_RESIZABLE;
+	if (desc.isResizable == false) RESIZABLE_FLAG = 0;
+
+
+	window = SDL_CreateWindow(desc.WINDOW_TITLE, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, desc.WIDTH, desc.HEIGHT, SDL_WINDOW_OPENGL | RESIZABLE_FLAG);
 	glcontext = SDL_GL_CreateContext(window);
 	SDL_GL_SetSwapInterval(1); // Enable vsync
 
