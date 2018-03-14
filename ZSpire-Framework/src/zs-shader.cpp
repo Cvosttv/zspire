@@ -92,7 +92,7 @@ bool ZSpire::Shader::compileFromFile(const char* VS_SHADER_PATH, const char* FS_
 	return true;
 }
 
-void ZSpire::Shader::checkCompileErrors(GLuint shader, const char* type)
+void ZSpire::Shader::checkCompileErrors(unsigned int shader, const char* type)
 {
 	GLint success;
 	GLchar infoLog[1024];

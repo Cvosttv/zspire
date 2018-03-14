@@ -166,3 +166,16 @@ ZSMATRIX4x4 getRotationZ(float thetaN) {
 
 	return mat;
 }
+
+ZSMATRIX4x4 getOrthogonal(float left, float right, float bottom, float top)
+{
+	ZSMATRIX4x4 out = getIdentity();
+	out.m[0][0] = 2.0f / (right - left);
+	out.m[1][1] = 2.0f / (top - bottom);
+	out.m[2][2] = -1.0f;
+	out.m[3][0] = -(right + left) / (right - left);
+	out.m[3][1] = -(top + bottom) / (top - bottom);
+
+
+	return out;
+}

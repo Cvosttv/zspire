@@ -5,5 +5,6 @@
 	#include <zs-shader.h>
 	#include <zs-texture.h>
 	#include <zs-mesh.h>
+	#include <zs-camera.h>
 
 #endif

@@ -7,12 +7,15 @@ namespace ZSpire {
 		char WINDOW_TITLE[256];
 
 		bool isResizable;
+		bool isVsyncEnabled;
 
 		ZSWindowDesc() {
 			WIDTH = 640;
 			HEIGHT = 480;
 
 			isResizable = true;
+
+			isVsyncEnabled = false;
 		}
 
 	};

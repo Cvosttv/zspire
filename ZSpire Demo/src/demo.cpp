@@ -25,7 +25,10 @@ int main() {
 	ZSpire::ZSWindowDesc dec;
 	dec.WIDTH = 800;
 	dec.HEIGHT = 600;
+	dec.isResizable = false;
 	strcpy_s(dec.WINDOW_TITLE , "Demo");
+
+	dec.isVsyncEnabled = true;
 
 	if (!app.createWindow(dec)) {
 		app.MSGBox();

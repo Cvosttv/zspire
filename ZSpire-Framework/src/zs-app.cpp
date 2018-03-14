@@ -1,5 +1,7 @@
 #include <SDL.h>
 
+#include "../includes/zs-camera.h"
+
 #include "../includes/zs-app.h"
 
 #include <windows.h>
@@ -15,6 +17,8 @@ bool ZSpire::ZSpireApp::createWindow(ZSWindowDesc desc){
 		MessageBox(NULL, "Creating OpenGL 4.6 instance failed! ", TEXT("Error initializing OpenGL 4.6"), MB_OK);
 		return false;
 	}
+
+	setCameraProjectionResolution(desc.WIDTH, desc.HEIGHT);
 
 	// Setup window
 	SDL_GL_SetAttribute(SDL_GL_CONTEXT_FLAGS, NULL);
@@ -33,7 +37,7 @@ bool ZSpire::ZSpireApp::createWindow(ZSWindowDesc desc){
 
 	window = SDL_CreateWindow(desc.WINDOW_TITLE, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, desc.WIDTH, desc.HEIGHT, SDL_WINDOW_OPENGL | RESIZABLE_FLAG);
 	glcontext = SDL_GL_CreateContext(window);
-	SDL_GL_SetSwapInterval(1); // Enable vsync
+	SDL_GL_SetSwapInterval((int)desc.isVsyncEnabled); // Enable vsync
 
 	glewExperimental = GL_TRUE;
 	if (glewInit() != GLEW_OK)
