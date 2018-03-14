@@ -6,5 +6,6 @@
 	#include <zs-texture.h>
 	#include <zs-mesh.h>
 	#include <zs-camera.h>
+	#include <zs-mesh-loader.h>
 
 #endif

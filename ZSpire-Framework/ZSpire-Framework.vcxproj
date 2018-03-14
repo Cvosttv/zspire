@@ -70,7 +70,7 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>D:\LIBS\GL;D:\LIBS\SDL;$(IncludePath)</IncludePath>
+    <IncludePath>D:\LIBS\ASSIMP;D:\LIBS\GL;D:\LIBS\SDL;$(IncludePath)</IncludePath>
     <LibraryPath>D:\LIBS\SDL;D:\LIBS;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -96,7 +96,7 @@
       <AdditionalDependencies>SDL2.lib;SDL2main.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <Lib>
-      <AdditionalDependencies>SDL2.lib;SDL2main.lib;glew32s.lib;glew32.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>SDL2.lib;SDL2main.lib;glew32s.lib;glew32.lib;opengl32.lib;assimp_x64.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -132,7 +132,10 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\zs-app.cpp" />
+    <ClCompile Include="src\zs-camera.cpp" />
+    <ClCompile Include="src\zs-game-object.cpp" />
     <ClCompile Include="src\zs-math.cpp" />
+    <ClCompile Include="src\zs-mesh-loader.cpp" />
     <ClCompile Include="src\zs-mesh.cpp" />
     <ClCompile Include="src\zs-shader.cpp" />
     <ClCompile Include="src\zs-texture.cpp" />
@@ -140,7 +143,10 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="includes\zs-app.h" />
+    <ClInclude Include="includes\zs-camera.h" />
+    <ClInclude Include="includes\zs-game-object.h" />
     <ClInclude Include="includes\zs-math.h" />
+    <ClInclude Include="includes\zs-mesh-loader.h" />
     <ClInclude Include="includes\zs-mesh.h" />
     <ClInclude Include="includes\zs-shader.h" />
     <ClInclude Include="includes\zs-texture.h" />

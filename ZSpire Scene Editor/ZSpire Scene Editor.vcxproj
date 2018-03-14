@@ -69,7 +69,10 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
-  <PropertyGroup />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <IncludePath>D:\LIBS\SDL;D:\LIBS\IMGUI;D:\LIBS\GL;$(IncludePath)</IncludePath>
+    <LibraryPath>D:\LIBS;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
@@ -77,6 +80,10 @@
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
     </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <AdditionalDependencies>opengl32.lib;SDL2.lib;SDL2main.lib;glew32s.lib;glew32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -115,6 +122,38 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="includes\Camera.hpp" />
+    <ClInclude Include="includes\DColor.h" />
+    <ClInclude Include="includes\DMath.h" />
+    <ClInclude Include="includes\file_window.h" />
+    <ClInclude Include="includes\GameObject.h" />
+    <ClInclude Include="includes\geometry.h" />
+    <ClInclude Include="includes\imgui_impl_sdl_gl3.h" />
+    <ClInclude Include="includes\Light.h" />
+    <ClInclude Include="includes\Material.h" />
+    <ClInclude Include="includes\objects_window.h" />
+    <ClInclude Include="includes\pdem_loader.h" />
+    <ClInclude Include="includes\property_inspector.h" />
+    <ClInclude Include="includes\scene_loader.h" />
+    <ClInclude Include="includes\startup_window.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="IMGUI\imgui.cpp" />
+    <ClCompile Include="IMGUI\imgui_demo.cpp" />
+    <ClCompile Include="IMGUI\imgui_draw.cpp" />
+    <ClCompile Include="src\DColor.cpp" />
+    <ClCompile Include="src\DMath.cpp" />
+    <ClCompile Include="src\file_window.cpp" />
+    <ClCompile Include="src\GameObject.cpp" />
+    <ClCompile Include="src\geometry.cpp" />
+    <ClCompile Include="src\imgui_impl_sdl_gl3.cpp" />
+    <ClCompile Include="src\Light.cpp" />
+    <ClCompile Include="src\Material.cpp" />
+    <ClCompile Include="src\objects_window.cpp" />
+    <ClCompile Include="src\pdem_loader.cpp" />
+    <ClCompile Include="src\property_inspector.cpp" />
+    <ClCompile Include="src\scene_loader.cpp" />
+    <ClCompile Include="src\startup_window.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
