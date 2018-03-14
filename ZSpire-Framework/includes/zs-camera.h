@@ -12,10 +12,7 @@ namespace ZSpire {
 		float ZFarPlane;
 		};
 		
-		/*Camera() {
-			
-		}
-		*/
+		
 		void InitializeCamera();
 
 		void setCameraProjectionType(ZSPROJECTIONTYPE type);
@@ -27,4 +24,7 @@ namespace ZSpire {
 		void setCameraProjectionResolution(float WIDTH, float HEIGHT);
 
 		void updateCameraMatrix();
+
+		ZSMATRIX4x4 getCameraProjectionMatrix();
+		ZSMATRIX4x4 getCameraViewMatrix();
 }

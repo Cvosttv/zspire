@@ -1,5 +1,6 @@
 #include <SDL.h>
 
+#include "../includes/zs-math.h"
 #include "../includes/zs-camera.h"
 
 #include "../includes/zs-app.h"
@@ -18,7 +19,7 @@ bool ZSpire::ZSpireApp::createWindow(ZSWindowDesc desc){
 		return false;
 	}
 
-	setCameraProjectionResolution(desc.WIDTH, desc.HEIGHT);
+	setCameraProjectionResolution((float)desc.WIDTH, (float)desc.HEIGHT);
 
 	// Setup window
 	SDL_GL_SetAttribute(SDL_GL_CONTEXT_FLAGS, NULL);

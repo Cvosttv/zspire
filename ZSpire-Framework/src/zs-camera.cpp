@@ -61,3 +61,10 @@ void ZSpire::setCameraProjectionResolution(float WIDTH, float HEIGHT) {
 	CAMERA_PROJ_WIDTH = WIDTH;
 	CAMERA_PROJ_HEIGHT = HEIGHT;
 }
+
+ZSMATRIX4x4 ZSpire::getCameraProjectionMatrix(){
+	return PROJECTION;
+}
+ZSMATRIX4x4 ZSpire::getCameraViewMatrix() {
+	return VIEW;
+}

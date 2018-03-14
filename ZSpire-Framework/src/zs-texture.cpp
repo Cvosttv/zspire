@@ -115,3 +115,7 @@ void ZSpire::Texture::Use(unsigned int slot) {
 void ZSpire::Texture::Release() {
 	glDeleteTextures(1, &this->TEXTURE_ID);
 }
+
+unsigned int ZSpire::Texture::getTextureGL_ID() {
+	return this->TEXTURE_ID;
+}

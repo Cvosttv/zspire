@@ -5,6 +5,8 @@
 #include <iostream>
 
 #include "../includes/zs-math.h"
+#include "../includes/zs-camera.h"
+
 #include "../includes/zs-transform.h"
 
 #include "../includes/zs-shader.h"
@@ -137,4 +139,12 @@ void ZSpire::Shader::setUniformVec3(const char* uniform_string, ZSVECTOR3 value)
 void ZSpire::Shader::setTransform( ZSpire::Transform translation) {
 	unsigned int uniform_id = glGetUniformLocation(this->SHADER_GL_ID, "object_transform");
 	glUniformMatrix4fv(uniform_id, 1, GL_FALSE, &translation.translation_matrix.m[0][0]);
+}
+
+void ZSpire::Shader::updateCamera(){
+	unsigned int proj_id = glGetUniformLocation(this->SHADER_GL_ID, "cam_projection");
+	unsigned int view_id = glGetUniformLocation(this->SHADER_GL_ID, "cam_view");
+
+	//glUniformMatrix4fv(proj_id, 1, GL_FALSE, &getCameraProjectionMatrix().m[0][0]);
+	//glUniformMatrix4fv(view_id, 1, GL_FALSE, &getCameraViewMatrix().m[0][0]);
 }
