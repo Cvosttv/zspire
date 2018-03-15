@@ -10,6 +10,8 @@ namespace ZSpire {
 		void setUniformInt(const char* uniform_string, int value);
 		void setUniformVec3(const char* uniform_string, ZSVECTOR3 value);
 		void setUniformMat4x4(const char* uniform_string, ZSMATRIX4x4 value);
+		void setUniformFloat(const char* uniform_string, float value);
+		void setUniformColor3(const char* uniform, ZSRGBCOLOR color);
 
 		void checkCompileErrors(unsigned int shader, const char* type);
 		void InitializeShader();

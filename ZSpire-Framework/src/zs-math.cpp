@@ -179,3 +179,10 @@ ZSMATRIX4x4 getOrthogonal(float left, float right, float bottom, float top)
 
 	return out;
 }
+
+void ZSRGBCOLOR::updateGL() {
+	this->gl_r = (float)r / 255;
+	this->gl_g = (float)g / 255;
+	this->gl_b = (float)b / 255;
+	this->gl_a = (float)a / 255;
+}

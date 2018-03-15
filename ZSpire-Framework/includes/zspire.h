@@ -7,5 +7,6 @@
 	#include <zs-mesh.h>
 	#include <zs-camera.h>
 	#include <zs-mesh-loader.h>
+	#include <zs-text-renderer.h>
 
 #endif

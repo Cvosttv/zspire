@@ -124,6 +124,19 @@ void ZSpire::Shader::setUniformInt(const char* uniform_string, int value){
 	glUniform1i(uniform_id, value);
 }
 
+void ZSpire::Shader::setUniformFloat(const char* uniform_string, float value) {
+	Use();
+	unsigned int uniform_id = glGetUniformLocation(this->SHADER_GL_ID, uniform_string);
+	glUniform1f(uniform_id, value);
+}
+
+void ZSpire::Shader::setUniformColor3(const char* uniform, ZSRGBCOLOR color) {
+	Use();
+	unsigned int uniform_id = glGetUniformLocation(this->SHADER_GL_ID, uniform);
+	glUniform3f(uniform_id, color.gl_r, color.gl_g, color.gl_b);
+
+}
+
 void ZSpire::Shader::setUniformMat4x4(const char* uniform_string, ZSMATRIX4x4 value) {
 	Use();
 	unsigned int uniform_id = glGetUniformLocation(this->SHADER_GL_ID, uniform_string);
@@ -145,6 +158,6 @@ void ZSpire::Shader::updateCamera(){
 	unsigned int proj_id = glGetUniformLocation(this->SHADER_GL_ID, "cam_projection");
 	unsigned int view_id = glGetUniformLocation(this->SHADER_GL_ID, "cam_view");
 
-	//glUniformMatrix4fv(proj_id, 1, GL_FALSE, &getCameraProjectionMatrix().m[0][0]);
-	//glUniformMatrix4fv(view_id, 1, GL_FALSE, &getCameraViewMatrix().m[0][0]);
+	glUniformMatrix4fv(proj_id, 1, GL_FALSE, &getCameraProjectionMatrix().m[0][0]);
+	glUniformMatrix4fv(view_id, 1, GL_FALSE, &getCameraViewMatrix().m[0][0]);
 }

@@ -5,6 +5,11 @@
 
 #include "../includes/zs-app.h"
 
+#include "../includes/zs-transform.h"
+
+#include "../includes/zs-shader.h"
+
+#include "../includes/zs-text-renderer.h"
 #include <windows.h>
 #include <glew.h>
 
@@ -20,6 +25,7 @@ bool ZSpire::ZSpireApp::createWindow(ZSWindowDesc desc){
 	}
 
 	setCameraProjectionResolution((float)desc.WIDTH, (float)desc.HEIGHT);
+	setLocalScreenSize(desc.WIDTH, desc.HEIGHT);
 
 	// Setup window
 	SDL_GL_SetAttribute(SDL_GL_CONTEXT_FLAGS, NULL);

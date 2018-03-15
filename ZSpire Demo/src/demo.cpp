@@ -1,5 +1,5 @@
 #define ZS_App
-#include "stdlib.h"
+
 #include "string.h"
 #include <zspire.h>
 
@@ -7,6 +7,7 @@ ZSpire::ZSpireApp app;
 
 ZSpire::Texture texture;
 ZSpire::Shader shader;
+ZSpire::Shader text_shader;
 ZSpire::Mesh mesh;
 
 ZSpire::Mesh* mesh2;
@@ -37,17 +38,20 @@ int main() {
 		app.MSGBox();
 	}
 	
+	ZSpire::LoadGlyphes("text/glyph48.DDS", "text/glyph48.fnt");
+
 	texture.InitializeTexture();
 	texture.LoadDDSFromFile("ext_road_night.DDS");
 
 	shader.InitializeShader();
 	shader.compileFromFile("shaders/object.vs", "shaders/object.fs");
 
+	text_shader.InitializeShader();
+	text_shader.compileFromFile("shaders/text/text2d.vs", "shaders/text/text2d.fs");
+
 	mesh.InitializeMesh();
 	mesh.processMesh(vertices,ind, 4, 6);
 	
-	//mesh2 = (ZSpire::Mesh*)malloc(sizeof(ZSpire::Mesh));
-	//mesh2->InitializeMesh();
 	mesh2 = ZSpire::LoadMeshesFromFile("BIG.FBX");
 
 	transform.setPosition(ZSVECTOR3(1,0,0));
@@ -65,6 +69,7 @@ int main() {
 		mesh.Draw();
 		mesh2->Draw();
 
+		ZSpire::DrawString(L"test", text_shader, 100, 100, ZSRGBCOLOR(0,0,0));
 
 		app.postFrame();
 	}

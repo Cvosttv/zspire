@@ -1,24 +1,24 @@
 #define _CRT_SECURE_NO_WARNINGS
-typedef unsigned int uint;
 
 #include "../includes/zs-math.h"
-//#include "../math/DColor.h"
+
 #include <glew.h>
 #include "../includes/zs-texture.h"
 #include "stdio.h"
 #include "string.h"
 #include "math.h"
 #include "stdlib.h"
-//#include "../shader_manager.h"
 
-//#include "../resources/shader_res.h"
+#include "../includes/zs-transform.h"
+
+#include "../includes/zs-shader.h"
 
 #include "../includes/zs-text-renderer.h"
 
-uint scr_width;
-uint scr_height;
+unsigned int scr_width;
+unsigned int scr_height;
 
-void ZSpire::setLocalScreenSize(uint width, uint height) {
+void ZSpire::setLocalScreenSize(unsigned int width, unsigned int height) {
 	scr_width = width;
 	scr_height = height;
 
@@ -41,9 +41,8 @@ bool ZSpire::LoadGlyphes(const char* texture, const char* glyph_map, float scale
 
 	Texture font_texture;
 	font_texture.LoadDDSFromFile(texture);
-	//dtextures::loadTextureDDSFile(&font_texture, texture);
-	//dtextures::processTexture(font_texture, dtextures::TEXTR);
-	uint wh = font_texture.properties.WIDTH;
+	
+	unsigned int wh = font_texture.properties.WIDTH;
 	font_texture_id = font_texture.getTextureGL_ID();
 	FILE* glmap = fopen(glyph_map, "r");
 	if (glmap == NULL) {
@@ -78,7 +77,6 @@ bool ZSpire::LoadGlyphes(const char* texture, const char* glyph_map, float scale
 				double y2 = 0;
 
 				int charPos = 0;
-				// fscanf(glmap, "%d %f %f %f %f",&charPos, &x1, &y1, &x2, &y2);
 
 				fscanf(glmap, "%s %s %s %s %s %s %s %s %s %s", symbol_id, symbol_start_x, symbol_start_y, symbol_width, symbol_height, symbol_x_offs, symbol_y_offset, symbol_x_advance, symbol_page, symbol_channel);
 
@@ -145,20 +143,21 @@ bool ZSpire::LoadGlyphes(const char* texture, const char* glyph_map, float scale
 	return true;
 }
 
-/*
-void dtext::DrawLetter(uint letter, dshaders::Shader text_shader, float step) {
+
+void ZSpire::DrawLetter(unsigned int letter, Shader text_shader, float step) {
 	text_shader.setUniformFloat("step", step);
 	text_shader.setUniformFloat("offset_y", glyphs[letter].offset_y);
 	glBindVertexArray(glyphs[letter].VAO);
 
 	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 }
-void dtext::DrawString(const wchar_t* text, dshaders::Shader text_shader, float pos_x, float pos_y, RGBColor color) {
+
+void ZSpire::DrawString(const wchar_t* text, Shader text_shader, float pos_x, float pos_y, ZSRGBCOLOR color) {
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 	float step_x_passed = 0;
-	text_shader.useShader();
+	text_shader.Use();
 	//Sending required information to shader
 
 	text_shader.setUniformInt("res_x", (int)scr_width);
@@ -171,8 +170,8 @@ void dtext::DrawString(const wchar_t* text, dshaders::Shader text_shader, float 
 
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, font_texture_id);
-	uint len = (uint)wcslen(text);
-	for (uint i = 0; i < len; i++) {
+	unsigned int len = (unsigned int)wcslen(text);
+	for (unsigned int i = 0; i < len; i++) {
 		if (text[i] != L' ') {
 			step_x_passed += glyphs[text[i]].step_before;
 			DrawLetter(text[i], text_shader, step_x_passed);
@@ -184,25 +183,25 @@ void dtext::DrawString(const wchar_t* text, dshaders::Shader text_shader, float 
 	}
 	glDisable(GL_BLEND);
 }
-*/
 
 
-/*
-void ::DrawString(const wchar_t* text, float pos_x, float pos_y, RGBColor color) {
-	dshaders::Shader text_shader = dshaders::getTextShader();
-	DrawString(text, text_shader, pos_x, pos_y, color);
+
+
+void ZSpire::DrawString(const wchar_t* text, float pos_x, float pos_y, ZSRGBCOLOR color) {
+	//dshaders::Shader text_shader = dshaders::getTextShader();
+	//DrawString(text, text_shader, pos_x, pos_y, color);
 }
-*/
-uint ZSpire::GetStringLength(wchar_t* text) {
+
+unsigned int ZSpire::GetStringLength(wchar_t* text) {
 
 
-	uint step_x_passed = 0;
+	unsigned int step_x_passed = 0;
 
-	uint len = (uint)wcslen(text);
-	for (uint i = 0; i < len; i++) {
+	unsigned int len = (unsigned int)wcslen(text);
+	for (unsigned int i = 0; i < len; i++) {
 		if (text[i] != L' ') {
-			step_x_passed += (uint)glyphs[text[i]].step_before;
-			step_x_passed += (uint)glyphs[text[i]].step;
+			step_x_passed += (unsigned int)glyphs[text[i]].step_before;
+			step_x_passed += (unsigned int)glyphs[text[i]].step;
 		}
 		else {
 			step_x_passed += 30;
@@ -211,13 +210,13 @@ uint ZSpire::GetStringLength(wchar_t* text) {
 	return step_x_passed;
 }
 
-uint ZSpire::GetMaximumLetterHeight(wchar_t* text) {
+unsigned int ZSpire::GetMaximumLetterHeight(wchar_t* text) {
 
-	uint result = 0;
+	unsigned int result = 0;
 
-	for (uint i = 0; i < wcslen(text); i++) {
+	for (unsigned int i = 0; i < wcslen(text); i++) {
 		if (glyphs[text[i]].sizeY > result) {
-			result = (uint)glyphs[text[i]].sizeY;
+			result = (unsigned int)glyphs[text[i]].sizeY;
 		}
 	}
 
