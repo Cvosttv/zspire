@@ -14,6 +14,8 @@ ZSpire::Mesh* mesh2;
 
 ZSpire::Transform transform;
 
+ZSpire::Scene scene;
+
 ZSVERTEX vertices[] = {
 	// positions              // texture coords
 	ZSVERTEX(ZSVECTOR3(0.5f,  0.5f, 0.0f), ZSVECTOR2( 1.0f, 1.0f)),   // top right
@@ -57,19 +59,34 @@ int main() {
 	transform.setPosition(ZSVECTOR3(1,0,0));
 	transform.updateMatrix();
 
+	ZSpire::LoadSceneFromFile("scene.scn", &scene);
+	ZSpire::setObjectShader(&shader);
+
+
+	scene.getObjectAt(0)->setPosition(ZSVECTOR3(13,2,9));
+	scene.getObjectAt(0)->setScale(ZSVECTOR3(0.005f, 0.005f, 0.005f));
+	scene.getObjectAt(0)->setMesh(&mesh2[0]);
+	scene.getObjectAt(0)->setTexture(&texture);
+	
+	ZSpire::InitializeCamera();
+	ZSpire::setCameraProjectionType(CAMERA_PROJECTION_PERSPECTIVE);
+	ZSpire::updateCameraMatrix();
+
 	while (true) {
 		
 		app.gl_clear();
 
 		shader.Use();
-		shader.setTransform(transform);
+		shader.setTransform(&transform);
 
 		texture.Use(0);
 
 		mesh.Draw();
-		mesh2->Draw();
+		//mesh2->Draw();
 
 		ZSpire::DrawString(L"test", text_shader, 100, 100, ZSRGBCOLOR(0,0,0));
+
+		ZSpire::RenderScene(&scene);
 
 		app.postFrame();
 	}

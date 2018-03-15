@@ -14,7 +14,7 @@ void vNormalize(ZSVECTOR3* v)
 	if (REAL_NUM_EQ(sqr, 1) || REAL_NUM_EQ(sqr, 0))
 		return;
 
-	float invrt = (float)(1.0f / sqrt(sqr));
+	float invrt = (1.0f / (float)sqrt(sqr));
 	v->X *= invrt;
 	v->Y *= invrt;
 	v->Z *= invrt;

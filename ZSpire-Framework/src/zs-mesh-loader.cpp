@@ -1,3 +1,5 @@
+#include <vector>
+
 #include <assimp/Importer.hpp>
 #include <assimp/scene.h>
 #include <assimp/postprocess.h>
@@ -20,6 +22,8 @@ void processMesh(aiMesh* mesh, const aiScene* scene) {
 
 	ZSVERTEX* vertices_arr = (ZSVERTEX*)malloc(sizeof(ZSVERTEX) * vertices);
 	unsigned int* indices = (unsigned int*)malloc(sizeof(unsigned int) * faces * 3);
+	//std::vector<unsigned int> indices;
+	//unsigned int indices[47500];
 
 	for (unsigned int v = 0; v < vertices; v ++) {
 		aiVector3D vertex_pos = mesh->mVertices[v];
@@ -35,7 +39,14 @@ void processMesh(aiMesh* mesh, const aiScene* scene) {
 			ZSVECTOR3(vertex_bitangent.x, vertex_bitangent.y, vertex_bitangent.z)
 			);
 	}
-
+	/*
+	for (unsigned int i = 0; i < faces; i++)
+	{
+		aiFace face = mesh->mFaces[i];
+		for (unsigned int j = 0; j < face.mNumIndices; j++)
+			indices.push_back(face.mIndices[j]);
+	}
+	*/
 	for (unsigned int i = 0; i < faces; i++)
 	{
 		aiFace face = mesh->mFaces[i];

@@ -42,6 +42,7 @@ void DEWindows::DrawInspectorWindow(SDL_Window* window){
 		obj->transform.scale = Vector3(scale[0], scale[1], scale[2]);
 		obj->transform.rotation = Vector3(rotation[0], rotation[1], rotation[2]);
 	
+		/*
 		ImGui::Separator();
 
 		ImGui::Checkbox("Is Audio Source", &obj->isAudioSource);
@@ -93,7 +94,7 @@ void DEWindows::DrawInspectorWindow(SDL_Window* window){
 			ImGui::Checkbox("Cull Faces", &obj->cam.cullFace);
 			ImGui::Checkbox("Render Depth", &obj->cam.drawDepth);
 
-		}
+		}*/
 	}
 
 	ImGui::End(); // end window

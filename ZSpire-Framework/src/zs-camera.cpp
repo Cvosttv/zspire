@@ -14,8 +14,8 @@ float CAMERA_PROJ_WIDTH;
 float CAMERA_PROJ_HEIGHT;
 
 ZSVECTOR3 camera_up = ZSVECTOR3(0.0f, 1.0f, 0.0f);
-ZSVECTOR3 camera_pos = ZSVECTOR3(0.0f, 0.0f, 0.0f);
-ZSVECTOR3 camera_target = ZSVECTOR3(0.0f, 0.0f, 0.0f);
+ZSVECTOR3 camera_pos = ZSVECTOR3(0.0f, 0.0f, -3.0f);
+ZSVECTOR3 camera_target = ZSVECTOR3(0.0f, 0.0f, -1.0f);
 
 ZSMATRIX4x4 PROJECTION;
 ZSMATRIX4x4 VIEW;

@@ -9,9 +9,9 @@
 	#include <zs-mesh.h>
 	#include <zs-camera.h>
 	#include <zs-mesh-loader.h>
-#include <zs-game-object.h>
+	#include <zs-game-object.h>
 	#include <zs-text-renderer.h>
-
-#include <zs-scene.h>
+	#include <zs-scene.h>
+	#include <zs-forward-render.h>
 
 #endif

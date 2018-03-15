@@ -13,5 +13,5 @@ uniform mat4 object_transform;
 
 void main(){
 	UVCoord = uv;
-	gl_Position = object_transform * vec4(position, 1.0);
+	gl_Position = cam_projection * cam_view * object_transform * vec4(position, 1.0);
 }

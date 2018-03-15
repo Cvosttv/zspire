@@ -23,6 +23,7 @@ void ZSpire::Mesh::Draw() {
 		glDrawArrays(GL_TRIANGLES, 0, VerticesCount);
 	}
 	else {
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, meshIBO);
 		glDrawElements(GL_TRIANGLES, IndicesCount, GL_UNSIGNED_INT, 0);
 	}
 }
@@ -35,10 +36,10 @@ void ZSpire::Mesh::processMesh(ZSVERTEX* vertsf, unsigned int* indices, unsigned
 
 	glBindVertexArray(meshVAO);
 	glBindBuffer(GL_ARRAY_BUFFER, meshVBO);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(ZSVERTEX) * verticesCount, vertsf, GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(ZSVERTEX) * VerticesCount, vertsf, GL_STATIC_DRAW);
 
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, meshIBO);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(unsigned int) * indicesCount, indices, GL_STATIC_DRAW);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(unsigned int) * IndicesCount, indices, GL_STATIC_DRAW);
 	//Vertex Position 3 floats
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(ZSVERTEX), (void*)0);
 	glEnableVertexAttribArray(0);

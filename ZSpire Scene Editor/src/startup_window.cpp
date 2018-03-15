@@ -23,5 +23,12 @@ void DEWindows::DrawStartupWindow(SDL_Window * window) {
 		//window->setTitle(SceneLoadPath);
 	}
 
+	if (ImGui::Button("Create new")) {
+
+		createNewScene(SceneLoadPath);
+
+		
+	}
+
 	ImGui::End(); // end window
 }
