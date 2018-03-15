@@ -110,5 +110,8 @@
     <ClCompile Include="IMGUI\imgui_draw.cpp">
       <Filter>IMGUI</Filter>
     </ClCompile>
+    <ClCompile Include="src\scene_editor.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

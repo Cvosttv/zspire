@@ -40,7 +40,7 @@ Mesh* getMeshPtr(uint pos) {
 }
 
 uint getMeshesSize() {
-	return meshes.size();
+	return (uint)meshes.size();
 }
 
 uint getMeshID(const char* label){

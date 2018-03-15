@@ -21,7 +21,7 @@ namespace ZSpire {
 
 		
 
-		void setTransform(Transform translation);
+		void setTransform(Transform* translation);
 		void updateCamera();
 	};
 }

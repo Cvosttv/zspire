@@ -1,6 +1,6 @@
 typedef unsigned int uint;
 #include "imgui.h"
-#include "includes/imgui_impl_sdl_gl3.h"
+#include "../includes/imgui_impl_sdl_gl3.h"
 
 #include <SDL.h>
 
@@ -8,11 +8,11 @@ typedef unsigned int uint;
 
 #include "stdio.h"
 
-#include "includes\scene_loader.h"
-#include "includes\startup_window.h"
-#include "includes\objects_window.h"
-#include "includes\property_inspector.h"
-#include "includes\file_window.h"
+#include "../includes\scene_loader.h"
+#include "../includes\startup_window.h"
+#include "../includes\objects_window.h"
+#include "../includes\property_inspector.h"
+#include "../includes\file_window.h"
 
 int main(int argc, char* argv[])
 {

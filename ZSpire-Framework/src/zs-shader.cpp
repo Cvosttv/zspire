@@ -149,9 +149,9 @@ void ZSpire::Shader::setUniformVec3(const char* uniform_string, ZSVECTOR3 value)
 	glUniform3f(uniform_id, value.X, value.Y, value.Z);
 }
 
-void ZSpire::Shader::setTransform( ZSpire::Transform translation) {
+void ZSpire::Shader::setTransform( ZSpire::Transform* translation) {
 	unsigned int uniform_id = glGetUniformLocation(this->SHADER_GL_ID, "object_transform");
-	glUniformMatrix4fv(uniform_id, 1, GL_FALSE, &translation.translation_matrix.m[0][0]);
+	glUniformMatrix4fv(uniform_id, 1, GL_FALSE, &translation->translation_matrix.m[0][0]);
 }
 
 void ZSpire::Shader::updateCamera(){
