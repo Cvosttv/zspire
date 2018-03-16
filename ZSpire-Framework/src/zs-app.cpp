@@ -25,6 +25,7 @@ bool ZSpire::ZSpireApp::createWindow(ZSWindowDesc desc){
 	}
 
 	setCameraProjectionResolution((float)desc.WIDTH, (float)desc.HEIGHT);
+	updateCameraMatrix();
 	setLocalScreenSize(desc.WIDTH, desc.HEIGHT);
 
 	// Setup window

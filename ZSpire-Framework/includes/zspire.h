@@ -13,5 +13,5 @@
 	#include <zs-text-renderer.h>
 	#include <zs-scene.h>
 	#include <zs-forward-render.h>
-
+	#include <zs-audio-manager.h>
 #endif
