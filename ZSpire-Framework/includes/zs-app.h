@@ -27,7 +27,7 @@ namespace ZSpire {
 	public:
 		void ZSDestroyWindow();
 		bool createWindow(ZSWindowDesc desc);
-		void MSGBox();
+		void MSGBox(const char* title, const char* message);
 		void postFrame();
 
 		void gl_clear();

@@ -55,6 +55,8 @@ bool ZSpire::ZSpireApp::createWindow(ZSWindowDesc desc){
 		return false;
 	}
 
+	glEnable(GL_DEPTH_TEST);
+
 	return true;
 }
 
@@ -64,8 +66,8 @@ void ZSpire::ZSpireApp::ZSDestroyWindow() {
 	SDL_Quit();
 }
 
-void ZSpire::ZSpireApp::MSGBox() {
-	MessageBox(NULL, "Unsupported CPU detected!", TEXT("Your CPU doesn't support Streaming SIMD Extensions (SSE2). Engine terminated"), MB_OK);
+void ZSpire::ZSpireApp::MSGBox(const char* title, const char* message) {
+	MessageBox(NULL, message, title, MB_OK);
 
 }
 
@@ -77,5 +79,5 @@ void ZSpire::ZSpireApp::postFrame() {
 
 void ZSpire::ZSpireApp:: gl_clear() {
 	glClearColor(1,1,1,1);
-	glClear(GL_COLOR_BUFFER_BIT);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }

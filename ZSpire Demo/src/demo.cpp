@@ -37,9 +37,12 @@ int main() {
 	dec.isVsyncEnabled = true;
 
 	if (!app.createWindow(dec)) {
-		app.MSGBox();
+		app.MSGBox("Failed to launch engine!", "Cant create engine instance");
 	}
 	
+
+	if(!ZSpire::InitOpenAL_Device())app.MSGBox("TEST", "test");
+
 	ZSpire::LoadGlyphes("text/glyph48.DDS", "text/glyph48.fnt");
 
 	texture.InitializeTexture();
