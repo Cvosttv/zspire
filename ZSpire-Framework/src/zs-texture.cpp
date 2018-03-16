@@ -16,7 +16,7 @@ void ZSpire::Texture::InitializeTexture() {
 	glBindTexture(GL_TEXTURE_2D, this->TEXTURE_ID);
 }
 
-void ZSpire::Texture::LoadDDSFromBuffer(unsigned char* buffer) {
+bool ZSpire::Texture::LoadDDSFromBuffer(unsigned char* buffer) {
 	InitializeTexture();
 
 	this->properties.HEIGHT = *(unsigned int*)&(buffer[12]);
@@ -52,7 +52,7 @@ void ZSpire::Texture::LoadDDSFromBuffer(unsigned char* buffer) {
 		break;
 	default:
 		free(buffer);
-		//return 0;
+		return 0;
 	}
 
 	unsigned int blockSize = (format == GL_COMPRESSED_RGBA_S3TC_DXT1_EXT) ? 8 : 16;
@@ -61,7 +61,7 @@ void ZSpire::Texture::LoadDDSFromBuffer(unsigned char* buffer) {
 	int nwidth = (int)this->properties.WIDTH;
 	int nheight = (int)this->properties.HEIGHT;
 
-	/* загрузка мип-мапов */
+	//Mipmaps
 	for (unsigned int level = 0; level < mipMapCount && (nwidth || nheight); ++level)
 	{
 		unsigned int size = ((nwidth + 3) / 4)*((nheight + 3) / 4)*blockSize;
@@ -73,7 +73,7 @@ void ZSpire::Texture::LoadDDSFromBuffer(unsigned char* buffer) {
 		nheight /= 2;
 	}
 	free(bufferT);
-
+	return true;
 }
 
 bool ZSpire::Texture::LoadDDSFromFile(const char* file_path) {
@@ -99,8 +99,7 @@ bool ZSpire::Texture::LoadDDSFromFile(const char* file_path) {
 	unsigned char * data = (unsigned char*)malloc(sizeof(unsigned char*) * buff.st_size);
 	fread(data, 1, buff.st_size, file);
 	LoadDDSFromBuffer(data);
-	//strcpy(texture->path, file_path);
-	//strcpy(texture->caption, file_path);
+
 	free(data);
 	fclose(file);
 
@@ -118,4 +117,9 @@ void ZSpire::Texture::Release() {
 
 unsigned int ZSpire::Texture::getTextureGL_ID() {
 	return this->TEXTURE_ID;
+}
+
+void ZSpire::Texture::setAnisotropyValue(float aniso) {
+	glBindTexture(GL_TEXTURE_2D, this->TEXTURE_ID);
+	glTexParameterf(GL_TEXTURE_2D, GL_ARB_texture_filter_anisotropic, aniso);
 }

@@ -25,6 +25,8 @@ namespace ZSpire {
 
 		void updateCameraMatrix();
 
+		void setCameraPosition(ZSVECTOR3 position);
+
 		ZSMATRIX4x4 getCameraProjectionMatrix();
 		ZSMATRIX4x4 getCameraViewMatrix();
 }

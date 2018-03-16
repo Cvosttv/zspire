@@ -14,8 +14,9 @@ namespace ZSpire {
 		TextureProperties properties;
 		void Use(unsigned int slot);
 		void InitializeTexture();
-		void LoadDDSFromBuffer(unsigned char* buffer);
+		bool LoadDDSFromBuffer(unsigned char* buffer);
 		bool LoadDDSFromFile(const char* file_path);
+		void setAnisotropyValue(float aniso);
 		void Release();
 		unsigned int getTextureGL_ID();
 	};

@@ -68,3 +68,7 @@ ZSMATRIX4x4 ZSpire::getCameraProjectionMatrix(){
 ZSMATRIX4x4 ZSpire::getCameraViewMatrix() {
 	return VIEW;
 }
+
+void ZSpire::setCameraPosition(ZSVECTOR3 position) {
+	camera_pos = position;
+}

@@ -32,7 +32,7 @@ void ZSpire::RenderScene(Scene* scene) {
 	for (unsigned int obj = 0; obj < scene->getObjectsCount(); obj ++) {
 		Transform * tr = scene->getObjectAt(obj)->getTransform();
 	
-		object_shader->setTransform(scene->getObjectAt(obj)->getTransform());
+		object_shader->setTransform(tr);
 		
 		scene->getObjectAt(obj)->Draw();
 	}

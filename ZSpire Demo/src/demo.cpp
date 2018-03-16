@@ -63,10 +63,8 @@ int main() {
 	ZSpire::setObjectShader(&shader);
 
 
-	scene.getObjectAt(0)->setPosition(ZSVECTOR3(13,2,9));
-	scene.getObjectAt(0)->setScale(ZSVECTOR3(0.005f, 0.005f, 0.005f));
-	scene.getObjectAt(0)->setMesh(&mesh2[0]);
-	scene.getObjectAt(0)->setTexture(&texture);
+	scene.getObjectAt(1)->setMesh(&mesh2[0]);
+	scene.getObjectAt(1)->setDiffuseTexture(&texture);
 	
 	ZSpire::InitializeCamera();
 	ZSpire::setCameraProjectionType(CAMERA_PROJECTION_PERSPECTIVE);
@@ -82,7 +80,6 @@ int main() {
 		texture.Use(0);
 
 		mesh.Draw();
-		//mesh2->Draw();
 
 		ZSpire::DrawString(L"test", text_shader, 100, 100, ZSRGBCOLOR(0,0,0));
 

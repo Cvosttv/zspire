@@ -25,7 +25,7 @@ void ZSpire::GameObject::setMesh(Mesh* mesh) {
 	hasMesh = true;
 }
 
-void ZSpire::GameObject::setTexture(Texture* texture) {
+void ZSpire::GameObject::setDiffuseTexture(Texture* texture) {
 	this->diffuse_texture = texture;
 	hasTextureDiffuse = true;
 }
@@ -45,4 +45,8 @@ ZSpire::Transform* ZSpire::GameObject::getTransform() {
 
 void ZSpire::GameObject::setLabel(const char* label) {
 	strcpy_s(this->label, label);
+}
+
+char* ZSpire::GameObject::getLabel() {
+	return this->label;
 }

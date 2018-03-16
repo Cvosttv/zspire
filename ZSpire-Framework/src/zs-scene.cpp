@@ -46,7 +46,7 @@ bool ZSpire::LoadSceneFromFile(const char* file_path, Scene* result) {
 		
 		if (strcmp(prefix, "mes") == 0) {
 			char mesh_path[128];
-			fscanf(scene_file, "%û", mesh_path);
+			fscanf(scene_file, "%s", mesh_path);
 
 		}
 		if (strcmp(prefix, "obj") == 0) {
@@ -114,4 +114,11 @@ bool ZSpire::LoadSceneFromFile(const char* file_path, Scene* result) {
 
 
 	fclose(scene_file);
+}
+
+ZSpire::GameObject* ZSpire::Scene::getObjectByLabel(const char* label) {
+	for (unsigned int i = 0; i < game_objects.size(); i ++) {
+		if (strcmp(game_objects[i].getLabel(), label) == 0) return &game_objects[i];
+	}
+	return nullptr;
 }

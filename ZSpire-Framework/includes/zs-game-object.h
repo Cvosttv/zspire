@@ -19,13 +19,13 @@ namespace ZSpire {
 		void setRotation(ZSVECTOR3 rotation);
 
 		void setMesh(Mesh* mesh);
-		void setTexture(Texture* texture);
+		void setDiffuseTexture(Texture* texture);
 
 		void Draw();
 
 		Transform* getTransform();
 		
-
+		char* getLabel();
 		void setLabel(const char* label);
 	};
 }

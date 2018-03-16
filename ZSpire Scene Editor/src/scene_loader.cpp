@@ -47,7 +47,7 @@ void ldPDEM(Mesh* mesh, const char* path, int index) {
 void LoadScene(const char* path){
 	strcpy(loadedScenePath, path);
 	FILE* scene_file;
-	fopen_s(&scene_file, path, "r");
+	fopen_s(&scene_file, path, "rb");
 
 	if(scene_file == NULL){
 	//Failed opening file
@@ -159,7 +159,7 @@ void LoadScene(const char* path){
 }
 
 void saveScene(){
-	FILE* scene_write = fopen(loadedScenePath, "w");
+	FILE* scene_write = fopen(loadedScenePath, "wb");
 
 	fprintf(scene_write, "DSCN\n");
 
