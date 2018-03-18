@@ -16,5 +16,7 @@
 	#include <zs-audio-manager.h>
 
 
-#include "../includes/zs-audio-source.h"
+	#include <zs-audio-source.h>
+
+#include <zs-input.h>
 #endif

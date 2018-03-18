@@ -45,6 +45,7 @@ int main() {
 
 	if(!ZSpire::InitOpenAL_Device())app.MSGBox("TEST", "test");
 
+
 	ZSpire::LoadGlyphes("text/glyph48.DDS", "text/glyph48.fnt");
 
 	texture.InitializeTexture();
@@ -78,12 +79,15 @@ int main() {
 	ZSpire::setCameraProjectionType(CAMERA_PROJECTION_PERSPECTIVE);
 	ZSpire::updateCameraMatrix();
 
-	//asurce.Update();
 	asurce.Play();
 	
 	while (true) {
-		//asurce.Update();
-		
+
+		app.PollEvents();
+
+		if (ZSpire::isKeyPressed(SDLK_a) == true) {
+			app.ZSDestroyWindow();
+		}
 
 		app.gl_clear();
 
@@ -99,6 +103,8 @@ int main() {
 		ZSpire::RenderScene(&scene);
 
 		app.postFrame();
+
+		ZSpire::clearQueue();
 	}
 
 	app.ZSDestroyWindow();

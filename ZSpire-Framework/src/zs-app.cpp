@@ -10,6 +10,9 @@
 #include "../includes/zs-shader.h"
 
 #include "../includes/zs-text-renderer.h"
+
+#include "../includes/zs-input.h"
+
 #include <windows.h>
 #include <glew.h>
 
@@ -71,9 +74,24 @@ void ZSpire::ZSpireApp::MSGBox(const char* title, const char* message) {
 
 }
 
-void ZSpire::ZSpireApp::postFrame() {
+void ZSpire::ZSpireApp::PollEvents() {
 	SDL_Event event;
 	SDL_PollEvent(&event);
+	switch (event.type) {
+
+
+
+	case SDL_KEYDOWN: {
+		int cc = event.key.keysym.sym;
+		addKeyToQueue(cc);
+		break;
+	}
+
+	}
+}
+
+void ZSpire::ZSpireApp::postFrame() {
+
 	SDL_GL_SwapWindow(window);
 }
 
