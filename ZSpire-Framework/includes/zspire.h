@@ -1,5 +1,5 @@
 #ifdef ZS_App
-	#include <vector>
+#include <vector>
 
 	#include <zs-app.h>
 	#include <zs-math.h>
@@ -14,4 +14,7 @@
 	#include <zs-scene.h>
 	#include <zs-forward-render.h>
 	#include <zs-audio-manager.h>
+
+
+#include "../includes/zs-audio-source.h"
 #endif

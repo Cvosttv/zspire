@@ -70,7 +70,7 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>D:\LIBS\VORBIS;D:\LIBS\ASSIMP;D:\LIBS\GL;D:\LIBS\OPENAL;D:\LIBS\SDL;$(IncludePath)</IncludePath>
+    <IncludePath>D:\LIBS\ASSIMP;D:\LIBS\GL;D:\LIBS\OPENAL;D:\LIBS\SDL;$(IncludePath)</IncludePath>
     <LibraryPath>D:\LIBS\SDL;D:\LIBS;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -96,7 +96,7 @@
       <AdditionalDependencies>SDL2.lib;SDL2main.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <Lib>
-      <AdditionalDependencies>SDL2.lib;SDL2main.lib;glew32s.lib;glew32.lib;opengl32.lib;assimp_x64.lib;OpenAL_x64.lib;ogg_X64.lib;vorbisfile_X64.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>SDL2.lib;SDL2main.lib;glew32s.lib;glew32.lib;opengl32.lib;assimp_x64.lib;OpenAL_x64.lib;alut_X64.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -133,7 +133,9 @@
   <ItemGroup>
     <ClCompile Include="src\zs-app.cpp" />
     <ClCompile Include="src\zs-audio-manager.cpp" />
+    <ClCompile Include="src\zs-audio-source.cpp" />
     <ClCompile Include="src\zs-camera.cpp" />
+    <ClCompile Include="src\zs-errors-checker.cpp" />
     <ClCompile Include="src\zs-forward-render.cpp" />
     <ClCompile Include="src\zs-game-object.cpp" />
     <ClCompile Include="src\zs-math.cpp" />
@@ -148,7 +150,9 @@
   <ItemGroup>
     <ClInclude Include="includes\zs-app.h" />
     <ClInclude Include="includes\zs-audio-manager.h" />
+    <ClInclude Include="includes\zs-audio-source.h" />
     <ClInclude Include="includes\zs-camera.h" />
+    <ClInclude Include="includes\zs-errors-checker.h" />
     <ClInclude Include="includes\zs-forward-render.h" />
     <ClInclude Include="includes\zs-game-object.h" />
     <ClInclude Include="includes\zs-math.h" />

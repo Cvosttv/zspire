@@ -17,6 +17,9 @@ bool ZSpire::InitOpenAL_Device(){
 
 	if (!alcMakeContextCurrent(AL_CONTEXT)) return false;
 
+	setListenerPosition(ZSVECTOR3(0,0,0));
+	setListenerOrientation(ZSVECTOR3(0,0,-1), ZSVECTOR3(0,1,0));
+
 	return true;	
 }
 

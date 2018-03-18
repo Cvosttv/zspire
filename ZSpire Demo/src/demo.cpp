@@ -16,6 +16,8 @@ ZSpire::Transform transform;
 
 ZSpire::Scene scene;
 
+ZSpire::AudioSource asurce;
+
 ZSVERTEX vertices[] = {
 	// positions              // texture coords
 	ZSVERTEX(ZSVECTOR3(0.5f,  0.5f, 0.0f), ZSVECTOR2( 1.0f, 1.0f)),   // top right
@@ -54,6 +56,9 @@ int main() {
 	text_shader.InitializeShader();
 	text_shader.compileFromFile("shaders/text/text2d.vs", "shaders/text/text2d.fs");
 
+	asurce.Open("test.wav", true);
+
+
 	mesh.InitializeMesh();
 	mesh.processMesh(vertices,ind, 4, 6);
 	
@@ -73,8 +78,13 @@ int main() {
 	ZSpire::setCameraProjectionType(CAMERA_PROJECTION_PERSPECTIVE);
 	ZSpire::updateCameraMatrix();
 
+	//asurce.Update();
+	asurce.Play();
+	
 	while (true) {
+		//asurce.Update();
 		
+
 		app.gl_clear();
 
 		shader.Use();
