@@ -87,6 +87,31 @@ void ZSpire::ZSpireApp::PollEvents() {
 		break;
 	}
 
+	case SDL_MOUSEMOTION: {
+		setMouseStateXYPOSvalue(event.motion.x, event.motion.y);
+		//OnMouseMove(Event->motion.x, Event->motion.y, Event->motion.xrel, Event->motion.yrel, (Event->motion.state&SDL_BUTTON(SDL_BUTTON_LEFT)) != 0, (Event->motion.state&SDL_BUTTON(SDL_BUTTON_RIGHT)) != 0, (Event->motion.state&SDL_BUTTON(SDL_BUTTON_MIDDLE)) != 0);
+		break;
+	}
+
+	case SDL_MOUSEBUTTONDOWN: {
+		switch (event.button.button) {
+		case SDL_BUTTON_LEFT: {
+			setMouseStateLeftButtonDownBool(true);
+			break;
+		}
+		case SDL_BUTTON_RIGHT: {
+			setMouseStateRightButtonDownBool(true);
+			break;
+		}
+		case SDL_BUTTON_MIDDLE: {
+			setMouseStateWheelButtonDownBool(true);
+			break;
+		}
+		}
+		break;
+	}
+
+
 	}
 }
 

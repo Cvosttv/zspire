@@ -85,7 +85,13 @@ int main() {
 
 		app.PollEvents();
 
+		ZSpire::MouseState* ms = ZSpire::getMouseState();
+
 		if (ZSpire::isKeyPressed(SDLK_a) == true) {
+			app.ZSDestroyWindow();
+		}
+
+		if (ms->x > 300) {
 			app.ZSDestroyWindow();
 		}
 

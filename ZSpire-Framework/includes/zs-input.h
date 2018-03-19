@@ -84,7 +84,21 @@ enum
 
 namespace ZSpire {
 
+	struct MouseState {
+		unsigned int x;
+		unsigned int y;
+		
+		bool LEFT_BTN_DOWN = false;
+		bool RIGHT_BTN_DOWN = false;
+	};
+
 	void addKeyToQueue(int KEY);
 	bool isKeyPressed(int KEY);
 	void clearQueue();
+	MouseState* getMouseState();
+
+	void setMouseStateXYPOSvalue(unsigned int x, unsigned int y);
+	void setMouseStateLeftButtonDownBool(bool left_down);
+	void setMouseStateRightButtonDownBool(bool right_down);
+	void setMouseStateWheelButtonDownBool(bool wheel_down);
 }

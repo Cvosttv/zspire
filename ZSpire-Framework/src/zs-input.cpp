@@ -5,6 +5,7 @@ int pressed_keys[MAX_KEYS];
 
 int keys_pressed_amount = 0;
 
+ZSpire::MouseState mouse_state;
 
 void ZSpire::addKeyToQueue(int KEY) {
 
@@ -29,4 +30,26 @@ bool ZSpire::isKeyPressed(int KEY) {
 
 void ZSpire::clearQueue() {
 	keys_pressed_amount = 0;
+}
+
+ZSpire::MouseState* ZSpire::getMouseState() {
+	return &mouse_state;
+}
+
+void ZSpire::setMouseStateXYPOSvalue(unsigned int x, unsigned int y){
+
+	mouse_state.x = x;
+	mouse_state.y = y;
+}
+
+void ZSpire::setMouseStateLeftButtonDownBool(bool left_down) {
+	mouse_state.LEFT_BTN_DOWN = left_down;
+}
+
+void ZSpire::setMouseStateRightButtonDownBool(bool right_down) {
+	mouse_state.RIGHT_BTN_DOWN = right_down;
+}
+
+void ZSpire::setMouseStateWheelButtonDownBool(bool wheel_down) {
+	mouse_state.RIGHT_BTN_DOWN = wheel_down;
 }
