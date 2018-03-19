@@ -89,8 +89,8 @@ void ZSpire::ZSpireApp::PollEvents() {
 
 	case SDL_MOUSEMOTION: {
 		setMouseStateXYPOSvalue(event.motion.x, event.motion.y);
-		//OnMouseMove(Event->motion.x, Event->motion.y, Event->motion.xrel, Event->motion.yrel, (Event->motion.state&SDL_BUTTON(SDL_BUTTON_LEFT)) != 0, (Event->motion.state&SDL_BUTTON(SDL_BUTTON_RIGHT)) != 0, (Event->motion.state&SDL_BUTTON(SDL_BUTTON_MIDDLE)) != 0);
-		break;
+		setMouseStateRelativeXYPOSvalue(event.motion.xrel, event.motion.yrel);
+			break;
 	}
 
 	case SDL_MOUSEBUTTONDOWN: {
@@ -113,6 +113,11 @@ void ZSpire::ZSpireApp::PollEvents() {
 
 
 	}
+}
+
+void ZSpire::ZSpireApp::setWindowProperties(ZSWindowDesc desc) {
+
+
 }
 
 void ZSpire::ZSpireApp::postFrame() {

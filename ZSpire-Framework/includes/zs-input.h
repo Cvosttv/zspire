@@ -87,6 +87,9 @@ namespace ZSpire {
 	struct MouseState {
 		unsigned int x;
 		unsigned int y;
+
+		int relativeX;
+		int relativeY;
 		
 		bool LEFT_BTN_DOWN = false;
 		bool RIGHT_BTN_DOWN = false;
@@ -98,6 +101,7 @@ namespace ZSpire {
 	MouseState* getMouseState();
 
 	void setMouseStateXYPOSvalue(unsigned int x, unsigned int y);
+	void setMouseStateRelativeXYPOSvalue(int x, int y);
 	void setMouseStateLeftButtonDownBool(bool left_down);
 	void setMouseStateRightButtonDownBool(bool right_down);
 	void setMouseStateWheelButtonDownBool(bool wheel_down);

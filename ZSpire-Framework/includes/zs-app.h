@@ -28,6 +28,7 @@ namespace ZSpire {
 		void PollEvents();
 		void ZSDestroyWindow();
 		bool createWindow(ZSWindowDesc desc);
+		void setWindowProperties(ZSWindowDesc desc);
 		void MSGBox(const char* title, const char* message);
 		void postFrame();
 

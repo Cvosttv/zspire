@@ -1,4 +1,5 @@
 
+#include "stdlib.h"
 #include "../includes/zs-input.h"
 
 int pressed_keys[MAX_KEYS];
@@ -28,18 +29,35 @@ bool ZSpire::isKeyPressed(int KEY) {
 	return false;
 }
 
+void clearMouseState() {
+	mouse_state.LEFT_BTN_DOWN = false;
+	mouse_state.RIGHT_BTN_DOWN = false;
+
+	mouse_state.relativeX = 0;
+	mouse_state.relativeY = 0;
+
+}
+
+
 void ZSpire::clearQueue() {
 	keys_pressed_amount = 0;
+	clearMouseState();
 }
 
 ZSpire::MouseState* ZSpire::getMouseState() {
 	return &mouse_state;
 }
 
+
 void ZSpire::setMouseStateXYPOSvalue(unsigned int x, unsigned int y){
 
 	mouse_state.x = x;
 	mouse_state.y = y;
+}
+
+void ZSpire::setMouseStateRelativeXYPOSvalue(int x, int y) {
+	mouse_state.relativeX = x;
+	mouse_state.relativeY = y;
 }
 
 void ZSpire::setMouseStateLeftButtonDownBool(bool left_down) {
