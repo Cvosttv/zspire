@@ -14,17 +14,19 @@
 
 #include "../includes/zs-game-object.h"
 
+#include "../includes/zs-light.h"
+
 #include "../includes/zs-scene.h"
 
 #include "../includes/zs-forward-render.h"
 
 ZSpire::Shader* object_shader;
 
-void ZSpire::setObjectShader(Shader* shader) {
+void ZSpire::setForwardObjectShader(Shader* shader) {
 	object_shader = shader;
 }
 
-void ZSpire::RenderScene(Scene* scene) {
+void ZSpire::RenderSceneForward(Scene* scene) {
 	object_shader->Use();
 
 	object_shader->updateCamera();

@@ -8,13 +8,14 @@ namespace ZSpire {
 
 		bool isResizable;
 		bool isVsyncEnabled;
+		bool isFullscreen;
 
 		ZSWindowDesc() {
 			WIDTH = 640;
 			HEIGHT = 480;
 
 			isResizable = true;
-
+			isFullscreen = false;
 			isVsyncEnabled = false;
 		}
 

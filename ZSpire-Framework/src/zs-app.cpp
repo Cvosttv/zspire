@@ -41,12 +41,19 @@ bool ZSpire::ZSpireApp::createWindow(ZSWindowDesc desc){
 	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 6);
 	SDL_DisplayMode current;
 	SDL_GetCurrentDisplayMode(0, &current);
+	current.refresh_rate = 60;
 
 	int RESIZABLE_FLAG = SDL_WINDOW_RESIZABLE;
 	if (desc.isResizable == false) RESIZABLE_FLAG = 0;
 
+	
 
 	window = SDL_CreateWindow(desc.WINDOW_TITLE, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, desc.WIDTH, desc.HEIGHT, SDL_WINDOW_OPENGL | RESIZABLE_FLAG);
+
+	if (desc.isFullscreen == true) {
+		SDL_SetWindowFullscreen(window, SDL_WINDOW_FULLSCREEN);
+
+	}
 	glcontext = SDL_GL_CreateContext(window);
 	SDL_GL_SetSwapInterval((int)desc.isVsyncEnabled); // Enable vsync
 
@@ -116,7 +123,9 @@ void ZSpire::ZSpireApp::PollEvents() {
 }
 
 void ZSpire::ZSpireApp::setWindowProperties(ZSWindowDesc desc) {
-
+	setCameraProjectionResolution((float)desc.WIDTH, (float)desc.HEIGHT);
+	updateCameraMatrix();
+	setLocalScreenSize(desc.WIDTH, desc.HEIGHT);
 
 }
 
@@ -126,6 +135,6 @@ void ZSpire::ZSpireApp::postFrame() {
 }
 
 void ZSpire::ZSpireApp:: gl_clear() {
-	glClearColor(1,1,1,1);
+	//glClearColor(1,1,1,1);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }

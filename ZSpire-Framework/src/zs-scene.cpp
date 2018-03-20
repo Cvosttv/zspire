@@ -13,6 +13,8 @@
 
 #include "../includes/zs-game-object.h"
 
+#include "../includes/zs-light.h"
+
 #include "../includes/zs-scene.h"
 
 ZSpire::GameObject* ZSpire::Scene::getObjectAt(unsigned int index){

@@ -31,11 +31,11 @@ unsigned int ind[] = {0,1,2, 0,2,3};
 int main() {
 
 	ZSpire::ZSWindowDesc dec;
-	dec.WIDTH = 800;
-	dec.HEIGHT = 600;
+	dec.WIDTH = 1280;
+	dec.HEIGHT = 720;
 	dec.isResizable = false;
 	strcpy_s(dec.WINDOW_TITLE , "Demo");
-
+	dec.isFullscreen = true;
 	dec.isVsyncEnabled = true;
 
 	if (!app.createWindow(dec)) {
@@ -69,7 +69,7 @@ int main() {
 	transform.updateMatrix();
 
 	ZSpire::LoadSceneFromFile("scene.scn", &scene);
-	ZSpire::setObjectShader(&shader);
+	ZSpire::setForwardObjectShader(&shader);
 
 
 	scene.getObjectAt(1)->setMesh(&mesh2[0]);
@@ -92,7 +92,7 @@ int main() {
 		}
 
 		if (ms->x > 300) {
-			app.ZSDestroyWindow();
+		//	app.ZSDestroyWindow();
 		}
 
 		app.gl_clear();
@@ -106,7 +106,7 @@ int main() {
 
 		ZSpire::DrawString(L"test", text_shader, 100, 100, ZSRGBCOLOR(0,0,0));
 
-		ZSpire::RenderScene(&scene);
+		ZSpire::RenderSceneForward(&scene);
 
 		app.postFrame();
 

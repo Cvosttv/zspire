@@ -3,6 +3,7 @@ namespace ZSpire {
 	class Scene {
 	protected:
 		std::vector<GameObject> game_objects;
+		std::vector<Light> lights;
 	public:
 		void addObject(GameObject obj);
 		unsigned int getObjectsCount();

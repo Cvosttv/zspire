@@ -4,6 +4,7 @@
 #include <sstream>
 #include <iostream>
 
+#include "../includes/zs-errors-checker.h"
 #include "../includes/zs-math.h"
 #include "../includes/zs-camera.h"
 
@@ -94,29 +95,7 @@ bool ZSpire::Shader::compileFromFile(const char* VS_SHADER_PATH, const char* FS_
 	return true;
 }
 
-void ZSpire::Shader::checkCompileErrors(unsigned int shader, const char* type)
-{
-	GLint success;
-	GLchar infoLog[1024];
-	if (strcmp(type, "PROGRAM"))
-	{
-		glGetShaderiv(shader, GL_COMPILE_STATUS, &success);
-		if (!success)
-		{
-			glGetShaderInfoLog(shader, 1024, NULL, infoLog);
-			std::cout << "ERROR::SHADER_COMPILATION_ERROR of type: " << type << "\n" << infoLog << "\n -- --------------------------------------------------- -- " << std::endl;
-		}
-	}
-	else
-	{
-		glGetProgramiv(shader, GL_LINK_STATUS, &success);
-		if (!success)
-		{
-			glGetProgramInfoLog(shader, 1024, NULL, infoLog);
-			std::cout << "ERROR::PROGRAM_LINKING_ERROR of type: " << type << "\n" << infoLog << "\n -- --------------------------------------------------- -- " << std::endl;
-		}
-	}
-}
+
 
 void ZSpire::Shader::setUniformInt(const char* uniform_string, int value){
 	Use();

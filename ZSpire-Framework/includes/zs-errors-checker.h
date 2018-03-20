@@ -1,5 +1,6 @@
 namespace ZSpire{
 
-			ALboolean CheckALCError();
-			ALboolean CheckALError();
+			bool CheckALCError();
+			bool CheckALError();
+			void checkCompileErrors(unsigned int shader, const char* type);
 }

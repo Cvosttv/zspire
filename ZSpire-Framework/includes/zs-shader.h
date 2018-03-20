@@ -13,7 +13,7 @@ namespace ZSpire {
 		void setUniformFloat(const char* uniform_string, float value);
 		void setUniformColor3(const char* uniform, ZSRGBCOLOR color);
 
-		void checkCompileErrors(unsigned int shader, const char* type);
+		
 		void InitializeShader();
 		bool compileFromFile(const char* VS_SHADER_PATH, const char* FS_SHADER_PATH);
 		bool compileFromBuffer(const char* VS_CONTENT, const char* FS_CONTENT);

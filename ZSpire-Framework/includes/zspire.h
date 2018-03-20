@@ -11,12 +11,14 @@
 	#include <zs-mesh-loader.h>
 	#include <zs-game-object.h>
 	#include <zs-text-renderer.h>
+#include <zs-light.h>
 	#include <zs-scene.h>
-	#include <zs-forward-render.h>
-	#include <zs-audio-manager.h>
 
+	#include <zs-forward-render.h>
+	#include <zs-deffered-render.h>
+	#include <zs-audio-manager.h>
 
 	#include <zs-audio-source.h>
 
-#include <zs-input.h>
+	#include <zs-input.h>
 #endif

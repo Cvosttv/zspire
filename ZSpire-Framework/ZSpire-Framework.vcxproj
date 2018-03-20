@@ -135,9 +135,12 @@
     <ClCompile Include="src\zs-audio-manager.cpp" />
     <ClCompile Include="src\zs-audio-source.cpp" />
     <ClCompile Include="src\zs-camera.cpp" />
+    <ClCompile Include="src\zs-deffered-render.cpp" />
     <ClCompile Include="src\zs-errors-checker.cpp" />
     <ClCompile Include="src\zs-forward-render.cpp" />
     <ClCompile Include="src\zs-game-object.cpp" />
+    <ClCompile Include="src\zs-input.cpp" />
+    <ClCompile Include="src\zs-light.cpp" />
     <ClCompile Include="src\zs-math.cpp" />
     <ClCompile Include="src\zs-mesh-loader.cpp" />
     <ClCompile Include="src\zs-mesh.cpp" />
@@ -152,9 +155,12 @@
     <ClInclude Include="includes\zs-audio-manager.h" />
     <ClInclude Include="includes\zs-audio-source.h" />
     <ClInclude Include="includes\zs-camera.h" />
+    <ClInclude Include="includes\zs-deffered-render.h" />
     <ClInclude Include="includes\zs-errors-checker.h" />
     <ClInclude Include="includes\zs-forward-render.h" />
     <ClInclude Include="includes\zs-game-object.h" />
+    <ClInclude Include="includes\zs-input.h" />
+    <ClInclude Include="includes\zs-light.h" />
     <ClInclude Include="includes\zs-math.h" />
     <ClInclude Include="includes\zs-mesh-loader.h" />
     <ClInclude Include="includes\zs-mesh.h" />

@@ -1,5 +1,3 @@
-
-#include "stdlib.h"
 #include "../includes/zs-input.h"
 
 int pressed_keys[MAX_KEYS];
