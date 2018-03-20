@@ -123,9 +123,24 @@ void ZSpire::ZSpireApp::PollEvents() {
 }
 
 void ZSpire::ZSpireApp::setWindowProperties(ZSWindowDesc desc) {
-	setCameraProjectionResolution((float)desc.WIDTH, (float)desc.HEIGHT);
+	
+	unsigned int rWIDTH;
+	unsigned int rHeight;
+
+	SDL_DisplayMode DM;
+	SDL_GetCurrentDisplayMode(0, &DM);
+	auto WIDTH = DM.w;
+	auto HEIGHT = DM.h;
+
+	rWIDTH = desc.WIDTH;
+	rHeight = desc.HEIGHT;
+
+	//if(){}
+	SDL_SetWindowSize(window, rWIDTH, rHeight);
+	
+	setCameraProjectionResolution((float)rWIDTH, (float)rHeight);
 	updateCameraMatrix();
-	setLocalScreenSize(desc.WIDTH, desc.HEIGHT);
+	setLocalScreenSize(rWIDTH, rHeight);
 
 }
 
@@ -135,6 +150,5 @@ void ZSpire::ZSpireApp::postFrame() {
 }
 
 void ZSpire::ZSpireApp:: gl_clear() {
-	//glClearColor(1,1,1,1);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
