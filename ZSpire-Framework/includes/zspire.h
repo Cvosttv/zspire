@@ -4,6 +4,7 @@
 	#include <zs-app.h>
 	#include <zs-math.h>
 	#include <zs-transform.h>
+	#include <zs-light.h>
 	#include <zs-shader.h>
 	#include <zs-texture.h>
 	#include <zs-mesh.h>
@@ -11,7 +12,7 @@
 	#include <zs-mesh-loader.h>
 	#include <zs-game-object.h>
 	#include <zs-text-renderer.h>
-#include <zs-light.h>
+
 	#include <zs-scene.h>
 
 	#include <zs-forward-render.h>

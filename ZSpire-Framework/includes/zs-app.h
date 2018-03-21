@@ -1,3 +1,6 @@
+#define DEFAULT_WIDTH 0
+#define DEFAULT_HEIGHT 0
+
 namespace ZSpire {
 
 	struct ZSWindowDesc {
@@ -11,8 +14,8 @@ namespace ZSpire {
 		bool isFullscreen;
 
 		ZSWindowDesc() {
-			WIDTH = 640;
-			HEIGHT = 480;
+			WIDTH = DEFAULT_WIDTH;
+			HEIGHT = DEFAULT_HEIGHT;
 
 			isResizable = true;
 			isFullscreen = false;

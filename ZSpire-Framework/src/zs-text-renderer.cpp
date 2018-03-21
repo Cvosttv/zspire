@@ -11,7 +11,11 @@
 
 #include "../includes/zs-transform.h"
 
+#include "../includes/zs-light.h"
+
 #include "../includes/zs-shader.h"
+
+
 
 #include "../includes/zs-text-renderer.h"
 

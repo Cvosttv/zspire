@@ -124,3 +124,10 @@ ZSpire::GameObject* ZSpire::Scene::getObjectByLabel(const char* label) {
 	}
 	return nullptr;
 }
+
+unsigned int ZSpire::Scene::getLightsCount(){
+	return this->lights.size();
+}
+ZSpire::Light* ZSpire::Scene::getLightAt(unsigned int index){
+	return &this->lights[index];
+}

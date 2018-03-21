@@ -19,7 +19,7 @@ static bool hdr = false;
 
 int misc_flags = (hdr ? ImGuiColorEditFlags_HDR : 0) | (alpha_half_preview ? ImGuiColorEditFlags_AlphaPreviewHalf : (alpha_preview ? ImGuiColorEditFlags_AlphaPreview : 0)) | (options_menu ? 0 : ImGuiColorEditFlags_NoOptions);
 
-void DEWindows::DrawInspectorWindow(SDL_Window* window){
+void ZSWindows::DrawInspectorWindow(SDL_Window* window){
 
 	ImGui::Begin("Properties"); // создаём окно
 
@@ -100,6 +100,6 @@ void DEWindows::DrawInspectorWindow(SDL_Window* window){
 	ImGui::End(); // end window
 }
 
-void DEWindows::Inspector::selectObject(uint obj_to_select){
+void ZSWindows::Inspector::selectObject(uint obj_to_select){
 	selected_gameobject = (int)obj_to_select;
 }

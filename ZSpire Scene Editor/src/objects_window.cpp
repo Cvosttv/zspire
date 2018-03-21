@@ -13,7 +13,7 @@ typedef unsigned int uint;
 #include "../includes/objects_window.h"
 #include "../includes/scene_loader.h"
 
-void DEWindows::DrawObjectListWindow(SDL_Window * window){
+void ZSWindows::DrawObjectListWindow(SDL_Window * window){
 	bool show = true;
 	ImGui::Begin("Game objects", &show, ImGuiWindowFlags_MenuBar); // создаём окно
 
@@ -38,7 +38,7 @@ void DEWindows::DrawObjectListWindow(SDL_Window * window){
 	ImGui::BeginChild("Scrolling");
 	for (int n = 0; n < getObjectsAmount(); n++) {
 		if (ImGui::Button(getObject(n).label) == true) {
-			DEWindows::Inspector::selectObject(n);
+			ZSWindows::Inspector::selectObject(n);
 		}
 
 	}

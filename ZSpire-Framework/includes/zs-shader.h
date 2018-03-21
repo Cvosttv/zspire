@@ -22,6 +22,7 @@ namespace ZSpire {
 		
 
 		void setTransform(Transform* translation);
+		void setLight(unsigned int index, Light* light);
 		void updateCamera();
 	};
 }

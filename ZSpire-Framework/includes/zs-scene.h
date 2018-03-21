@@ -9,6 +9,9 @@ namespace ZSpire {
 		unsigned int getObjectsCount();
 		GameObject* getObjectAt(unsigned int index);
 		GameObject* getObjectByLabel(const char* label);
+
+		unsigned int getLightsCount();
+		Light* getLightAt(unsigned int index);
 	};
 
 	bool LoadSceneFromFile(const char* file_path, Scene* result);

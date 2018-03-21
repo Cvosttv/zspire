@@ -35,7 +35,7 @@ int main() {
 	dec.HEIGHT = 720;
 	dec.isResizable = false;
 	strcpy_s(dec.WINDOW_TITLE , "Demo");
-	dec.isFullscreen = true;
+	dec.isFullscreen = false;
 	dec.isVsyncEnabled = true;
 
 	if (!app.createWindow(dec)) {
@@ -92,7 +92,11 @@ int main() {
 		}
 
 		if (ms->x > 300) {
-		//	app.ZSDestroyWindow();
+			ZSpire::ZSWindowDesc wd;
+			wd.WIDTH = 1600;
+			wd.HEIGHT = 900;
+
+			app.setWindowProperties(wd);
 		}
 
 		app.gl_clear();

@@ -21,6 +21,10 @@ namespace ZSpire {
 
 		void setLightPosition(ZSVECTOR3 position);
 
+		ZSVECTOR3 getPosition();
+		ZSVECTOR3 getDirection();
+		ZSRGBCOLOR getDiffuseColor();
+
 	};
 
 }

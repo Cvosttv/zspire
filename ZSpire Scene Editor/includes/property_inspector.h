@@ -1,4 +1,4 @@
-namespace DEWindows{
+namespace ZSWindows {
 
 	void DrawInspectorWindow(SDL_Window * window);
 	

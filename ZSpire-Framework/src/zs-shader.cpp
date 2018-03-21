@@ -9,6 +9,7 @@
 #include "../includes/zs-camera.h"
 
 #include "../includes/zs-transform.h"
+#include "../includes/zs-light.h"
 
 #include "../includes/zs-shader.h"
 
@@ -139,4 +140,19 @@ void ZSpire::Shader::updateCamera(){
 
 	glUniformMatrix4fv(proj_id, 1, GL_FALSE, &getCameraProjectionMatrix().m[0][0]);
 	glUniformMatrix4fv(view_id, 1, GL_FALSE, &getCameraViewMatrix().m[0][0]);
+}
+
+void ZSpire::Shader::setLight(unsigned int index, Light* light) {
+	std::string pos;
+	pos = "lights[" + std::to_string(index) + "].pos";
+
+	std::string color;
+	pos = "lights[" + std::to_string(index) + "].color";
+
+	std::string dir;
+	pos = "lights[" + std::to_string(index) + "].dir";
+
+	setUniformVec3(pos.c_str(), light->getPosition());
+	setUniformVec3(dir.c_str(), light->getDirection());
+	//setUniformVec3(pos.c_str(), light->getPosition());
 }
