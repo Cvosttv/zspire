@@ -14,11 +14,6 @@ typedef unsigned int uint;
 #include "../includes\property_inspector.h"
 #include "../includes\file_window.h"
 
-#include "../includes/zs-math.h"
-#include "../includes/zs-texture.h"
-#include "../includes/geometry.h"
-
-#include "../includes/Resources.h"
 #include "../includes/resources_window.h"
 
 int main(int argc, char* argv[])

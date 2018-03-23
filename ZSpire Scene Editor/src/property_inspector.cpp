@@ -112,6 +112,7 @@ void ZSWindows::DrawInspectorWindow(SDL_Window* window){
 
 		if (ImGui::Button("Delete") == true) {
 			obj->isRemoved = true;
+			selected_texture = -1;
 		}
 
 	}
@@ -124,6 +125,7 @@ void ZSWindows::DrawInspectorWindow(SDL_Window* window){
 
 		if (ImGui::Button("Delete") == true) {
 			obj->isRemoved = true;
+			selected_mesh = -1;
 		}
 	}
 

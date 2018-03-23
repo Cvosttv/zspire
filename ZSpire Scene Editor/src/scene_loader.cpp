@@ -5,6 +5,7 @@ typedef unsigned int uint;
 #include <process.h>
 #include <windows.h>
 #include <vector>
+#include <string>
 
 #include "../includes/zs-math.h"
 #include "../includes/geometry.h"
@@ -162,6 +163,7 @@ void saveScene(){
 	unsigned int processed_size = 0;
 
 	FILE* scene_write = fopen(loadedScenePath, "wb");
+	FILE* resource_map_write = fopen((std::string(loadedScenePath) + "_reslist").c_str(), "w");
 
 	fprintf(scene_write, "DSCN\n");
 
@@ -171,6 +173,9 @@ void saveScene(){
 	for (unsigned int i = 0; i < res_textures_count; i++) {
 		if (getTextureAt(i)->isRemoved == false) {
 			
+			fprintf(resource_map_write, "tex %s %s\n", getTextureAt(i)->file_path, getTextureAt(i)->name);
+
+
 			uint source_size = getFileSize(getTextureAt(i)->file_path);
 
 			char* content = (char*)malloc(source_size + 1);
@@ -188,6 +193,32 @@ void saveScene(){
 		}
 	}
 	
+	for (unsigned int i = 0; i < res_meshes_count; i++) {
+		if (getMeshAt(i)->isRemoved == false) {
+
+			fprintf(resource_map_write, "mesh %s %s\n", getMeshAt(i)->file_path, getMeshAt(i)->name);
+
+
+			uint source_size = getFileSize(getMeshAt(i)->file_path);
+
+			char* content = (char*)malloc(source_size + 1);
+			readBFile(content, getMeshAt(i)->file_path, source_size);
+
+
+
+			FILE* toWrite = fopen("resources.pack", "ab");
+
+			fwrite(content, 1, source_size, toWrite);
+			fclose(toWrite);
+			processed_size += source_size;
+
+			fprintf(scene_write, "tex %s %d %d\n", getMeshAt(i)->name, processed_size - source_size, processed_size);
+		}
+	}
+
+
+	fclose(resource_map_write);
+
 	for (uint i = 0; i < getObjectsAmount(); i++) {
 		GameObject obj;
 		obj = getObject(i);
@@ -240,4 +271,7 @@ void saveScene(){
 void createNewScene(const char* name) {
 	isSceneLoaded = true;
 	strcpy_s(loadedScenePath, name);
+
+	FILE* scenereslist_write = fopen((std::string(name) + "_reslist").c_str(), "w");
+	fclose(scenereslist_write);
 }

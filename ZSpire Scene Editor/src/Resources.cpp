@@ -69,4 +69,6 @@ void loadResources(const char* path){
 
 		}
 	}
+
+	fclose(fl);
 }
