@@ -6,15 +6,21 @@ typedef unsigned int uint;
 #include <windows.h>
 #include <vector>
 
-#include "../includes/DMath.h"
+#include "../includes/zs-math.h"
 #include "../includes/geometry.h"
-#include "../includes/pdem_loader.h"
 #include "../includes/scene_loader.h"
-#include "../includes/Material.h"
 #include "../includes/Camera.hpp"
-#include "../includes/DColor.h"
 #include "../includes/Light.h"
+#include "../includes/zs-transform.h"
 #include "../includes/GameObject.h"
+
+#include "../includes/zs-texture.h"
+
+#include <stddef.h>
+#include <fcntl.h>
+#include <sys/stat.h>
+
+#include "../includes/Resources.h"
 
 bool isSceneLoaded = false;
 char loadedScenePath[256];
@@ -23,31 +29,32 @@ bool IsSceneLoaded() {
 	return isSceneLoaded;
 }
 
-void ldPDEM(Mesh* mesh, const char* path, int index) {
+unsigned int getFileSize(const char* path) {
+	struct stat buff;
 
-	mesh->initMesh();
-	PDEMLoadParams params(path, index, mesh, false);
-	HANDLE hThread;
-	unsigned threadID;
-	hThread = (HANDLE)_beginthreadex(NULL, 0, &LoadPDEMTh, &params, 0, &threadID);
+	FILE *part = fopen(path, "rb");
+	fstat(_fileno(part), &buff);
 
-
-	while (WaitForSingleObject(hThread, 15) != WAIT_OBJECT_0) {
-		//tick();
-	};
-
-	// Destroy the thread object.  
-	CloseHandle(hThread);
-	processMesh(mesh, params.vertsArr, params.indsArr);
-	free(params.vertsArr);
-	free(params.indsArr);
-
+	return buff.st_size;
 }
+void readBFile(char* content, const char* file, uint size) {
+	FILE* fileP = fopen(file, "rb");
+
+	fread(content, 1, size, fileP);
+	fclose(fileP);
+}
+
 
 void LoadScene(const char* path){
 	strcpy(loadedScenePath, path);
 	FILE* scene_file;
 	fopen_s(&scene_file, path, "rb");
+
+	char reslist_file[128];
+	strcpy(reslist_file, path);
+	strcat(reslist_file, "_reslist");
+
+	loadResources(reslist_file);
 
 	if(scene_file == NULL){
 	//Failed opening file
@@ -65,37 +72,7 @@ void LoadScene(const char* path){
 		
 		if (step == EOF) break;
 
-		if (strcmp(prefix, "mat") == 0) {
-			char mat_path[128];
-			fscanf(scene_file, "%s", mat_path);
-			Material mat;
 		
-			LoadMaterial(&mat, mat_path);
-
-			addMaterial(mat);
-		}
-		if (strcmp(prefix, "mes") == 0) {
-			char mesh_path[128];
-			int mesh_index = 0;
-			fscanf(scene_file, "%s %i", mesh_path, &mesh_index);
-			
-			if (mesh_index >= 0) {
-				Mesh mesh;
-				ldPDEM(&mesh, mesh_path, mesh_index);
-				addMesh(mesh);
-				
-			}
-			else {
-				for (uint i = 0; i < (uint)mesh_index * -1; i++) {
-					Mesh mesh;
-					ldPDEM(&mesh, mesh_path, i);
-					addMesh(mesh);
-				}
-			}
-
-			
-
-		}
 		if (strcmp(prefix, "obj") == 0) {
 			GameObject obj;
 
@@ -118,25 +95,47 @@ void LoadScene(const char* path){
 
 				if (strcmp(header0, "_sc") == 0) {
 					fseek(scene_file, 1, SEEK_CUR);
-					fread(&obj.transform.scale.x, sizeof(float), 1, scene_file);
-					fread(&obj.transform.scale.y, sizeof(float), 1, scene_file);
-					fread(&obj.transform.scale.z, sizeof(float), 1, scene_file);
+
+					float scX;
+					float scY;
+					float scZ;
+
+					fread(&scX, sizeof(float), 1, scene_file);
+					fread(&scY, sizeof(float), 1, scene_file);
+					fread(&scZ, sizeof(float), 1, scene_file);
 
 					fseek(scene_file, 1, SEEK_CUR);
+
+					obj.transform.setScale(ZSVECTOR3(scX, scY, scZ));
+
 				}
 				if (strcmp(header0, "_tr") == 0) {
 					fseek(scene_file, 1, SEEK_CUR);
-					fread(&obj.transform.pos.x, sizeof(float), 1, scene_file);
-					fread(&obj.transform.pos.y, sizeof(float), 1, scene_file);
-					fread(&obj.transform.pos.z, sizeof(float), 1, scene_file);
+
+					float posX;
+					float posY;
+					float posZ;
+
+					fread(&posX, sizeof(float), 1, scene_file);
+					fread(&posY, sizeof(float), 1, scene_file);
+					fread(&posZ, sizeof(float), 1, scene_file);
+
+					obj.transform.setPosition(ZSVECTOR3(posX, posY, posZ));
 
 					fseek(scene_file, 1, SEEK_CUR);
 				}
 				if (strcmp(header0, "_rt") == 0) {
 					fseek(scene_file, 1, SEEK_CUR);
-					fread(&obj.transform.rotation.x, sizeof(float), 1, scene_file);
-					fread(&obj.transform.rotation.y, sizeof(float), 1, scene_file);
-					fread(&obj.transform.rotation.z, sizeof(float), 1, scene_file);
+
+					float rotX;
+					float rotY;
+					float rotZ;
+
+					fread(&rotX, sizeof(float), 1, scene_file);
+					fread(&rotY, sizeof(float), 1, scene_file);
+					fread(&rotZ, sizeof(float), 1, scene_file);
+
+					obj.transform.setRotation(ZSVECTOR3(rotX, rotY, rotZ));
 
 					fseek(scene_file, 1, SEEK_CUR);
 				}
@@ -159,18 +158,36 @@ void LoadScene(const char* path){
 }
 
 void saveScene(){
+
+	unsigned int processed_size = 0;
+
 	FILE* scene_write = fopen(loadedScenePath, "wb");
 
 	fprintf(scene_write, "DSCN\n");
 
-	for (uint i = 0; i < getMeshesSize(); i ++) {
-		fprintf(scene_write, "mes %s %d\n", getMesh(i).file_path, getMesh(i).mesh_index);
-	}
+	unsigned int res_meshes_count = getMeshesCount();
+	unsigned int res_textures_count = getTexturesCount();
 
-	for (uint i = 0; i < getMaterialsAmount(); i++) {
-		fprintf(scene_write, "mat %s\n", getMaterial(i).file_path);
-	}
+	for (unsigned int i = 0; i < res_textures_count; i++) {
+		if (getTextureAt(i)->isRemoved == false) {
+			
+			uint source_size = getFileSize(getTextureAt(i)->file_path);
 
+			char* content = (char*)malloc(source_size + 1);
+			readBFile(content, getTextureAt(i)->file_path, source_size);
+
+			
+
+			FILE* toWrite = fopen("resources.pack", "ab");
+
+			fwrite(content, 1, source_size, toWrite);
+			fclose(toWrite);
+			processed_size += source_size;
+			
+			fprintf(scene_write, "tex %s %d %d\n", getTextureAt(i)->name, processed_size - source_size, processed_size);
+		}
+	}
+	
 	for (uint i = 0; i < getObjectsAmount(); i++) {
 		GameObject obj;
 		obj = getObject(i);
@@ -179,25 +196,36 @@ void saveScene(){
 		if(strlen(obj.label) >= 1)
 			fprintf(scene_write, "str %s\n", obj.label);
 
+		float scX = obj.transform._getScale().X;
+		float scY = obj.transform._getScale().Y;
+		float scZ = obj.transform._getScale().Z;
 		
+		float posX = obj.transform._getPosition().X;
+		float posY = obj.transform._getPosition().Y;
+		float posZ = obj.transform._getPosition().Z;
+
+		float rotX = obj.transform._getRotation().X;
+		float rotY = obj.transform._getRotation().Y;
+		float rotZ = obj.transform._getRotation().Z;
+
 		fprintf(scene_write, "_tr ");
-		fwrite(&obj.transform.pos.x, sizeof(float), 1, scene_write);
-		fwrite(&obj.transform.pos.y, sizeof(float), 1, scene_write);
-		fwrite(&obj.transform.pos.z, sizeof(float), 1, scene_write);
+		fwrite(&posX, sizeof(float), 1, scene_write);
+		fwrite(&posY, sizeof(float), 1, scene_write);
+		fwrite(&posZ, sizeof(float), 1, scene_write);
 		fprintf(scene_write, "\n");
 		
 	
 		fprintf(scene_write, "_sc ");
-		fwrite(&obj.transform.scale.x, sizeof(float), 1, scene_write);
-		fwrite(&obj.transform.scale.y, sizeof(float), 1, scene_write);
-		fwrite(&obj.transform.scale.z, sizeof(float), 1, scene_write);
+		fwrite(&scX, sizeof(float), 1, scene_write);
+		fwrite(&scY, sizeof(float), 1, scene_write);
+		fwrite(&scZ, sizeof(float), 1, scene_write);
 		fprintf(scene_write, "\n");
 
 
 		fprintf(scene_write, "_rt ");
-		fwrite(&obj.transform.rotation.x, sizeof(float), 1, scene_write);
-		fwrite(&obj.transform.rotation.y, sizeof(float), 1, scene_write);
-		fwrite(&obj.transform.rotation.z, sizeof(float), 1, scene_write);
+		fwrite(&rotX, sizeof(float), 1, scene_write);
+		fwrite(&rotY, sizeof(float), 1, scene_write);
+		fwrite(&rotZ, sizeof(float), 1, scene_write);
 		fprintf(scene_write, "\n");
 
 

@@ -1,17 +1,18 @@
-typedef unsigned int uint;
 
 #include "imgui.h"
 #include <SDL.h>
 #include <vector>
 
-#include "../includes/DMath.h"
+#include "../includes/zs-math.h"
 #include "../includes/Camera.hpp"
-#include "../includes/DColor.h"
 #include "../includes/Light.h"
 #include "../includes/property_inspector.h"
+#include "../includes/zs-transform.h"
 #include "../includes/GameObject.h"
 #include "../includes/objects_window.h"
 #include "../includes/scene_loader.h"
+
+
 
 void ZSWindows::DrawObjectListWindow(SDL_Window * window){
 	bool show = true;
@@ -30,13 +31,14 @@ void ZSWindows::DrawObjectListWindow(SDL_Window * window){
 		if (ImGui::BeginMenu("Scene"))
 		{
 			if (ImGui::MenuItem("Save Scene", "Ctrl+S")) { saveScene(); }
+
 			ImGui::EndMenu();
 		}
 		ImGui::EndMenuBar();
 	}
 
 	ImGui::BeginChild("Scrolling");
-	for (int n = 0; n < getObjectsAmount(); n++) {
+	for (unsigned int n = 0; n < getObjectsAmount(); n++) {
 		if (ImGui::Button(getObject(n).label) == true) {
 			ZSWindows::Inspector::selectObject(n);
 		}

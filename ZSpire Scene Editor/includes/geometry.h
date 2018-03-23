@@ -1,39 +1,39 @@
 
 struct Bone{
     char label[120];
-    Mat4x4 offset;
+	ZSMATRIX4x4 offset;
 };
 
 struct Node {
 	char label[120];
-	uint* node_children;
+	unsigned int* node_children;
 
-	uint children_num = 0;
+	unsigned int children_num = 0;
 
-	Mat4x4 offset;
+	ZSMATRIX4x4 offset;
 
 };
 
 class Mesh{
 public:
-    uint VAO;
-    uint VBO;
-	uint EBO;
+	unsigned int VAO;
+	unsigned int VBO;
+	unsigned int EBO;
 
-    uint vertices_count = 0;
-    uint indices_count = 0;
-    uint bones_count = 0;
-	uint nodes_count;
+	unsigned int vertices_count = 0;
+	unsigned int indices_count = 0;
+	unsigned int bones_count = 0;
+	unsigned int nodes_count;
 
     Bone* bones;
 	Node nodes[200];
 
 	char file_path[258];
-	uint mesh_index = 0;
-	uint mesh_file_type = 0;
+	unsigned int mesh_index = 0;
+	unsigned int mesh_file_type = 0;
 
     char label[256];
-	Mat4x4 globalInverse;
+	ZSMATRIX4x4 globalInverse;
 
 	bool loaded = false;
 
@@ -42,52 +42,20 @@ public:
 	
 };
 
-struct AnimChannel {
 
-	char bone_name[128];
+void processMesh(Mesh* mesh, ZSVERTEX* vertsf, unsigned int* indices);
+void processMesh(Mesh* mesh, ZSVERTEX* vertsf, unsigned int* indices, unsigned int vertices_count, unsigned int indices_count);
 
-	uint pos_keys_num = 0;
-	uint scale_keys_num = 0;
-	uint rot_keys_num = 0;
-
-	AnimVec3* pos;
-	AnimVec3* scale;
-	AnimQuaternion* rot;
-};
-
-struct Animation {
-
-	char label[120];
-	float duration;
-	uint channels_num;
-	float tps;
-
-	AnimChannel* channels;
-};
-
-void addMesh(Mesh mesh);
-
-Mesh getMesh(uint pos);
-
-Mesh* getMeshPtr(uint pos);
-
-uint getMeshesSize();
-
-uint getMeshID(const char* label);
-
-void processMesh(Mesh* mesh, Vertex* vertsf, uint* indices);
-void processMesh(Mesh* mesh, Vertex* vertsf, uint* indices, uint vertices_count, uint indices_count);
-
-void processMesh(Mesh* mesh, Vertex* vertsf);
+void processMesh(Mesh* mesh, ZSVERTEX* vertsf);
     
 
 
 
 void drawMesh(Mesh mesh);
-void drawMeshInstanced(Mesh mesh, uint offsets);
+void drawMeshInstanced(Mesh mesh, unsigned int offsets);
 
 
 void drawMeshNI(Mesh mesh);
-void drawMeshInstancedNI(Mesh mesh, uint offsets);
+void drawMeshInstancedNI(Mesh mesh, unsigned int offsets);
 
-void processMeshSkybox(Mesh* mesh, Vector3* vertsf);
+void processMeshSkybox(Mesh* mesh, ZSVECTOR3* vertsf);

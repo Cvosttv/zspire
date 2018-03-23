@@ -3,9 +3,9 @@ typedef unsigned int uint;
 
 #include "string.h"
 
-#include "../includes/DMath.h"
+#include "../includes/zs-math.h"
+#include "../includes/zs-transform.h"
 #include "../includes/Camera.hpp"
-#include "../includes/DColor.h"
 #include "../includes/Light.h"
 #include "../includes/GameObject.h"
 

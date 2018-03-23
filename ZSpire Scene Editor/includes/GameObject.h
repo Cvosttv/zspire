@@ -4,7 +4,7 @@ public:
 	bool exist = true;
 	char label[512];
 
-	Transform transform;
+	ZSpire::Transform transform;
 
 	void setLabel(const char* label);
 };
@@ -13,8 +13,8 @@ void addObject(GameObject object);
 
 void createNewObject();
 
-GameObject getObject(uint pos);
+GameObject getObject(unsigned int pos);
 
-GameObject* getObjectPtr(uint pos);
+GameObject* getObjectPtr(unsigned int pos);
 
-uint getObjectsAmount();
+unsigned int getObjectsAmount();

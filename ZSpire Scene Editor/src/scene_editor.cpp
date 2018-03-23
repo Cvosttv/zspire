@@ -14,6 +14,13 @@ typedef unsigned int uint;
 #include "../includes\property_inspector.h"
 #include "../includes\file_window.h"
 
+#include "../includes/zs-math.h"
+#include "../includes/zs-texture.h"
+#include "../includes/geometry.h"
+
+#include "../includes/Resources.h"
+#include "../includes/resources_window.h"
+
 int main(int argc, char* argv[])
 {
 	if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_TIMER) != 0)
@@ -51,6 +58,8 @@ int main(int argc, char* argv[])
 
 	ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
 
+	//loadResources();
+
 	// Main loop
 	bool done = false;
 	while (!done)
@@ -72,6 +81,7 @@ int main(int argc, char* argv[])
 			ZSWindows::DrawObjectListWindow(window);
 			ZSWindows::DrawInspectorWindow(window);
 			ZSWindows::DrawFilesWindow(window);
+			ZSWindows::DrawResourcesWindow(window);
 		}
 
 		// Rendering

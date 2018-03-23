@@ -3,14 +3,21 @@ typedef unsigned int uint;
 #include <SDL.h>
 #include <vector>
 
-#include "../includes/DMath.h"
+#include "../includes/zs-math.h"
 #include "../includes/Camera.hpp"
-#include "../includes/DColor.h"
 #include "../includes/Light.h"
+#include "../includes/zs-transform.h"
 #include "../includes/GameObject.h"
 #include "../includes/property_inspector.h"
 
+#include "../includes/zs-texture.h"
+#include "../includes/geometry.h"
+
+#include "../includes/Resources.h"
+
 int selected_gameobject = -1;
+int selected_mesh = -1;
+int selected_texture = -1;
 
 static bool alpha_preview = true;
 static bool alpha_half_preview = false;
@@ -28,9 +35,9 @@ void ZSWindows::DrawInspectorWindow(SDL_Window* window){
 
 		ImGui::InputText("Label", obj->label, 255);
 		
-		float translation[3] = { obj->transform.pos.x, obj->transform.pos.y, obj->transform.pos.z };
-		float scale[3] = { obj->transform.scale.x, obj->transform.scale.y, obj->transform.scale.z };
-		float rotation[3] = { obj->transform.rotation.x, obj->transform.rotation.y, obj->transform.rotation.z };
+		float translation[3] = { obj->transform._getPosition().X, obj->transform._getPosition().Y, obj->transform._getPosition().Z };
+		float scale[3] = { obj->transform._getScale().X, obj->transform._getScale().Y, obj->transform._getScale().Z };
+		float rotation[3] = { obj->transform._getRotation().X, obj->transform._getRotation().Y, obj->transform._getRotation().Z };
 
 		ImGui::Separator();
 
@@ -38,9 +45,9 @@ void ZSWindows::DrawInspectorWindow(SDL_Window* window){
 		ImGui::InputFloat3("Scale", scale);
 		ImGui::InputFloat3("Rotation", rotation);
 
-		obj->transform.pos = Vector3(translation[0], translation[1], translation[2]);
-		obj->transform.scale = Vector3(scale[0], scale[1], scale[2]);
-		obj->transform.rotation = Vector3(rotation[0], rotation[1], rotation[2]);
+		obj->transform.setPosition(ZSVECTOR3(translation[0], translation[1], translation[2]));
+		obj->transform.setScale(ZSVECTOR3(scale[0], scale[1], scale[2]));
+		obj->transform.setRotation(ZSVECTOR3(rotation[0], rotation[1], rotation[2]));
 	
 		/*
 		ImGui::Separator();
@@ -97,9 +104,46 @@ void ZSWindows::DrawInspectorWindow(SDL_Window* window){
 		}*/
 	}
 
+	if (selected_texture >= 0) {
+		TextureResource* obj = getTextureAt(selected_texture);
+
+		ImGui::InputText("Label", obj->name, 64);
+		ImGui::InputText("Path", obj->file_path, 128);
+
+		if (ImGui::Button("Delete") == true) {
+			obj->isRemoved = true;
+		}
+
+	}
+
+	if (selected_mesh >= 0) {
+		MeshResource* obj = getMeshAt(selected_mesh);
+
+		ImGui::InputText("Label", obj->name, 64);
+		ImGui::InputText("Path", obj->file_path, 128);
+
+		if (ImGui::Button("Delete") == true) {
+			obj->isRemoved = true;
+		}
+	}
+
 	ImGui::End(); // end window
 }
 
-void ZSWindows::Inspector::selectObject(uint obj_to_select){
+void ZSWindows::Inspector::selectObject(unsigned int obj_to_select){
 	selected_gameobject = (int)obj_to_select;
+	selected_texture = -1;
+	selected_mesh = -1;
+}
+
+void ZSWindows::Inspector::selectTexture(unsigned int texture_to_select){
+	selected_gameobject = -1;
+	selected_texture = (int)texture_to_select;
+	selected_mesh = -1;
+}
+
+void ZSWindows::Inspector::selectMesh(unsigned int mesh_to_select) {
+	selected_gameobject = -1;
+	selected_texture = -1;
+	selected_mesh = (int)mesh_to_select;
 }

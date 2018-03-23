@@ -5,7 +5,7 @@ public:
 	float quadratic;
 	float maxlight;
 
-	RGBColor light_color;
+	ZSRGBCOLOR light_color;
 
 	void setLightAttenuationParams(float linear, float quadratic, float maxlight);
 };
