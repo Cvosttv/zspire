@@ -1,3 +1,11 @@
+#ifndef ZSMESH
+#define ZSMESH
+#endif
+
+#ifndef ZSRESOURCE
+#include "../includes/zs-resource.h"
+#endif
+
 #define MESH_NO_INDICES -1
 
 namespace ZSpire {
@@ -10,6 +18,7 @@ namespace ZSpire {
 		unsigned int IndicesCount;
 		int VerticesCount = MESH_NO_INDICES;
 	public:
+		ZSResourceDesc resource_desc;
 		void InitializeMesh();
 		void Release();
 		void Draw();

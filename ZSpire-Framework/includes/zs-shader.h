@@ -1,3 +1,11 @@
+#ifndef ZSMATH
+#include "../includes/zs-math.h"
+#endif
+
+#ifndef ZSLIGHT
+#include "../includes/zs-light.h"
+#endif
+
 namespace ZSpire {
 	class Shader {
 	protected:

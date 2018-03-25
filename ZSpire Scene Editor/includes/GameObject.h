@@ -2,11 +2,15 @@ class GameObject {
 public:
 
 	bool exist = true;
-	char label[512];
+	char label[255];
+
+	char texture_name[64];
 
 	ZSpire::Transform transform;
 
 	void setLabel(const char* label);
+
+	
 };
 
 void addObject(GameObject object);

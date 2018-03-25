@@ -3,6 +3,8 @@
 #include "../includes/zs-math.h"
 
 #include <glew.h>
+
+
 #include "../includes/zs-texture.h"
 #include "stdio.h"
 #include "string.h"
@@ -158,6 +160,7 @@ void ZSpire::DrawLetter(unsigned int letter, Shader text_shader, float step) {
 
 void ZSpire::DrawString(const wchar_t* text, Shader text_shader, float pos_x, float pos_y, ZSRGBCOLOR color) {
 	glEnable(GL_BLEND);
+	glDisable(GL_DEPTH_TEST);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 	float step_x_passed = 0;
@@ -186,6 +189,7 @@ void ZSpire::DrawString(const wchar_t* text, Shader text_shader, float pos_x, fl
 		}
 	}
 	glDisable(GL_BLEND);
+	glEnable(GL_DEPTH_TEST);
 }
 
 

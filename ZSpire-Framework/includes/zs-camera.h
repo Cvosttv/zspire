@@ -1,3 +1,12 @@
+#ifndef ZSCAMERA
+#define ZSCAMERA
+#endif
+
+#ifndef ZSTRANSFORM
+#include "../includes/zs-transform.h"
+#endif
+
+
 #define CAMERA_PROJECTION_PERSPECTIVE 1
 #define CAMERA_PROJECTION_ORTHOGRAPHIC 2
 

@@ -5,6 +5,8 @@
 
 #include "../includes/zs-math.h"
 
+#include "../includes/zs-resource.h"
+
 #include "../includes/zs-mesh.h"
 
 #include "../includes/zs-texture.h"
@@ -45,12 +47,35 @@ bool ZSpire::LoadSceneFromFile(const char* file_path, Scene* result) {
 
 		if (step == EOF) break;
 
-		
-		if (strcmp(prefix, "mes") == 0) {
-			char mesh_path[128];
-			fscanf(scene_file, "%s", mesh_path);
+		if (strcmp(prefix, "tex") == 0) {
+			ZSResourceDesc rd;
+			//fscanf(scene_file, "%s %d %d", rd.label, &rd.start_byte, &rd.end_byte);
+			fscanf(scene_file, "%s %s", rd.label, rd.packFilePath);
+
+			fread(&rd.start_byte, 4, 1, scene_file); //Read 4 bytes (int) 
+			fread(&rd.end_byte, 4, 1, scene_file);
+			fseek(scene_file, 1, SEEK_CUR); //Jump over \n sign
+
+			Texture texture;
+			texture.resource_desc = rd;
+			result->addTexture(texture);
 
 		}
+
+		if (strcmp(prefix, "mesh") == 0) {
+			ZSResourceDesc rd;
+
+			fscanf(scene_file, "%s %s", rd.label, rd.packFilePath);
+			fread(&rd.start_byte, 4, 1, scene_file); //Read 4 bytes (int) 
+			fread(&rd.end_byte, 4, 1, scene_file);
+			fseek(scene_file, 1, SEEK_CUR); //Jump over \n sign
+			
+			Mesh mesh;
+			mesh.resource_desc = rd;
+			result->addMesh(mesh);
+
+		}
+
 		if (strcmp(prefix, "obj") == 0) {
 			GameObject obj;
 
@@ -130,4 +155,11 @@ unsigned int ZSpire::Scene::getLightsCount(){
 }
 ZSpire::Light* ZSpire::Scene::getLightAt(unsigned int index){
 	return &this->lights[index];
+}
+
+void ZSpire::Scene::addTexture(Texture texture){
+	scene_textures.push_back(texture);
+}
+void ZSpire::Scene::addMesh(Mesh mesh) {
+	scene_meshes.push_back(mesh);
 }

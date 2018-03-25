@@ -6,6 +6,8 @@
 
 #include "../includes/zs-math.h"
 
+#include "../includes/zs-resource.h"
+
 #include "../includes/zs-mesh.h"
 
 #include "../includes/zs-mesh-loader.h"

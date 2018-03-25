@@ -1,3 +1,11 @@
+#ifndef ZSTEXTURE
+#include "../includes/zs-texture.h"
+#endif
+
+#ifndef ZSMESH
+#include "../includes/zs-mesh.h"
+#endif
+
 namespace ZSpire {
 	class GameObject {
 	protected:

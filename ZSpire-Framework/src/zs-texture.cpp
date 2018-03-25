@@ -9,6 +9,8 @@
 #include "stdlib.h"
 #include <sys/stat.h>
 
+#include "../includes/zs-resource.h"
+
 #include "../includes/zs-texture.h"
 
 void ZSpire::Texture::InitializeTexture() {
@@ -121,4 +123,18 @@ unsigned int ZSpire::Texture::getTextureGL_ID() {
 void ZSpire::Texture::setAnisotropyValue(float aniso) {
 	glBindTexture(GL_TEXTURE_2D, this->TEXTURE_ID);
 	glTexParameterf(GL_TEXTURE_2D, GL_ARB_texture_filter_anisotropic, aniso);
+}
+
+bool ZSpire::Texture::loadFromResourceDesk(){
+	FILE* file = fopen(resource_desc.packFilePath, "rb");
+
+	fseek(file, resource_desc.start_byte, SEEK_SET);
+
+	unsigned char* buffer = (unsigned char*)malloc(resource_desc.end_byte - resource_desc.start_byte);
+
+	fread(buffer, 1, resource_desc.end_byte - resource_desc.start_byte, file);
+
+	return LoadDDSFromBuffer(buffer);
+
+
 }

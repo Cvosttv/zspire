@@ -54,7 +54,7 @@ void loadResources(const char* path){
 		if (strcmp(prefix, "tex") == 0) {
 			TextureResource tr;
 
-			fscanf(fl, "%s %s", tr.file_path, tr.name);
+			fscanf(fl, "%s %s %s", tr.file_path, tr.name, tr.file_to_write_path);
 
 			addTexture(tr);
 
@@ -63,7 +63,7 @@ void loadResources(const char* path){
 		if (strcmp(prefix, "mesh") == 0) {
 			MeshResource tr;
 
-			fscanf(fl, "%s %s", tr.file_path, tr.name);
+			fscanf(fl, "%s %s %s", tr.file_path, tr.name, tr.file_to_write_path);
 
 			addMesh(tr);
 

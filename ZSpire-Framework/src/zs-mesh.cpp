@@ -1,5 +1,6 @@
 #include <glew.h>
 
+#include "../includes/zs-resource.h"
 #include "../includes/zs-math.h"
 #include "../includes/zs-mesh.h"
 

@@ -2,9 +2,7 @@
 #include <glew.h>
 #include <vector>
 
-#include "../includes/zs-math.h"
 
-#include "../includes/zs-transform.h"
 
 #include "../includes/zs-camera.h"
 
@@ -17,7 +15,6 @@
 #include "../includes/zs-texture.h"
 
 #include "../includes/zs-game-object.h"
-
 
 #include "../includes/zs-scene.h"
 

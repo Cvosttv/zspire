@@ -2,6 +2,7 @@
 typedef unsigned int uint;
 #include "stdio.h"
 #include "string.h"
+#include <cstdio>
 #include <process.h>
 #include <windows.h>
 #include <vector>
@@ -92,7 +93,12 @@ void LoadScene(const char* path){
 					strcpy(obj.label, label);
 				}
 
-				
+				if (strcmp(header0, "tex") == 0) {
+					char texture[64];
+					fscanf(scene_file, "%s", texture);
+
+					strcpy(obj.texture_name, texture);
+				}
 
 				if (strcmp(header0, "_sc") == 0) {
 					fseek(scene_file, 1, SEEK_CUR);
@@ -159,6 +165,8 @@ void LoadScene(const char* path){
 }
 
 void saveScene(){
+	remove("textures.pack"); //remove old pack file 
+	remove("meshes.pack"); //remove old pack file 
 
 	unsigned int processed_size = 0;
 
@@ -173,7 +181,7 @@ void saveScene(){
 	for (unsigned int i = 0; i < res_textures_count; i++) {
 		if (getTextureAt(i)->isRemoved == false) {
 			
-			fprintf(resource_map_write, "tex %s %s\n", getTextureAt(i)->file_path, getTextureAt(i)->name);
+			fprintf(resource_map_write, "tex %s %s %s\n", getTextureAt(i)->file_path, getTextureAt(i)->name, getTextureAt(i)->file_to_write_path);
 
 
 			uint source_size = getFileSize(getTextureAt(i)->file_path);
@@ -183,20 +191,24 @@ void saveScene(){
 
 			
 
-			FILE* toWrite = fopen("resources.pack", "ab");
+			FILE* toWrite = fopen(getTextureAt(i)->file_to_write_path, "ab");
 
 			fwrite(content, 1, source_size, toWrite);
 			fclose(toWrite);
 			processed_size += source_size;
 			
-			fprintf(scene_write, "tex %s %d %d\n", getTextureAt(i)->name, processed_size - source_size, processed_size);
+			int startbyte = processed_size - source_size;
+			fprintf(scene_write, "tex %s %s", getTextureAt(i)->name , getTextureAt(i)->file_to_write_path);
+			fwrite(&startbyte, 4, 1, scene_write);
+			fwrite(&processed_size, 4, 1, scene_write);
+			fprintf(scene_write, "\n");
 		}
 	}
 	
 	for (unsigned int i = 0; i < res_meshes_count; i++) {
 		if (getMeshAt(i)->isRemoved == false) {
 
-			fprintf(resource_map_write, "mesh %s %s\n", getMeshAt(i)->file_path, getMeshAt(i)->name);
+			fprintf(resource_map_write, "mesh %s %s %s\n", getMeshAt(i)->file_path, getMeshAt(i)->name, getMeshAt(i)->file_to_write_path);
 
 
 			uint source_size = getFileSize(getMeshAt(i)->file_path);
@@ -206,13 +218,18 @@ void saveScene(){
 
 
 
-			FILE* toWrite = fopen("resources.pack", "ab");
+			FILE* toWrite = fopen(getMeshAt(i)->file_to_write_path, "ab");
 
 			fwrite(content, 1, source_size, toWrite);
 			fclose(toWrite);
 			processed_size += source_size;
 
-			fprintf(scene_write, "tex %s %d %d\n", getMeshAt(i)->name, processed_size - source_size, processed_size);
+			//fprintf(scene_write, "tex %s %d %d\n", getMeshAt(i)->name, processed_size - source_size, processed_size);
+			int startbyte = processed_size - source_size;
+			fprintf(scene_write, "mesh %s %s", getMeshAt(i)->name, getMeshAt(i)->file_to_write_path);
+			fwrite(&startbyte, 4, 1, scene_write);
+			fwrite(&processed_size, 4, 1, scene_write);
+			fprintf(scene_write, "\n");
 		}
 	}
 
@@ -226,6 +243,9 @@ void saveScene(){
 
 		if(strlen(obj.label) >= 1)
 			fprintf(scene_write, "str %s\n", obj.label);
+
+		if (strlen(obj.texture_name) >= 1)
+			fprintf(scene_write, "tex %s\n", obj.texture_name);
 
 		float scX = obj.transform._getScale().X;
 		float scY = obj.transform._getScale().Y;

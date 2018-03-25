@@ -96,7 +96,7 @@ int main() {
 			wd.WIDTH = 1600;
 			wd.HEIGHT = 900;
 
-			app.setWindowProperties(wd);
+		//	app.setWindowProperties(wd);
 		}
 
 		app.gl_clear();
@@ -108,7 +108,7 @@ int main() {
 
 		mesh.Draw();
 
-		ZSpire::DrawString(L"test", text_shader, 100, 100, ZSRGBCOLOR(0,0,0));
+		ZSpire::DrawString(L"abcdefgh test", text_shader, 100, 100, ZSRGBCOLOR(255,255,0));
 
 		ZSpire::RenderSceneForward(&scene);
 

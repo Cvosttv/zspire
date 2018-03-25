@@ -6,9 +6,11 @@
 
 #include "../includes/zs-errors-checker.h"
 #include "../includes/zs-math.h"
-#include "../includes/zs-camera.h"
 
 #include "../includes/zs-transform.h"
+
+#include "../includes/zs-camera.h"
+
 #include "../includes/zs-light.h"
 
 #include "../includes/zs-shader.h"

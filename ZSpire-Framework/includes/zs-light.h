@@ -1,3 +1,7 @@
+#ifndef ZSLIGHT
+#define ZSLIGHT
+#endif
+
 #define LIGHT_TYPE_DIRECTIONAL 1
 #define LIGHT_TYPE_POINT 2
 #define LIGHT_TYPE_SPOT 3

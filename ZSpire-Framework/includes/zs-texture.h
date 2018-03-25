@@ -1,3 +1,16 @@
+//#ifndef ZSMATH
+//#include "../includes/zs-math.h"
+//#endif
+
+#ifndef ZSRESOURCE
+#include "../includes/zs-resource.h"
+#endif
+
+#ifndef ZSTEXTURE
+#define ZSTEXTURE
+#endif
+
+
 namespace ZSpire {
 
 	struct TextureProperties {
@@ -11,6 +24,9 @@ namespace ZSpire {
 		
 
 	public:
+		ZSResourceDesc resource_desc;
+		bool loadFromResourceDesk();
+
 		TextureProperties properties;
 		void Use(unsigned int slot);
 		void InitializeTexture();

@@ -6,6 +6,7 @@
 	#include <zs-transform.h>
 	#include <zs-light.h>
 	#include <zs-shader.h>
+#include <zs-resource.h>
 	#include <zs-texture.h>
 	#include <zs-mesh.h>
 	#include <zs-camera.h>

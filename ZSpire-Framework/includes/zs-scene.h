@@ -1,7 +1,11 @@
 namespace ZSpire {
 
+	
 	class Scene {
 	protected:
+		std::vector<Texture> scene_textures;
+		std::vector<Mesh> scene_meshes;
+
 		std::vector<GameObject> game_objects;
 		std::vector<Light> lights;
 	public:
@@ -12,6 +16,9 @@ namespace ZSpire {
 
 		unsigned int getLightsCount();
 		Light* getLightAt(unsigned int index);
+
+		void addTexture(Texture texture);
+		void addMesh(Mesh mesh);
 	};
 
 	bool LoadSceneFromFile(const char* file_path, Scene* result);

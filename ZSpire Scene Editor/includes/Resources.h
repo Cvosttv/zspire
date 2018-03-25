@@ -5,6 +5,9 @@ struct MeshResource {
 	char name[64];
 
 	char file_path[128];
+
+	char file_to_write_path[128];
+
 	bool isInPack = false;
 	unsigned int byte_start;
 	unsigned int byte_end;
@@ -18,6 +21,9 @@ struct TextureResource {
 	char name[64];
 
 	char file_path[128];
+
+	char file_to_write_path[128];
+
 	bool isInPack = false;
 	unsigned int byte_start;
 	unsigned int byte_end;

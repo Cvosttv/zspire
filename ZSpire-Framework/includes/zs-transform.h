@@ -1,3 +1,12 @@
+#ifndef  ZSTRANSFORM
+#define ZSTRANSFORM
+#endif // ! ZSTRANSFORM
+
+#ifndef ZSMATH
+#include "../includes/zs-math.h"
+#endif
+
+
 namespace ZSpire {
 	class Transform {
 	protected:
