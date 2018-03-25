@@ -130,7 +130,8 @@ bool ZSpire::Texture::loadFromResourceDesk(){
 
 	fseek(file, resource_desc.start_byte, SEEK_SET);
 
-	unsigned char* buffer = (unsigned char*)malloc(resource_desc.end_byte - resource_desc.start_byte);
+	unsigned char* buffer = (unsigned char*)malloc(sizeof(unsigned char*) * (resource_desc.end_byte - resource_desc.start_byte));
+
 
 	fread(buffer, 1, resource_desc.end_byte - resource_desc.start_byte, file);
 

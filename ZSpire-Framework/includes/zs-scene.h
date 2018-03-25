@@ -19,6 +19,8 @@ namespace ZSpire {
 
 		void addTexture(Texture texture);
 		void addMesh(Mesh mesh);
+
+		Texture* findTextureResourceByLabel(const char* label);
 	};
 
 	bool LoadSceneFromFile(const char* file_path, Scene* result);

@@ -150,10 +150,6 @@ void LoadScene(const char* path){
 				
 
 			}
-
-		
-
-
 			addObject(obj);
 
 		}
@@ -198,7 +194,7 @@ void saveScene(){
 			processed_size += source_size;
 			
 			int startbyte = processed_size - source_size;
-			fprintf(scene_write, "tex %s %s", getTextureAt(i)->name , getTextureAt(i)->file_to_write_path);
+			fprintf(scene_write, "tex %s %s ", getTextureAt(i)->name , getTextureAt(i)->file_to_write_path);
 			fwrite(&startbyte, 4, 1, scene_write);
 			fwrite(&processed_size, 4, 1, scene_write);
 			fprintf(scene_write, "\n");
@@ -208,7 +204,7 @@ void saveScene(){
 	for (unsigned int i = 0; i < res_meshes_count; i++) {
 		if (getMeshAt(i)->isRemoved == false) {
 
-			fprintf(resource_map_write, "mesh %s %s %s\n", getMeshAt(i)->file_path, getMeshAt(i)->name, getMeshAt(i)->file_to_write_path);
+			fprintf(resource_map_write, "mesh %s %s %s \n", getMeshAt(i)->file_path, getMeshAt(i)->name, getMeshAt(i)->file_to_write_path);
 
 
 			uint source_size = getFileSize(getMeshAt(i)->file_path);
@@ -224,9 +220,8 @@ void saveScene(){
 			fclose(toWrite);
 			processed_size += source_size;
 
-			//fprintf(scene_write, "tex %s %d %d\n", getMeshAt(i)->name, processed_size - source_size, processed_size);
 			int startbyte = processed_size - source_size;
-			fprintf(scene_write, "mesh %s %s", getMeshAt(i)->name, getMeshAt(i)->file_to_write_path);
+			fprintf(scene_write, "mesh %s %s ", getMeshAt(i)->name, getMeshAt(i)->file_to_write_path);
 			fwrite(&startbyte, 4, 1, scene_write);
 			fwrite(&processed_size, 4, 1, scene_write);
 			fprintf(scene_write, "\n");

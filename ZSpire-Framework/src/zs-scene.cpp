@@ -49,15 +49,17 @@ bool ZSpire::LoadSceneFromFile(const char* file_path, Scene* result) {
 
 		if (strcmp(prefix, "tex") == 0) {
 			ZSResourceDesc rd;
-			//fscanf(scene_file, "%s %d %d", rd.label, &rd.start_byte, &rd.end_byte);
+
 			fscanf(scene_file, "%s %s", rd.label, rd.packFilePath);
 
+			fseek(scene_file, 1, SEEK_CUR); //Jump over space
 			fread(&rd.start_byte, 4, 1, scene_file); //Read 4 bytes (int) 
 			fread(&rd.end_byte, 4, 1, scene_file);
 			fseek(scene_file, 1, SEEK_CUR); //Jump over \n sign
 
 			Texture texture;
 			texture.resource_desc = rd;
+			texture.loadFromResourceDesk();
 			result->addTexture(texture);
 
 		}
@@ -92,6 +94,14 @@ bool ZSpire::LoadSceneFromFile(const char* file_path, Scene* result) {
 					fscanf(scene_file, "%s", label);
 
 					obj.setLabel(label);
+				}
+
+				if (strcmp(header0, "tex") == 0) {
+					char texture_l[120];
+					fscanf(scene_file, "%s", texture_l);
+					Texture* t = result->findTextureResourceByLabel(texture_l);
+
+					obj.setDiffuseTexture(t);
 				}
 
 				if (strcmp(header0, "_tr") == 0) {
@@ -162,4 +172,13 @@ void ZSpire::Scene::addTexture(Texture texture){
 }
 void ZSpire::Scene::addMesh(Mesh mesh) {
 	scene_meshes.push_back(mesh);
+}
+
+ZSpire::Texture* ZSpire::Scene::findTextureResourceByLabel(const char* label) {
+	for (unsigned int i = 0; i < scene_textures.size(); i ++) {
+		if (strcmp(scene_textures[i].resource_desc.label, label) == 0)
+			return &scene_textures[i];
+			
+	}
+	return nullptr;
 }

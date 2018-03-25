@@ -4,6 +4,7 @@
 #include "../includes/zs-math.h"
 #include "../includes/zs-mesh.h"
 
+
 void ZSpire::Mesh::InitializeMesh() {
 	glGenVertexArrays(1, &this->meshVAO);
 	glGenBuffers(1, &this->meshVBO);
