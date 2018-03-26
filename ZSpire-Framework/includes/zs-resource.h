@@ -4,6 +4,8 @@
 
 
 namespace ZSpire {
+
+	
 	struct ZSResourceDesc {
 		char label[128];
 

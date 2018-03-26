@@ -1,3 +1,7 @@
+#define _CRT_SECURE_NO_WARNINGS
+
+#include "stdio.h"
+
 #include <vector>
 
 #include <assimp/Importer.hpp>
@@ -66,7 +70,7 @@ void processNode(aiNode* node, const aiScene* scene) {
 
 }
 
-ZSpire::Mesh* ZSpire::LoadMeshFromBuffer(void* buffer, size_t size) {
+ZSpire::Mesh* ZSpire::LoadMeshFromBuffer(void* buffer, size_t size, ZSLOADEDMESHINFO* loadinfo) {
 
 	Mesh* result;
 
@@ -74,15 +78,17 @@ ZSpire::Mesh* ZSpire::LoadMeshFromBuffer(void* buffer, size_t size) {
 
 	result = (Mesh*)malloc(sizeof(Mesh) * scene->mNumMeshes);
 
+	loadinfo->amount_meshes = scene->mNumMeshes;
+
 	results_ptr = result;
 
 	processNode(scene->mRootNode, scene);
 
-	
+	processed_meshes = 0;
 	return result;
 }
 
-ZSpire::Mesh* ZSpire::LoadMeshesFromFile(const char* file_path){
+ZSpire::Mesh* ZSpire::LoadMeshesFromFile(const char* file_path, ZSLOADEDMESHINFO* loadinfo){
 
 	Mesh* result;
 	
@@ -90,11 +96,25 @@ ZSpire::Mesh* ZSpire::LoadMeshesFromFile(const char* file_path){
 
 	result = (Mesh*)malloc(sizeof(Mesh) * scene->mNumMeshes);
 
+	loadinfo->amount_meshes = scene->mNumMeshes;
+
 	results_ptr = result;
 
 	processNode(scene->mRootNode, scene);
 
-
+	processed_meshes = 0;
 	return result;
 
+}
+
+ZSpire::Mesh* ZSpire::LoadMeshesFromResourceDesc(ZSResourceDesc* desc, ZSLOADEDMESHINFO* loadinfo) {
+	FILE* file = fopen(desc->packFilePath, "rb");
+
+	fseek(file, desc->start_byte, SEEK_SET);
+
+	unsigned char* buffer = (unsigned char*)malloc(sizeof(unsigned char*) * (desc->end_byte - desc->start_byte));
+
+	fread(buffer, 1, desc->end_byte - desc->start_byte, file);
+
+	return LoadMeshFromBuffer(buffer, desc->end_byte - desc->start_byte, loadinfo);
 }

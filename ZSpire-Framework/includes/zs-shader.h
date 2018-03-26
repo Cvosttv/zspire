@@ -6,6 +6,11 @@
 #include "../includes/zs-light.h"
 #endif
 
+#ifndef ZSTRANSFORM
+#include "../includes/zs-transform.h"
+#endif // !ZSTRANSFORM
+
+
 namespace ZSpire {
 	class Shader {
 	protected:

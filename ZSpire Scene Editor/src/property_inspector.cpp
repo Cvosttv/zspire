@@ -51,6 +51,8 @@ void ZSWindows::DrawInspectorWindow(SDL_Window* window){
 	
 
 		ImGui::InputText("Texture string", obj->texture_name, 64);
+		ImGui::InputText("Mesh string", obj->mesh_name, 64);
+		ImGui::InputInt("Mesh index", &obj->meshIndex, 64);
 		/*
 		ImGui::Separator();
 
@@ -125,6 +127,7 @@ void ZSWindows::DrawInspectorWindow(SDL_Window* window){
 		ImGui::InputText("Label", obj->name, 64);
 		ImGui::InputText("Path", obj->file_path, 128);
 		ImGui::InputText("Pack file", obj->file_to_write_path, 128);
+
 
 		if (ImGui::Button("Delete") == true) {
 			obj->isRemoved = true;

@@ -9,6 +9,8 @@
 
 #include "../includes/zs-mesh.h"
 
+#include "../includes/zs-mesh-loader.h"
+
 #include "../includes/zs-texture.h"
 
 #include "../includes/zs-transform.h"
@@ -68,13 +70,26 @@ bool ZSpire::LoadSceneFromFile(const char* file_path, Scene* result) {
 			ZSResourceDesc rd;
 
 			fscanf(scene_file, "%s %s", rd.label, rd.packFilePath);
+			fseek(scene_file, 1, SEEK_CUR); //Jump over space
 			fread(&rd.start_byte, 4, 1, scene_file); //Read 4 bytes (int) 
 			fread(&rd.end_byte, 4, 1, scene_file);
 			fseek(scene_file, 1, SEEK_CUR); //Jump over \n sign
 			
-			Mesh mesh;
-			mesh.resource_desc = rd;
-			result->addMesh(mesh);
+			ZSLOADEDMESHINFO info;
+
+			Mesh* loaded;
+			loaded = LoadMeshesFromResourceDesc(&rd, &info);
+			//LoadMeshFromBuffer();
+
+			for (unsigned int i = 0; i < info.amount_meshes; i ++) {
+				loaded[i].resource_index = i;
+				strcpy(loaded[i].resource_string, rd.label);
+				result->addMesh(loaded[i]);
+			}
+
+			//Mesh mesh;
+			//mesh.resource_desc = rd;
+			//result->addMesh(mesh);
 
 		}
 
@@ -102,6 +117,15 @@ bool ZSpire::LoadSceneFromFile(const char* file_path, Scene* result) {
 					Texture* t = result->findTextureResourceByLabel(texture_l);
 
 					obj.setDiffuseTexture(t);
+				}
+
+				if (strcmp(header0, "mesh") == 0) {
+					char mesh_l[120];
+					int index;
+					fscanf(scene_file, "%s %d", mesh_l, &index);
+					Mesh* m = result->findMeshResourceByLabel(mesh_l, index);
+
+					obj.setMesh(m);
 				}
 
 				if (strcmp(header0, "_tr") == 0) {
@@ -147,10 +171,8 @@ bool ZSpire::LoadSceneFromFile(const char* file_path, Scene* result) {
 			result->addObject(obj);
 		}
 	}
-
-
-
 	fclose(scene_file);
+	return true;
 }
 
 ZSpire::GameObject* ZSpire::Scene::getObjectByLabel(const char* label) {
@@ -161,7 +183,7 @@ ZSpire::GameObject* ZSpire::Scene::getObjectByLabel(const char* label) {
 }
 
 unsigned int ZSpire::Scene::getLightsCount(){
-	return this->lights.size();
+	return (unsigned int)this->lights.size();
 }
 ZSpire::Light* ZSpire::Scene::getLightAt(unsigned int index){
 	return &this->lights[index];
@@ -179,6 +201,15 @@ ZSpire::Texture* ZSpire::Scene::findTextureResourceByLabel(const char* label) {
 		if (strcmp(scene_textures[i].resource_desc.label, label) == 0)
 			return &scene_textures[i];
 			
+	}
+	return nullptr;
+}
+
+ZSpire::Mesh* ZSpire::Scene::findMeshResourceByLabel(const char* label, unsigned int index) {
+	for (unsigned i = 0; i < scene_meshes.size(); i ++) {
+		if (strcmp(scene_meshes[i].resource_string, label) == 0 && scene_meshes[i].resource_index == index)
+			return &scene_meshes[i];
+	
 	}
 	return nullptr;
 }

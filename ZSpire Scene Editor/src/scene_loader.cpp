@@ -27,6 +27,8 @@ typedef unsigned int uint;
 bool isSceneLoaded = false;
 char loadedScenePath[256];
 
+std::vector<PackFileState> pfiles;
+
 bool IsSceneLoaded() {
 	return isSceneLoaded;
 }
@@ -100,6 +102,13 @@ void LoadScene(const char* path){
 					strcpy(obj.texture_name, texture);
 				}
 
+				if (strcmp(header0, "mesh") == 0) {
+					char mesh[64];
+					fscanf(scene_file, "%s %d", mesh, &obj.meshIndex);
+
+					strcpy(obj.mesh_name, mesh);
+				}
+
 				if (strcmp(header0, "_sc") == 0) {
 					fseek(scene_file, 1, SEEK_CUR);
 
@@ -161,8 +170,8 @@ void LoadScene(const char* path){
 }
 
 void saveScene(){
-	remove("textures.pack"); //remove old pack file 
-	remove("meshes.pack"); //remove old pack file 
+	//remove("textures.pack"); //remove old pack file 
+	//remove("meshes.pack"); //remove old pack file 
 
 	unsigned int processed_size = 0;
 
@@ -176,7 +185,26 @@ void saveScene(){
 
 	for (unsigned int i = 0; i < res_textures_count; i++) {
 		if (getTextureAt(i)->isRemoved == false) {
-			
+			PackFileState* writepack = nullptr;
+
+			bool found = false;
+			for (unsigned int pi = 0; pi < pfiles.size(); pi ++) {
+				if (strcmp(getTextureAt(pi)->file_to_write_path, pfiles[pi].path) == 0) {
+					writepack = &pfiles[pi];
+					found = true;
+				}
+			}
+
+			if (found == false) {
+				PackFileState ss;
+				strcpy(ss.path, getTextureAt(i)->file_to_write_path);
+				pfiles.push_back(ss);
+
+				writepack = &pfiles[pfiles.size() - 1];
+				//Prepare file
+				remove(getTextureAt(i)->file_to_write_path);
+			}
+
 			fprintf(resource_map_write, "tex %s %s %s\n", getTextureAt(i)->file_path, getTextureAt(i)->name, getTextureAt(i)->file_to_write_path);
 
 
@@ -186,17 +214,17 @@ void saveScene(){
 			readBFile(content, getTextureAt(i)->file_path, source_size);
 
 			
-
+			//file_to_write_path - PACK
 			FILE* toWrite = fopen(getTextureAt(i)->file_to_write_path, "ab");
 
 			fwrite(content, 1, source_size, toWrite);
 			fclose(toWrite);
-			processed_size += source_size;
+			writepack->written_bytes += source_size;
 			
-			int startbyte = processed_size - source_size;
+			int startbyte = writepack->written_bytes - source_size;
 			fprintf(scene_write, "tex %s %s ", getTextureAt(i)->name , getTextureAt(i)->file_to_write_path);
 			fwrite(&startbyte, 4, 1, scene_write);
-			fwrite(&processed_size, 4, 1, scene_write);
+			fwrite(&writepack->written_bytes, 4, 1, scene_write);
 			fprintf(scene_write, "\n");
 		}
 	}
@@ -204,7 +232,28 @@ void saveScene(){
 	for (unsigned int i = 0; i < res_meshes_count; i++) {
 		if (getMeshAt(i)->isRemoved == false) {
 
-			fprintf(resource_map_write, "mesh %s %s %s \n", getMeshAt(i)->file_path, getMeshAt(i)->name, getMeshAt(i)->file_to_write_path);
+			PackFileState* writepack = nullptr;
+
+			bool found = false;
+			for (unsigned int pi = 0; pi < pfiles.size(); pi++) {
+				if (strcmp(getMeshAt(pi)->file_to_write_path, pfiles[pi].path) == 0) {
+					writepack = &pfiles[pi];
+					found = true;
+				}
+			}
+
+			if (found == false) {
+				PackFileState ss;
+				strcpy(ss.path, getMeshAt(i)->file_to_write_path);
+				pfiles.push_back(ss);
+
+				writepack = &pfiles[pfiles.size() - 1];
+				//Prepare file
+				remove(getMeshAt(i)->file_to_write_path);
+			}
+
+
+			fprintf(resource_map_write, "mesh %s %s %s\n", getMeshAt(i)->file_path, getMeshAt(i)->name, getMeshAt(i)->file_to_write_path);
 
 
 			uint source_size = getFileSize(getMeshAt(i)->file_path);
@@ -218,12 +267,12 @@ void saveScene(){
 
 			fwrite(content, 1, source_size, toWrite);
 			fclose(toWrite);
-			processed_size += source_size;
+			writepack->written_bytes += source_size;
 
-			int startbyte = processed_size - source_size;
+			int startbyte = writepack->written_bytes - source_size;
 			fprintf(scene_write, "mesh %s %s ", getMeshAt(i)->name, getMeshAt(i)->file_to_write_path);
 			fwrite(&startbyte, 4, 1, scene_write);
-			fwrite(&processed_size, 4, 1, scene_write);
+			fwrite(&writepack->written_bytes, 4, 1, scene_write);
 			fprintf(scene_write, "\n");
 		}
 	}
@@ -241,6 +290,9 @@ void saveScene(){
 
 		if (strlen(obj.texture_name) >= 1)
 			fprintf(scene_write, "tex %s\n", obj.texture_name);
+
+		if (strlen(obj.mesh_name) >= 1)
+			fprintf(scene_write, "mesh %s %d\n", obj.mesh_name, obj.meshIndex);
 
 		float scX = obj.transform._getScale().X;
 		float scY = obj.transform._getScale().Y;

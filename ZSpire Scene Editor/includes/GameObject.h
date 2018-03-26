@@ -5,11 +5,17 @@ public:
 	char label[255];
 
 	char texture_name[64];
+	char mesh_name[64];
+	int meshIndex = 0;
 
 	ZSpire::Transform transform;
 
 	void setLabel(const char* label);
 
+	GameObject() {
+		texture_name[0] = '\0';
+		mesh_name[0] = '\0';
+	}
 	
 };
 

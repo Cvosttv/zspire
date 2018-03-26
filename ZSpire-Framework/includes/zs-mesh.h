@@ -18,6 +18,8 @@ namespace ZSpire {
 		unsigned int IndicesCount;
 		int VerticesCount = MESH_NO_INDICES;
 	public:
+		unsigned int resource_index = 0;
+		char resource_string[64];
 		ZSResourceDesc resource_desc;
 		void InitializeMesh();
 		void Release();

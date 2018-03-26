@@ -3,7 +3,14 @@
 #define FOURCC_DXT3 0x33545844 // Equivalent to "DXT3" in ASCII
 #define FOURCC_DXT5 0x35545844 // Equivalent to "DXT5" in ASCII
 
+//including GLEW
+#ifdef _WIN32
 #include <glew.h>
+#endif
+
+#ifdef __linux__
+#include <GL/glew.h>
+#endif
 
 #include "stdio.h"
 #include "stdlib.h"
@@ -12,6 +19,10 @@
 #include "../includes/zs-resource.h"
 
 #include "../includes/zs-texture.h"
+
+#ifdef __linux__
+#define _fileno fileno
+#endif
 
 void ZSpire::Texture::InitializeTexture() {
 	glGenTextures(1, &this->TEXTURE_ID);

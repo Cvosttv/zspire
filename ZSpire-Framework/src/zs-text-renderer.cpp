@@ -2,8 +2,14 @@
 
 #include "../includes/zs-math.h"
 
+//GLEW
+#ifdef _WIN32
 #include <glew.h>
+#endif
 
+#ifdef __linux__
+#include <GL/glew.h>
+#endif
 
 #include "../includes/zs-texture.h"
 #include "stdio.h"
@@ -11,13 +17,11 @@
 #include "math.h"
 #include "stdlib.h"
 
-#include "../includes/zs-transform.h"
-
-#include "../includes/zs-light.h"
+#ifdef __linux__
+#include "wchar.h"
+#endif
 
 #include "../includes/zs-shader.h"
-
-
 
 #include "../includes/zs-text-renderer.h"
 

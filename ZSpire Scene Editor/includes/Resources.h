@@ -8,11 +8,18 @@ struct MeshResource {
 
 	char file_to_write_path[128];
 
+
 	bool isInPack = false;
 	unsigned int byte_start;
 	unsigned int byte_end;
 
 	bool isRemoved = false;
+
+	MeshResource() {
+		file_path[0] = '\0';
+		file_to_write_path[0] = '\0';
+	}
+
 };
 
 struct TextureResource {
@@ -29,6 +36,11 @@ struct TextureResource {
 	unsigned int byte_end;
 
 	bool isRemoved = false;
+
+	TextureResource() {
+		file_path[0] = '\0';
+		file_to_write_path[0] = '\0';
+	}
 
 };
 

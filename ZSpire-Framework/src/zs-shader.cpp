@@ -1,5 +1,10 @@
+#ifdef _WIN32
 #include <glew.h>
+#endif
 
+#ifdef __linux__
+#include <GL/glew.h>
+#endif
 #include <fstream>
 #include <sstream>
 #include <iostream>
@@ -156,5 +161,5 @@ void ZSpire::Shader::setLight(unsigned int index, Light* light) {
 
 	setUniformVec3(pos.c_str(), light->getPosition());
 	setUniformVec3(dir.c_str(), light->getDirection());
-	//setUniformVec3(pos.c_str(), light->getPosition());
+	setUniformVec3(pos.c_str(), light->getPosition());
 }

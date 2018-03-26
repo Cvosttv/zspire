@@ -1,10 +1,16 @@
 #include <AL/al.h>
 #include <AL/alc.h>
 
+#ifdef _WIN32
 #include <glew.h>
+#endif
+
+#ifdef __linux__
+#include <GL/glew.h>
+#endif
 
 #include <iostream>
-#include <string>
+#include "string.h"
 #include "../includes/zs-errors-checker.h"
 
 

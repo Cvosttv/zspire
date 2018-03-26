@@ -63,7 +63,8 @@ int main() {
 	mesh.InitializeMesh();
 	mesh.processMesh(vertices,ind, 4, 6);
 	
-	mesh2 = ZSpire::LoadMeshesFromFile("BIG.FBX");
+	ZSpire::ZSLOADEDMESHINFO inf;
+	//mesh2 = ZSpire::LoadMeshesFromFile("BIG.FBX", &inf);
 
 	transform.setPosition(ZSVECTOR3(1,0,0));
 	transform.updateMatrix();
@@ -72,8 +73,8 @@ int main() {
 	ZSpire::setForwardObjectShader(&shader);
 
 
-	scene.getObjectAt(1)->setMesh(&mesh2[0]);
-	scene.getObjectAt(1)->setDiffuseTexture(&texture);
+	//scene.getObjectAt(1)->setMesh(&mesh2[0]);
+	//scene.getObjectAt(1)->setDiffuseTexture(&texture);
 	
 	ZSpire::InitializeCamera();
 	ZSpire::setCameraProjectionType(CAMERA_PROJECTION_PERSPECTIVE);
@@ -104,7 +105,7 @@ int main() {
 		shader.Use();
 		shader.setTransform(&transform);
 
-		texture.Use(0);
+		//texture.Use(0);
 
 		mesh.Draw();
 

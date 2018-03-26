@@ -1,4 +1,10 @@
+#ifdef _WIN32
 #include <glew.h>
+#endif
+
+#ifdef __linux__
+#include <GL/glew.h>
+#endif
 
 #include "../includes/zs-resource.h"
 #include "../includes/zs-math.h"
