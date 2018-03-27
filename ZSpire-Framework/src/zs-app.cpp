@@ -23,9 +23,12 @@
 
 #ifdef _WIN32
 #include <windows.h>
-#endif
-
 #include <glew.h>
+#endif
+#ifdef __linux__
+#include <GL/glew.h>
+#include <iostream>
+#endif 
 
 SDL_Window *window;
 SDL_GLContext glcontext;
@@ -34,7 +37,12 @@ bool ZSpire::ZSpireApp::createWindow(ZSWindowDesc desc){
 
 	if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_TIMER) != 0)
 	{
+#ifdef _WIN32
 		MessageBox(NULL, "Creating OpenGL 4.6 instance failed! ", TEXT("Error initializing OpenGL 4.6"), MB_OK);
+#endif
+#ifdef __linux__
+		std::clog << "Creating OpenGL 4.6 instance failed! " << "Error initializing OpenGL 4.6" << std::endl;
+#endif
 		return false;
 	}
 
@@ -49,8 +57,8 @@ bool ZSpire::ZSpireApp::createWindow(ZSWindowDesc desc){
 	SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
 	SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 24);
 	SDL_GL_SetAttribute(SDL_GL_STENCIL_SIZE, 8);
-	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 4);
-	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 6);
+	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
+	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 3);
 	SDL_DisplayMode current;
 	SDL_GetCurrentDisplayMode(0, &current);
 	current.refresh_rate = 60;
@@ -73,7 +81,10 @@ bool ZSpire::ZSpireApp::createWindow(ZSWindowDesc desc){
 	if (glewInit() != GLEW_OK)
 	{
 #ifdef _WIN32
-		MessageBox(NULL, "Creating OpenGL 4.6 instance failed! ", TEXT("Error initializing OpenGL 4.6"), MB_OK);
+		MessageBox(NULL, "Creating OpenGL 3.3 instance failed! ", TEXT("Error initializing OpenGL 3.3"), MB_OK);
+#endif
+#ifdef __linux__
+		std::clog << "Creating OpenGL 3.3 instance failed! " << "Error initializing OpenGL 3.3" << std::endl;
 #endif
 		return false;
 	}
@@ -90,8 +101,12 @@ void ZSpire::ZSpireApp::ZSDestroyWindow() {
 }
 
 void ZSpire::ZSpireApp::MSGBox(const char* title, const char* message) {
+#ifdef _WIN32
 	MessageBox(NULL, message, title, MB_OK);
-
+#endif
+#ifdef __linux__
+	std::clog << title << " " << message << std::endl;
+#endif
 }
 
 void ZSpire::ZSpireApp::PollEvents() {

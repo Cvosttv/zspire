@@ -34,7 +34,7 @@ int main() {
 	dec.WIDTH = 1280;
 	dec.HEIGHT = 720;
 	dec.isResizable = false;
-	strcpy_s(dec.WINDOW_TITLE , "Demo");
+	strcpy(dec.WINDOW_TITLE , "Demo");
 	dec.isFullscreen = false;
 	dec.isVsyncEnabled = true;
 
