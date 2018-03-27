@@ -95,11 +95,18 @@ void LoadScene(const char* path){
 					strcpy(obj.label, label);
 				}
 
-				if (strcmp(header0, "tex") == 0) {
+				if (strcmp(header0, "dtex") == 0) {
 					char texture[64];
 					fscanf(scene_file, "%s", texture);
 
-					strcpy(obj.texture_name, texture);
+					strcpy(obj.dtexture_name, texture);
+				}
+
+				if (strcmp(header0, "ntex") == 0) {
+					char texture[64];
+					fscanf(scene_file, "%s", texture);
+
+					strcpy(obj.ntexture_name, texture);
 				}
 
 				if (strcmp(header0, "mesh") == 0) {
@@ -169,9 +176,9 @@ void LoadScene(const char* path){
 
 }
 
-void saveScene(){
-	//remove("textures.pack"); //remove old pack file 
-	//remove("meshes.pack"); //remove old pack file 
+void saveScene(){ 
+
+	pfiles.resize(0);
 
 	unsigned int processed_size = 0;
 
@@ -288,8 +295,11 @@ void saveScene(){
 		if(strlen(obj.label) >= 1)
 			fprintf(scene_write, "str %s\n", obj.label);
 
-		if (strlen(obj.texture_name) >= 1)
-			fprintf(scene_write, "tex %s\n", obj.texture_name);
+		if (strlen(obj.dtexture_name) >= 1)
+			fprintf(scene_write, "dtex %s\n", obj.dtexture_name);
+
+		if (strlen(obj.ntexture_name) >= 1)
+			fprintf(scene_write, "ntex %s\n", obj.ntexture_name);
 
 		if (strlen(obj.mesh_name) >= 1)
 			fprintf(scene_write, "mesh %s %d\n", obj.mesh_name, obj.meshIndex);

@@ -8,6 +8,10 @@
 
 #include "../includes/zs-game-object.h"
 
+#ifdef __linux__
+#define strcpy_s strcpy
+#endif
+
 void ZSpire::GameObject::setPosition(ZSVECTOR3 pos) {
 	transform.setPosition(pos);
 	transform.updateMatrix();
@@ -31,10 +35,18 @@ void ZSpire::GameObject::setDiffuseTexture(Texture* texture) {
 	hasTextureDiffuse = true;
 }
 
+void ZSpire::GameObject::setNormalTexture(Texture* texture){
+	this->normal_texture = texture;
+	hasNormalTexture = true;
+}
+
 void ZSpire::GameObject::Draw() {
 
 	if(hasTextureDiffuse == true)
 	diffuse_texture->Use(0);
+
+	if (hasNormalTexture == true)
+		normal_texture->Use(1);
 
 	if(hasMesh == true)
 	mesh->Draw();

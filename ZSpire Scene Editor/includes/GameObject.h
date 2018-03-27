@@ -4,7 +4,8 @@ public:
 	bool exist = true;
 	char label[255];
 
-	char texture_name[64];
+	char dtexture_name[64];
+	char ntexture_name[64];
 	char mesh_name[64];
 	int meshIndex = 0;
 
@@ -13,7 +14,8 @@ public:
 	void setLabel(const char* label);
 
 	GameObject() {
-		texture_name[0] = '\0';
+		dtexture_name[0] = '\0';
+		ntexture_name[0] = '\0';
 		mesh_name[0] = '\0';
 	}
 	

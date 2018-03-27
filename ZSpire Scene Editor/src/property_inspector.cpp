@@ -49,8 +49,11 @@ void ZSWindows::DrawInspectorWindow(SDL_Window* window){
 		obj->transform.setScale(ZSVECTOR3(scale[0], scale[1], scale[2]));
 		obj->transform.setRotation(ZSVECTOR3(rotation[0], rotation[1], rotation[2]));
 	
+		ImGui::Separator();
+		ImGui::InputText("Diffuse Texture string", obj->dtexture_name, 64);
+		ImGui::InputText("Normal Texture string", obj->ntexture_name, 64);
 
-		ImGui::InputText("Texture string", obj->texture_name, 64);
+		ImGui::Separator();
 		ImGui::InputText("Mesh string", obj->mesh_name, 64);
 		ImGui::InputInt("Mesh index", &obj->meshIndex, 64);
 		/*
@@ -113,6 +116,7 @@ void ZSWindows::DrawInspectorWindow(SDL_Window* window){
 
 		ImGui::InputText("Label", obj->name, 64);
 		ImGui::InputText("Path", obj->file_path, 128);
+		ImGui::InputText("Pack file", obj->file_to_write_path, 128);
 
 		if (ImGui::Button("Delete") == true) {
 			obj->isRemoved = true;

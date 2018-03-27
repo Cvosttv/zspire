@@ -35,13 +35,14 @@ unsigned int gBufferDiffuseTextureBuffer;
 unsigned int gBufferNormalTextureBuffer;
 unsigned int gBufferPositionTextureBuffer;
 
-void ZSpire::RenderSceneDeffered(Scene* scene) {}
+void ZSpire::DefferedRender::RenderSceneDeffered(Scene* scene) {}
 
-void ZSpire::set_gBufferSize(unsigned int WIDTH, unsigned int HEIGHT) {
-
+void ZSpire::DefferedRender::set_gBufferSize(unsigned int WIDTH, unsigned int HEIGHT) {
+	SCR_WIDTH = WIDTH;
+	SCR_HEIGHT = HEIGHT;
 }
 
-void ZSpire::Init_gBuffer() {
+void ZSpire::DefferedRender::Init_gBuffer() {
 	glGenFramebuffers(1, &gBufferFBO);
 	glBindFramebuffer(GL_FRAMEBUFFER, gBufferFBO);
 	//Generate Diffuse Albedo texture

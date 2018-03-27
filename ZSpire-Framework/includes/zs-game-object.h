@@ -1,3 +1,7 @@
+#ifndef ZSGAMEOBJECT
+#define ZSGAMEOBJECT
+#endif
+
 #ifndef ZSTEXTURE
 #include "../includes/zs-texture.h"
 #endif
@@ -13,10 +17,12 @@ namespace ZSpire {
 		Transform transform;
 		Mesh* mesh;
 		Texture* diffuse_texture;
+		Texture* normal_texture;
 
 		char label[128];
 
 		bool hasTextureDiffuse = false;
+		bool hasNormalTexture = false;
 		bool hasMesh = false;
 
 	public:
@@ -28,6 +34,7 @@ namespace ZSpire {
 
 		void setMesh(Mesh* mesh);
 		void setDiffuseTexture(Texture* texture);
+		void setNormalTexture(Texture* texture);
 
 		void Draw();
 

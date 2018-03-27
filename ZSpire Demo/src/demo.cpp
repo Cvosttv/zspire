@@ -48,8 +48,8 @@ int main() {
 
 	ZSpire::LoadGlyphes("text/glyph48.DDS", "text/glyph48.fnt");
 
-	texture.InitializeTexture();
-	texture.LoadDDSFromFile("ext_road_night.DDS");
+	//texture.InitializeTexture();
+	//texture.LoadDDSFromFile("ext_road_night.DDS");
 
 	shader.InitializeShader();
 	shader.compileFromFile("shaders/object.vs", "shaders/object.fs");

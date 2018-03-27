@@ -1,5 +1,7 @@
-#include <SDL.h>
+#define GLEW_STATIC
 
+#include <SDL.h>
+#include <vector>
 
 #include "../includes/zs-math.h"
 
@@ -17,7 +19,12 @@
 
 #include "../includes/zs-input.h"
 
+#include "../includes/zs-deffered-render.h"
+
+#ifdef _WIN32
 #include <windows.h>
+#endif
+
 #include <glew.h>
 
 SDL_Window *window;
@@ -34,6 +41,7 @@ bool ZSpire::ZSpireApp::createWindow(ZSWindowDesc desc){
 	setCameraProjectionResolution((float)desc.WIDTH, (float)desc.HEIGHT);
 	updateCameraMatrix();
 	setLocalScreenSize(desc.WIDTH, desc.HEIGHT);
+	DefferedRender::set_gBufferSize(desc.WIDTH, desc.HEIGHT);
 
 	// Setup window
 	SDL_GL_SetAttribute(SDL_GL_CONTEXT_FLAGS, NULL);
@@ -64,8 +72,9 @@ bool ZSpire::ZSpireApp::createWindow(ZSWindowDesc desc){
 	glewExperimental = GL_TRUE;
 	if (glewInit() != GLEW_OK)
 	{
+#ifdef _WIN32
 		MessageBox(NULL, "Creating OpenGL 4.6 instance failed! ", TEXT("Error initializing OpenGL 4.6"), MB_OK);
-
+#endif
 		return false;
 	}
 

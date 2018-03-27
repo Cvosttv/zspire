@@ -111,12 +111,20 @@ bool ZSpire::LoadSceneFromFile(const char* file_path, Scene* result) {
 					obj.setLabel(label);
 				}
 
-				if (strcmp(header0, "tex") == 0) {
+				if (strcmp(header0, "dtex") == 0) {
 					char texture_l[120];
 					fscanf(scene_file, "%s", texture_l);
 					Texture* t = result->findTextureResourceByLabel(texture_l);
 
 					obj.setDiffuseTexture(t);
+				}
+
+				if (strcmp(header0, "ntex") == 0) {
+					char texture_l[120];
+					fscanf(scene_file, "%s", texture_l);
+					Texture* t = result->findTextureResourceByLabel(texture_l);
+
+					obj.setNormalTexture(t);
 				}
 
 				if (strcmp(header0, "mesh") == 0) {

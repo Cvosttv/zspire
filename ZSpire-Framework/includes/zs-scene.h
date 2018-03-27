@@ -1,3 +1,15 @@
+#ifndef ZSMESH
+#include "../includes/zs-mesh.h"
+#endif
+
+#ifndef ZSGAMEOBJECT
+#include "../includes/zs-game-object.h"
+#endif
+
+#ifndef ZSSCENE
+#define ZSSCENE
+#endif
+
 namespace ZSpire {
 
 	
