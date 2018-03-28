@@ -54,5 +54,5 @@ GameObject* getObjectPtr(uint pos)
 }
 
 uint getObjectsAmount(){
-	return objs.size();
+	return (unsigned int)objs.size();
 }

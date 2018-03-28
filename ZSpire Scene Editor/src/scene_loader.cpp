@@ -9,7 +9,7 @@ typedef unsigned int uint;
 #include <string>
 
 #include "../includes/zs-math.h"
-#include "../includes/geometry.h"
+#include "../includes/zs-mesh.h"
 #include "../includes/scene_loader.h"
 #include "../includes/Camera.hpp"
 #include "../includes/Light.h"

@@ -1,4 +1,3 @@
-#define GLEW_STATIC
 
 #include <SDL.h>
 #include <vector>

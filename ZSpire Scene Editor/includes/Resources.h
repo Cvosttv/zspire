@@ -1,7 +1,15 @@
 
+#ifndef ZSRESOURCES
+#define ZSRESOURCES
+#endif
+
+#ifndef ZSMESH
+#include "zs-mesh.h"
+#endif
+
 struct MeshResource {
 
-	Mesh mesh;
+	ZSpire::Mesh* meshes;
 	char name[64];
 
 	char file_path[128];

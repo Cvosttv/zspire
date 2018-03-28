@@ -32,6 +32,8 @@ void ZSpire::Texture::InitializeTexture() {
 bool ZSpire::Texture::LoadDDSFromBuffer(unsigned char* buffer) {
 	InitializeTexture();
 
+	printf("%d", getTextureGL_ID());
+
 	this->properties.HEIGHT = *(unsigned int*)&(buffer[12]);
 	this->properties.WIDTH = *(unsigned int*)&(buffer[16]);
 	unsigned int linearSize = *(unsigned int*)&(buffer[20]);

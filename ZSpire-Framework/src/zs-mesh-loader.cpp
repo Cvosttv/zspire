@@ -40,7 +40,28 @@ void processMesh(aiMesh* mesh, const aiScene* scene) {
 			ZSVECTOR3(vertex_normal.x, vertex_normal.y, vertex_normal.z), ZSVECTOR3(vertex_tangent.x, vertex_tangent.y, vertex_tangent.z),
 			ZSVECTOR3(vertex_bitangent.x, vertex_bitangent.y, vertex_bitangent.z)
 			);
+		unsigned int bns_processed = 0;
+
+		for (unsigned int bi = 0; bi < bones; bi++) {
+			unsigned int vweights = mesh->mBones[bi]->mNumWeights;
+
+			for (unsigned int vw = 0; vw < vweights; vw++) {
+				unsigned int vid = mesh->mBones[bi]->mWeights[vw].mVertexId;
+
+				float weight = mesh->mBones[bi]->mWeights[vw].mWeight;
+
+				if (v == vid) {
+					vertices_arr[vid].boneID[bns_processed] = bi;
+					vertices_arr[vid].weight[bns_processed] = weight;
+				
+				}
+
+			}
+		}
+
 	}
+
+	
 
 	for (unsigned int i = 0; i < faces; i++)
 	{
