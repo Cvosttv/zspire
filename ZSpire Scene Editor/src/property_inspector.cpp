@@ -11,7 +11,7 @@ typedef unsigned int uint;
 #include "../includes/property_inspector.h"
 
 #include "../includes/zs-texture.h"
-#include "../includes/geometry.h"
+#include "../includes/zs-mesh.h"
 
 #include "../includes/Resources.h"
 

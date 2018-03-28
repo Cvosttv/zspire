@@ -1,3 +1,7 @@
+#ifndef ZSMATH
+#define ZSMATH
+#endif
+
 #define ZS_PI 3.14159265f
 #define REAL_NUM_EQ(x, y) (fabs((x) - (y)) < 0.000001)
 

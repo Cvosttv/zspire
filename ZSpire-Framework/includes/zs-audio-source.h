@@ -1,3 +1,5 @@
+#define ZS_VOLUME_STATIC 1
+
 namespace ZSpire {
 	class AudioSource
 	{
@@ -10,9 +12,11 @@ namespace ZSpire {
 	public:
 
 		ZSVECTOR3 position;
-		bool mLooped;
 
-		bool Open(const char* Filename, bool Looped);
+		void setGain(float gain);
+		void setLoopingEnabled(bool enabled);
+
+		bool Open(const char* Filename);
 		void Play();
 		void Close();
 		void setTranslation(ZSVECTOR3 position);

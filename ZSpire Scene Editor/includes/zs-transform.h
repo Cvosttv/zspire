@@ -1,3 +1,7 @@
+#ifndef ZSTRANSFORM
+#define ZSTRANSFORM
+#endif
+
 namespace ZSpire {
 	class Transform {
 	protected:

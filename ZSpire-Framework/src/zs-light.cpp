@@ -12,6 +12,10 @@ void ZSpire::Light::setLightPosition(ZSVECTOR3 position) {
 	this->position = position;
 }
 
+void ZSpire::Light::setLightColor(ZSRGBCOLOR color) {
+	this->diffuse_light_color = color;
+}
+
 ZSVECTOR3 ZSpire::Light::getPosition() {
 	return this->position;
 }

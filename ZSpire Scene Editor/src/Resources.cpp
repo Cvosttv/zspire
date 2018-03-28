@@ -5,7 +5,9 @@
 
 #include "../includes/zs-math.h"
 #include "../includes/zs-texture.h"
-#include "../includes/geometry.h"
+#include "../includes/zs-mesh.h"
+
+#include "../includes/zs-mesh-loader.h"
 
 #include "../includes/Resources.h"
 
@@ -14,7 +16,7 @@ std::vector<MeshResource> meshes;
 std::vector<TextureResource> textures;
 
 unsigned int getMeshesCount() {
-	return meshes.size();
+	return (unsigned int)meshes.size();
 }
 
 MeshResource* getMeshAt(unsigned int index) {
@@ -22,20 +24,21 @@ MeshResource* getMeshAt(unsigned int index) {
 }
 
 void addMesh(MeshResource mesh) {
+	mesh.meshes = ZSpire::LoadMeshesFromFile(mesh.file_path);
 	meshes.push_back(mesh);
 }
 
 unsigned int getTexturesCount() {
-	return textures.size();
+	return (unsigned int)textures.size();
 }
 
 TextureResource* getTextureAt(unsigned int index) {
 	return &textures[index];
 }
 
-void addTexture(TextureResource mesh) {
-
-	textures.push_back(mesh);
+void addTexture(TextureResource texture) {
+	texture.texture.LoadDDSFromFile(texture.file_path);
+	textures.push_back(texture);
 
 }
 

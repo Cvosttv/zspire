@@ -1,6 +1,9 @@
 #define DEFAULT_WIDTH 0
 #define DEFAULT_HEIGHT 0
 
+#define OPENGL3_3 33
+#define OPENGL4_6 46
+
 namespace ZSpire {
 
 	struct ZSWindowDesc {
@@ -12,6 +15,7 @@ namespace ZSpire {
 		bool isResizable;
 		bool isVsyncEnabled;
 		bool isFullscreen;
+		unsigned int OGL_VERSION;
 
 		ZSWindowDesc() {
 			WIDTH = DEFAULT_WIDTH;

@@ -51,8 +51,9 @@ bool ZSpire::LoadGlyphes(const char* texture, const char* glyph_map, float scale
 
 	Texture font_texture;
 	font_texture.LoadDDSFromFile(texture);
-	//printf("%d", font_texture.getTextureGL_ID());
 	
+	
+
 	unsigned int wh = font_texture.properties.WIDTH;
 	font_texture_id = font_texture.getTextureGL_ID();
 	FILE* glmap = fopen(glyph_map, "r");
