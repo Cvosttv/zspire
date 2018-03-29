@@ -79,17 +79,12 @@ bool ZSpire::LoadSceneFromFile(const char* file_path, Scene* result) {
 
 			Mesh* loaded;
 			loaded = LoadMeshesFromResourceDesc(&rd, &info);
-			//LoadMeshFromBuffer();
 
 			for (unsigned int i = 0; i < info.amount_meshes; i ++) {
 				loaded[i].resource_index = i;
 				strcpy(loaded[i].resource_string, rd.label);
 				result->addMesh(loaded[i]);
 			}
-
-			//Mesh mesh;
-			//mesh.resource_desc = rd;
-			//result->addMesh(mesh);
 
 		}
 
@@ -109,6 +104,21 @@ bool ZSpire::LoadSceneFromFile(const char* file_path, Scene* result) {
 					fscanf(scene_file, "%s", label);
 
 					obj.setLabel(label);
+				}
+
+				if (strcmp(header0, "children") == 0) {
+					unsigned int amount;
+					
+					fscanf(scene_file, "%d", &amount);
+
+					for (unsigned int i = 0; i < amount; i++) {
+						char label[120];
+						fscanf(scene_file, "%s", label);
+
+						//GameObject*
+					}
+
+					
 				}
 
 				if (strcmp(header0, "dtex") == 0) {
@@ -131,8 +141,15 @@ bool ZSpire::LoadSceneFromFile(const char* file_path, Scene* result) {
 					char mesh_l[120];
 					int index;
 					fscanf(scene_file, "%s %d", mesh_l, &index);
-					Mesh* m = result->findMeshResourceByLabel(mesh_l, index);
 
+					Mesh* m;
+
+					if (strcmp(mesh_l, "@plane") == 0) {
+						m = getPlaneMesh2D();
+					}
+					else {
+						m = result->findMeshResourceByLabel(mesh_l, index);
+					}
 					obj.setMesh(m);
 				}
 

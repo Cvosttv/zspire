@@ -3,6 +3,7 @@
 
 #define OPENGL3_3 33
 #define OPENGL4_6 46
+#define VULKAN 11
 
 namespace ZSpire {
 

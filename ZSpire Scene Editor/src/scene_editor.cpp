@@ -107,6 +107,12 @@ int main(int argc, char* argv[])
 			ImGui_ImplSdlGL3_ProcessEvent(&event);
 			if (event.type == SDL_QUIT)
 				done = true;
+
+			//if(event.type == SDL_MOUSEMOTION) {
+				//setMouseStateXYPOSvalue(event.motion.x, event.motion.y);
+				//setMouseStateRelativeXYPOSvalue(event.motion.xrel, event.motion.yrel);
+			//}
+
 		}
 		ImGui_ImplSdlGL3_NewFrame(window);
 

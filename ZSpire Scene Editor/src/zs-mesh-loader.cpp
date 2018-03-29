@@ -47,7 +47,6 @@ void processMesh(aiMesh* mesh, const aiScene* scene) {
 
 	results_ptr[processed_meshes].InitializeMesh();
 	results_ptr[processed_meshes].processMesh(vertices_arr, indices, vertices, faces * 3);
-	//processMesh(&results_ptr[processed_meshes], vertices_arr, indices, vertices, faces * 3);
 	processed_meshes += 1;
 
 }

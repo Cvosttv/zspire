@@ -27,4 +27,8 @@ namespace ZSpire {
 		void processMesh(ZSVERTEX* vertsf, unsigned int* indices, unsigned int verticesCount, unsigned int indicesCount);
 		void processMesh(ZSVERTEX* vertsf, unsigned int verticesCount );
 	};
+
+	void createPlane2D();
+	Mesh* getPlaneMesh2D();
+
 }

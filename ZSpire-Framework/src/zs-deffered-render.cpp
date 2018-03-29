@@ -26,6 +26,10 @@
 
 #include "../includes/zs-deffered-render.h"
 
+//ZSpire::Shader* object_shader;
+//ZSpire::Shader* light_shader;
+
+
 unsigned int SCR_WIDTH;
 unsigned int SCR_HEIGHT;
 
@@ -35,7 +39,17 @@ unsigned int gBufferDiffuseTextureBuffer;
 unsigned int gBufferNormalTextureBuffer;
 unsigned int gBufferPositionTextureBuffer;
 
-void ZSpire::DefferedRender::RenderSceneDeffered(Scene* scene) {}
+void ZSpire::DefferedRender::setDefferedShaders(Shader* obj_shader, Shader* lighting_shader) {
+	//object_shader = obj_shader;
+//	light_shader = lighting_shader;
+}
+
+void ZSpire::DefferedRender::RenderSceneDeffered(Scene* scene) {
+
+	glBindFramebuffer(GL_FRAMEBUFFER, gBufferFBO);
+
+
+}
 
 void ZSpire::DefferedRender::set_gBufferSize(unsigned int WIDTH, unsigned int HEIGHT) {
 	SCR_WIDTH = WIDTH;

@@ -11,6 +11,7 @@
 
 #include <iostream>
 #include "string.h"
+#include "../includes/zs-logger.h"
 #include "../includes/zs-errors-checker.h"
 
 
@@ -50,7 +51,8 @@ void ZSpire::checkCompileErrors(unsigned int shader, const char* type)
 		if (!success)
 		{
 			glGetShaderInfoLog(shader, 1024, NULL, infoLog);
-			std::cout << "ERROR::SHADER_COMPILATION_ERROR of type: " << type << "\n" << infoLog << "\n -- --------------------------------------------------- -- " << std::endl;
+			//std::cout << "ERROR::SHADER_COMPILATION_ERROR of type: " << type << "\n" << infoLog << "\n -- --------------------------------------------------- -- " << std::endl;
+			ZSpire::Log(TYPE_ERROR, "%s %d %s %s", "SHADER_COMPILATION_ERROR ",type, " ", infoLog );
 		}
 	}
 	else
@@ -59,7 +61,8 @@ void ZSpire::checkCompileErrors(unsigned int shader, const char* type)
 		if (!success)
 		{
 			glGetProgramInfoLog(shader, 1024, NULL, infoLog);
-			std::cout << "ERROR::PROGRAM_LINKING_ERROR of type: " << type << "\n" << infoLog << "\n -- --------------------------------------------------- -- " << std::endl;
+			//std::cout << "ERROR::PROGRAM_LINKING_ERROR of type: " << type << "\n" << infoLog << "\n -- --------------------------------------------------- -- " << std::endl;
+			ZSpire::Log(TYPE_ERROR, "%s %d %s %s", "SHADER_COMPILATION_ERROR ", type, " ", infoLog);
 		}
 	}
 }

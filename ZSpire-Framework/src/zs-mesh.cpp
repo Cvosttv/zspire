@@ -10,13 +10,32 @@
 #include "../includes/zs-math.h"
 #include "../includes/zs-mesh.h"
 
+ZSVERTEX vertices[] = {
+	// positions              // texture coords
+	ZSVERTEX(ZSVECTOR3(0.5f,  0.5f, 0.0f),		ZSVECTOR2(1.0f, 1.0f)),   // top right
+	ZSVERTEX(ZSVECTOR3(0.5f, -0.5f, 0.0f),		ZSVECTOR2(1.0f, 0.0f)),   // bottom right
+	ZSVERTEX(ZSVECTOR3(-0.5f, -0.5f, 0.0f),		ZSVECTOR2(0.0f, 0.0f)),   // bottom left
+	ZSVERTEX(ZSVECTOR3(-0.5f,  0.5f, 0.0f),		ZSVECTOR2(0.0f, 1.0f))   // top left 
+};
+unsigned int ind[] = { 0,1,2, 0,2,3 };
+
+ZSpire::Mesh plane2D;
+
+void ZSpire::createPlane2D() {
+	plane2D.InitializeMesh();
+
+	plane2D.processMesh(vertices, ind, 4, 6);
+
+}
+
+ZSpire::Mesh* ZSpire::getPlaneMesh2D(){
+	return &plane2D;
+}
 
 void ZSpire::Mesh::InitializeMesh() {
 	glGenVertexArrays(1, &this->meshVAO);
 	glGenBuffers(1, &this->meshVBO);
 	glGenBuffers(1, &this->meshIBO);	
-
-
 }
 
 void ZSpire::Mesh::Release() {
