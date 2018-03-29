@@ -1,3 +1,7 @@
+#ifndef ZSSHADER
+#define ZSSHADER
+#endif
+
 #ifndef ZSMATH
 #include "../includes/zs-math.h"
 #endif

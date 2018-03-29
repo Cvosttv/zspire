@@ -1,3 +1,8 @@
+#ifndef ZSMATH
+#include "zs-mesh.h"
+#endif
+
+
 #ifndef ZSTRANSFORM
 #define ZSTRANSFORM
 #endif

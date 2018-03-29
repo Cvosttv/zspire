@@ -2,6 +2,10 @@
 //#include "Resources.h"
 //#endif
 
+#ifndef ZSTEXTURE
+#define ZSTEXTURE
+#endif
+
 namespace ZSpire {
 
 	struct TextureProperties {

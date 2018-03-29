@@ -10,10 +10,7 @@ typedef unsigned int uint;
 #include "../includes/GameObject.h"
 #include "../includes/property_inspector.h"
 
-#include "../includes/zs-texture.h"
-#include "../includes/zs-mesh.h"
 
-#include "../includes/Resources.h"
 
 int selected_gameobject = -1;
 int selected_mesh = -1;
@@ -49,13 +46,26 @@ void ZSWindows::DrawInspectorWindow(SDL_Window* window){
 		obj->transform.setScale(ZSVECTOR3(scale[0], scale[1], scale[2]));
 		obj->transform.setRotation(ZSVECTOR3(rotation[0], rotation[1], rotation[2]));
 	
+		obj->transform.updateMatrix();
+
 		ImGui::Separator();
 		ImGui::InputText("Diffuse Texture string", obj->dtexture_name, 64);
 		ImGui::InputText("Normal Texture string", obj->ntexture_name, 64);
 
+		TextureResource* te = getTexturePtrByName(obj->dtexture_name);
+
+		if (te != nullptr)
+			obj->diffuse_texture = te;
+
 		ImGui::Separator();
 		ImGui::InputText("Mesh string", obj->mesh_name, 64);
-		ImGui::InputInt("Mesh index", &obj->meshIndex, 64);
+		ImGui::InputInt("Mesh index", &obj->meshIndex, 1);
+		
+		MeshResource* me = getMeshPtrByName(obj->mesh_name);
+
+		if (me != nullptr)
+			obj->mesh = me;
+		
 		/*
 		ImGui::Separator();
 
