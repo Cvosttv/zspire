@@ -36,17 +36,19 @@ void ZSWindows::DrawObjectListWindow(SDL_Window * window){
 		}
 		ImGui::EndMenuBar();
 	}
+	if (ImGui::TreeNode("Objects"))
+	{
+		ImGui::BeginChild("Scrolling");
+		for (unsigned int n = 0; n < getObjectsAmount(); n++) {
+			if (ImGui::Button(getObject(n).label) == true) {
+				ZSWindows::Inspector::selectObject(n);
+			}
 
-	ImGui::BeginChild("Scrolling");
-	for (unsigned int n = 0; n < getObjectsAmount(); n++) {
-		if (ImGui::Button(getObject(n).label) == true) {
-			ZSWindows::Inspector::selectObject(n);
 		}
 
+		ImGui::EndChild();
+		ImGui::TreePop();
 	}
-
-	ImGui::EndChild();
-
 	
 
 	ImGui::End(); // end window

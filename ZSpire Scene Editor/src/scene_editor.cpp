@@ -17,11 +17,24 @@ typedef unsigned int uint;
 #include "../includes\file_window.h"
 
 #include "../includes/zs-shader.h"
+#include "../includes/Renderer.h"
+
+#include "../includes/zs-camera.h"
 
 #include "../includes/resources_window.h"
 
+ZSpire::Shader obj_shader;
+
 int main(int argc, char* argv[])
 {
+	ZSpire::InitializeCamera();
+
+	ZSpire::setCameraFOV(45.0f);
+	ZSpire::setCameraProjectionType(CAMERA_PROJECTION_PERSPECTIVE);
+	ZSpire::setCameraProjectionResolution(1280.0f, 720.0f);
+
+	ZSpire::updateCameraMatrix();
+
 	int WIDTH;
 	int HEIGHT;
 
@@ -70,6 +83,10 @@ int main(int argc, char* argv[])
 	
 	}
 	
+	obj_shader.InitializeShader();
+	obj_shader.compileFromFile("shaders/object.vs", "shaders/object.fs");
+	ZSpire::Renderer::setObjectShaderPtr(&obj_shader);
+
 	ImGui::CreateContext();
 	ImGuiIO& io = ImGui::GetIO(); (void)io;
 	ImGui_ImplSdlGL3_Init(window);
@@ -107,6 +124,9 @@ int main(int argc, char* argv[])
 		glViewport(0, 0, (int)ImGui::GetIO().DisplaySize.x, (int)ImGui::GetIO().DisplaySize.y);
 		glClearColor(clear_color.x, clear_color.y, clear_color.z, clear_color.w);
 		glClear(GL_COLOR_BUFFER_BIT);
+
+		ZSpire::Renderer::RenderScene();
+
 		ImGui::Render();
 		ImGui_ImplSdlGL3_RenderDrawData(ImGui::GetDrawData());
 		SDL_GL_SwapWindow(window);

@@ -7,6 +7,10 @@
 #include "zs-mesh.h"
 #endif
 
+#ifndef ZSTEXTURE
+#include "zs-texture.h"
+#endif
+
 struct MeshResource {
 
 	ZSpire::Mesh* meshes;
@@ -62,3 +66,7 @@ TextureResource* getTextureAt(unsigned int index);
 void addTexture(TextureResource mesh);
 
 void loadResources(const char* path);
+
+TextureResource* getTexturePtrByName(const char* name);
+
+MeshResource* getMeshPtrByName(const char* name);

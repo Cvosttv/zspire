@@ -75,3 +75,21 @@ void loadResources(const char* path){
 
 	fclose(fl);
 }
+
+TextureResource* getTexturePtrByName(const char* name) {
+	unsigned int textures_num = getTexturesCount();
+
+	for (unsigned int i = 0; i < textures_num; i++) {
+		if (strcmp(name, getTextureAt(i)->name) == 0) return getTextureAt(i);
+	}
+	return nullptr;
+}
+
+MeshResource* getMeshPtrByName(const char* name) {
+	unsigned int meshes_count = getMeshesCount();
+
+	for (unsigned int i = 0; i < meshes_count; i++) {
+		if (strcmp(name, getMeshAt(i)->name) == 0) return getMeshAt(i);
+	}
+	return nullptr;
+}
