@@ -2,6 +2,8 @@ cmake_minimum_required(VERSION 3.10)
 project(ZSpireFramework)
 
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "./cmake")
+set(CMAKE_AUTOMOC ON)
+set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
 find_package(SDL2 REQUIRED)
 find_package(OpenGL REQUIRED)
@@ -9,6 +11,7 @@ find_package(GLEW REQUIRED)
 find_package(ASSIMP REQUIRED)
 find_package(OpenAL REQUIRED)
 find_package(ALUT REQUIRED)
+find_package(Qt5Widgets REQUIRED)
 
 include_directories(
 	${SDL2_INCLUDE_DIR}
@@ -41,6 +44,8 @@ add_library(ZSpireFramework STATIC
 	src/zs-text-renderer.cpp
 	src/zs-texture.cpp
 	src/zs-transform.cpp)
+
+qt5_use_modules(ZSpireFramework Widgets Core)
 
 target_link_libraries(
 	ZSpireFramework
