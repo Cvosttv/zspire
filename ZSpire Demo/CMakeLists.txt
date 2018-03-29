@@ -3,8 +3,6 @@ project(ZSpireDemo)
 
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "../ZSpire-Framework/cmake")
 set(ZSPIRE_INCLUDE_DIR ../ZSpire-Framework/includes)
-set(CMAKE_AUTOMOC ON)
-set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
 find_package(SDL2 REQUIRED)
 find_package(OpenGL REQUIRED)
@@ -12,7 +10,6 @@ find_package(GLEW REQUIRED)
 find_package(ASSIMP REQUIRED)
 find_package(OpenAL REQUIRED)
 find_package(ALUT REQUIRED)
-find_package(Qt5Widgets REQUIRED)
 
 include_directories(
 	${SDL2_INCLUDE_DIR}
@@ -21,8 +18,7 @@ include_directories(
 	${ASSIMP_INCLUDE_DIRS}
 	${OPENAL_INCLUDE_DIR}
 	${ALUT_INCLUDE_DIR}
-	${ZSPIRE_INCLUDE_DIR}
-	)
+	${ZSPIRE_INCLUDE_DIR})
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED on)
@@ -34,8 +30,6 @@ add_executable(main
 add_library(framework STATIC IMPORTED)
 set_target_properties(framework PROPERTIES
 	IMPORTED_LOCATION ../ZSpire-Framework/libZSpireFramework.a)
-
-qt5_use_modules(main Widgets Core)
 
 target_link_libraries(
 	main framework
