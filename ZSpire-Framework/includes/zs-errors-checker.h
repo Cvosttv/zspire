@@ -2,5 +2,5 @@ namespace ZSpire{
 
 			bool CheckALCError();
 			bool CheckALError();
-			void checkCompileErrors(unsigned int shader, const char* type);
+			void checkCompileErrors(unsigned int shader, const char* type, const char* filepath = nullptr);
 }

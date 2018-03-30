@@ -47,7 +47,6 @@ void processMesh(aiMesh* mesh, const aiScene* scene) {
 
 	results_ptr[processed_meshes].InitializeMesh();
 	results_ptr[processed_meshes].processMesh(vertices_arr, indices, vertices, faces * 3);
-	//processMesh(&results_ptr[processed_meshes], vertices_arr, indices, vertices, faces * 3);
 	processed_meshes += 1;
 
 }
@@ -79,7 +78,7 @@ ZSpire::Mesh* ZSpire::LoadMeshFromBuffer(void* buffer, size_t size) {
 
 	processNode(scene->mRootNode, scene);
 
-	
+	processed_meshes = 0;
 	return result;
 }
 
@@ -95,7 +94,7 @@ ZSpire::Mesh* ZSpire::LoadMeshesFromFile(const char* file_path){
 
 	processNode(scene->mRootNode, scene);
 
-
+	processed_meshes = 0;
 	return result;
 
 }

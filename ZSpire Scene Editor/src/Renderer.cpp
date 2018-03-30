@@ -4,6 +4,7 @@
 
 #include "../includes/Renderer.h"
 
+
 ZSpire::Shader* object_shader;
 
 void ZSpire::Renderer::RenderScene() {

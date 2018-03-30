@@ -26,11 +26,11 @@ void ZSpire::Transform::updateMatrix(){
 	ZSMATRIX4x4 result = getIdentity();
 
 	result = result * scale_mat;
-	result = result * position_mat;
 	result = result * rotation_x_mat;
 	result = result * rotation_y_mat;
 	result = result * rotation_z_mat;
-
+	result = result * position_mat;
+	
 	translation_matrix = result;
 }
 

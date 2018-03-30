@@ -11,9 +11,13 @@
 
 #include "../includes/Resources.h"
 
+#include "../includes/GameObject.h"
 
 std::vector<MeshResource> meshes;
+
 std::vector<TextureResource> textures;
+
+
 
 unsigned int getMeshesCount() {
 	return (unsigned int)meshes.size();
@@ -24,8 +28,20 @@ MeshResource* getMeshAt(unsigned int index) {
 }
 
 void addMesh(MeshResource mesh) {
-	mesh.meshes = ZSpire::LoadMeshesFromFile(mesh.file_path);
+	if (strlen(mesh.file_path) > 0) {
+		mesh.meshes = ZSpire::LoadMeshesFromFile(mesh.file_path);
+		mesh.isLoaded = true;
+	}
 	meshes.push_back(mesh);
+
+	for (unsigned int i = 0; i < getObjectsAmount(); i ++) {
+	
+		MeshResource* me = getMeshPtrByName(getObjectPtr(i)->mesh_name);
+
+		if (me != nullptr)
+			getObjectPtr(i)->mesh = me;
+	}
+
 }
 
 unsigned int getTexturesCount() {
@@ -37,8 +53,22 @@ TextureResource* getTextureAt(unsigned int index) {
 }
 
 void addTexture(TextureResource texture) {
+	if(strlen(texture.file_path) > 0)
 	texture.texture.LoadDDSFromFile(texture.file_path);
 	textures.push_back(texture);
+
+	for (unsigned int i = 0; i < getObjectsAmount(); i++) {
+
+		TextureResource* de = getTexturePtrByName(getObjectPtr(i)->dtexture_name);
+
+		if (de != nullptr)
+			getObjectPtr(i)->diffuse_texture = de;
+
+		TextureResource* ne = getTexturePtrByName(getObjectPtr(i)->ntexture_name);
+
+		if (ne != nullptr)
+			getObjectPtr(i)->normal_texture = ne;
+	}
 
 }
 

@@ -6,9 +6,9 @@
 #include "zs-math.h"
 #endif
 
-//#ifndef ZSLIGHT
-//#include "../includes/zs-light.h"
-//#endif
+#ifndef ZSLIGHT
+#include "Light.h"
+#endif
 
 #ifndef ZSTRANSFORM
 #include "zs-transform.h"
@@ -39,7 +39,7 @@ namespace ZSpire {
 		
 
 		void setTransform(Transform* translation);
-		//void setLight(unsigned int index, Light* light);
+		void setLight(unsigned int index, Light* light);
 		void updateCamera();
 	};
 }

@@ -36,7 +36,7 @@ namespace ZSpire {
 		bool compileFromBuffer(const char* VS_CONTENT, const char* FS_CONTENT);
 		void Use();
 
-		
+		void bindUniforms();
 
 		void setTransform(Transform* translation);
 		void setLight(unsigned int index, Light* light);

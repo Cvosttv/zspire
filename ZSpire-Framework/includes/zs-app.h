@@ -3,6 +3,7 @@
 
 #define OPENGL3_3 33
 #define OPENGL4_6 46
+#define VULKAN 11
 
 namespace ZSpire {
 
@@ -33,6 +34,9 @@ namespace ZSpire {
 		ZSWindowDesc desc;
 
 	public:
+		char* getGpuNameGL();
+		char* getGpuVendorGL();
+
 		void PollEvents();
 		void ZSDestroyWindow();
 		bool createWindow(ZSWindowDesc desc);

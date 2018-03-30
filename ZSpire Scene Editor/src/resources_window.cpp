@@ -43,10 +43,19 @@ void ZSWindows::DrawResourcesWindow(SDL_Window * window) {
 
 	if (ImGui::TreeNode("Meshes"))
 	{
+		if (ImGui::Button("(NEW)") == true) {
+			MeshResource mr;
+
+			strcpy(mr.name, "mesh");
+
+			addMesh(mr);
+		}
 
 		for (unsigned int i = 0; i < res_meshes_count; i++) {
-			if (ImGui::Button(getMeshAt(i)->name) == true) {
-				ZSWindows::Inspector::selectMesh(i);
+			if (getMeshAt(i)->isRemoved == false) {
+				if (ImGui::Button(getMeshAt(i)->name) == true) {
+					ZSWindows::Inspector::selectMesh(i);
+				}
 			}
 		}
 		ImGui::TreePop();
