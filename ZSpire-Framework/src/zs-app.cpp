@@ -58,21 +58,15 @@ bool ZSpire::ZSpireApp::createWindow(ZSWindowDesc desc){
 	SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
 	SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 24);
 	SDL_GL_SetAttribute(SDL_GL_STENCIL_SIZE, 8);
-<<<<<<< HEAD
-	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
-	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 3);
-=======
-	if (desc.OGL_VERSION == OPENGL4_6) {
-		SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 4);
-		SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 6);
-	}
-	if (desc.OGL_VERSION == OPENGL3_3) {
+//	if (desc.OGL_VERSION == OPENGL4_6) {
+//		SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 4);
+//		SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 6);
+//	}
+//	else {
 		SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
 		SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 3);
-	}
+//	}
 	
-
->>>>>>> d4e2bf11d55e6a955064b93a0ede3f49aaa708d1
 	SDL_DisplayMode current;
 	SDL_GetCurrentDisplayMode(0, &current);
 	current.refresh_rate = 60;
