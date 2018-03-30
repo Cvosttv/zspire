@@ -1,4 +1,4 @@
-
+﻿
 #include <SDL.h>
 #include <vector>
 
@@ -24,7 +24,16 @@
 #include <windows.h>
 #endif
 
+#ifdef _WIN32
 #include <glew.h>
+#endif
+
+#ifdef __linux__
+#include <GL/glew.h>
+#endif
+
+#include <GL/gl.h>
+
 
 SDL_Window *window;
 SDL_GLContext glcontext;
@@ -169,4 +178,16 @@ void ZSpire::ZSpireApp::postFrame() {
 
 void ZSpire::ZSpireApp:: gl_clear() {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+}
+
+char* ZSpire::ZSpireApp::getGpuNameGL() {
+
+	const GLubyte* renderer = glGetString(GL_RENDERER);
+	return (char*)renderer;
+}
+
+char* ZSpire::ZSpireApp::getGpuVendorGL() {
+
+	const GLubyte* vendor = glGetString(GL_VENDOR);
+	return (char*)vendor;
 }

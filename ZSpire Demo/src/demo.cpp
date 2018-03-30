@@ -8,7 +8,10 @@ ZSpire::ZSpireApp app;
 ZSpire::Texture texture;
 ZSpire::Shader shader;
 ZSpire::Shader text_shader;
-//ZSpire::Mesh* mesh2;
+
+ZSpire::Shader deffered_object_shader;
+ZSpire::Shader deffered_light_shader;
+
 
 ZSpire::Transform transform;
 
@@ -48,6 +51,14 @@ int main() {
 	text_shader.InitializeShader();
 	text_shader.compileFromFile("shaders/text/text2d.vs", "shaders/text/text2d.fs");
 
+	deffered_object_shader.InitializeShader();
+	deffered_object_shader.compileFromFile("shaders/object.vs", "shaders/deffered/object.fs");
+
+	deffered_light_shader.InitializeShader();
+	deffered_light_shader.compileFromFile("shaders/deffered/lighting.vs", "shaders/deffered/lighting.fs");
+
+
+
 	asurce.Open("test.wav");
 
 	
@@ -57,8 +68,9 @@ int main() {
 	transform.updateMatrix();
 
 	ZSpire::LoadSceneFromFile("scene.scn", &scene);
-	ZSpire::setForwardObjectShader(&shader);
-
+	//ZSpire::ForwardRender::setForwardObjectShader(&shader);
+	ZSpire::DefferedRender::Init_gBuffer();
+	ZSpire::DefferedRender::setDefferedShaders(&deffered_object_shader, &deffered_light_shader);
 
 	//scene.getObjectAt(1)->setMesh(&mesh2[0]);
 	//scene.getObjectAt(1)->setDiffuseTexture(&texture);
@@ -92,11 +104,12 @@ int main() {
 		shader.Use();
 		shader.setTransform(&transform);
 
-		ZSpire::getPlaneMesh2D()->Draw();
+		//ZSpire::getPlaneMesh2D()->Draw();
 
 		ZSpire::DrawString(L"abcdefgh test", text_shader, 100, 100, ZSRGBCOLOR(255,255,0));
 
-		ZSpire::RenderSceneForward(&scene);
+	//	ZSpire::ForwardRender::RenderSceneForward(&scene);
+		ZSpire::DefferedRender::RenderScene(&scene);
 
 		app.postFrame();
 

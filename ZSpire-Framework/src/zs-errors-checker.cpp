@@ -41,7 +41,7 @@ bool ZSpire::CheckALError()
 	return AL_TRUE;
 }
 
-void ZSpire::checkCompileErrors(unsigned int shader, const char* type)
+void ZSpire::checkCompileErrors(unsigned int shader, const char* type, const char* filepath)
 {
 	GLint success;
 	GLchar infoLog[1024];
@@ -51,8 +51,11 @@ void ZSpire::checkCompileErrors(unsigned int shader, const char* type)
 		if (!success)
 		{
 			glGetShaderInfoLog(shader, 1024, NULL, infoLog);
-			//std::cout << "ERROR::SHADER_COMPILATION_ERROR of type: " << type << "\n" << infoLog << "\n -- --------------------------------------------------- -- " << std::endl;
-			ZSpire::Log(TYPE_ERROR, "%s %d %s %s", "SHADER_COMPILATION_ERROR ",type, " ", infoLog );
+			
+			if (filepath != nullptr)
+				printf("%s :\n", filepath);
+
+			ZSpire::Log(TYPE_ERROR, "%s %s %s %s", "SHADER_COMPILATION_ERROR ",type, " ", infoLog );
 		}
 	}
 	else
@@ -61,8 +64,11 @@ void ZSpire::checkCompileErrors(unsigned int shader, const char* type)
 		if (!success)
 		{
 			glGetProgramInfoLog(shader, 1024, NULL, infoLog);
-			//std::cout << "ERROR::PROGRAM_LINKING_ERROR of type: " << type << "\n" << infoLog << "\n -- --------------------------------------------------- -- " << std::endl;
-			ZSpire::Log(TYPE_ERROR, "%s %d %s %s", "SHADER_COMPILATION_ERROR ", type, " ", infoLog);
+			
+			if (filepath != nullptr)
+				printf("%s :\n", filepath);
+
+			ZSpire::Log(TYPE_ERROR, "%s %s %s %s", "SHADER_COMPILATION_ERROR ", type, " ", infoLog);
 		}
 	}
 }

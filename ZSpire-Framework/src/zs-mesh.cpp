@@ -12,10 +12,10 @@
 
 ZSVERTEX vertices[] = {
 	// positions              // texture coords
-	ZSVERTEX(ZSVECTOR3(0.5f,  0.5f, 0.0f),		ZSVECTOR2(1.0f, 1.0f)),   // top right
-	ZSVERTEX(ZSVECTOR3(0.5f, -0.5f, 0.0f),		ZSVECTOR2(1.0f, 0.0f)),   // bottom right
-	ZSVERTEX(ZSVECTOR3(-0.5f, -0.5f, 0.0f),		ZSVECTOR2(0.0f, 0.0f)),   // bottom left
-	ZSVERTEX(ZSVECTOR3(-0.5f,  0.5f, 0.0f),		ZSVECTOR2(0.0f, 1.0f))   // top left 
+	ZSVERTEX(ZSVECTOR3(1.0f,  1.0f, 0.0f),		ZSVECTOR2(1.0f, 1.0f)),   // top right
+	ZSVERTEX(ZSVECTOR3(1.0f, -1.0f, 0.0f),		ZSVECTOR2(1.0f, 0.0f)),   // bottom right
+	ZSVERTEX(ZSVECTOR3(-1.0f, -1.0f, 0.0f),		ZSVECTOR2(0.0f, 0.0f)),   // bottom left
+	ZSVERTEX(ZSVECTOR3(-1.0f,  1.0f, 0.0f),		ZSVECTOR2(0.0f, 1.0f))   // top left 
 };
 unsigned int ind[] = { 0,1,2, 0,2,3 };
 

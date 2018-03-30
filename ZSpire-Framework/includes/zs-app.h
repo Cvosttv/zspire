@@ -34,6 +34,9 @@ namespace ZSpire {
 		ZSWindowDesc desc;
 
 	public:
+		char* getGpuNameGL();
+		char* getGpuVendorGL();
+
 		void PollEvents();
 		void ZSDestroyWindow();
 		bool createWindow(ZSWindowDesc desc);

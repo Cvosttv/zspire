@@ -5,6 +5,7 @@
 #ifdef __linux__
 #include <GL/glew.h>
 #endif
+
 #include <fstream>
 #include <sstream>
 #include <iostream>
@@ -31,16 +32,31 @@ void ZSpire::Shader::Use() {
 	glUseProgram(this->SHADER_GL_ID);
 }
 
+void ZSpire::Shader::bindUniforms() {
+	setUniformInt("diffuse", 0);
+	setUniformInt("normal", 1);
+
+	setUniformInt("b_diffuse", 5);
+	setUniformInt("b_normal", 6);
+	setUniformInt("b_frag_pos", 7);
+}
+
 bool ZSpire::Shader::compileFromBuffer(const char* VS_CONTENT, const char* FS_CONTENT) {
 	glShaderSource(this->VS_GL_ID, 1, &VS_CONTENT, NULL);
 	glCompileShader(this->VS_GL_ID);
 
+	checkCompileErrors(VS_GL_ID, "VERTEX");
+
 	glShaderSource(this->FS_GL_ID, 1, &FS_CONTENT, NULL);
 	glCompileShader(this->FS_GL_ID);
+
+	checkCompileErrors(FS_GL_ID, "FRAGMENT");
 
 	glAttachShader(SHADER_GL_ID, VS_GL_ID);
 	glAttachShader(SHADER_GL_ID, FS_GL_ID);
 	glLinkProgram(SHADER_GL_ID);
+
+	bindUniforms();
 
 	return true;
 }
@@ -82,13 +98,13 @@ bool ZSpire::Shader::compileFromFile(const char* VS_SHADER_PATH, const char* FS_
 	glShaderSource(this->VS_GL_ID, 1, &vShaderCode, Lengths);
 	glCompileShader(this->VS_GL_ID);
 
-	checkCompileErrors(VS_GL_ID, "VERTEX");
+	checkCompileErrors(VS_GL_ID, "VERTEX", VS_SHADER_PATH);
 
 	Lengths[0] = (GLint)strlen(fShaderCode);
 	glShaderSource(this->FS_GL_ID, 1, &fShaderCode, Lengths);
 	glCompileShader(this->FS_GL_ID);	
 
-	checkCompileErrors(FS_GL_ID, "FRAGMENT");
+	checkCompileErrors(FS_GL_ID, "FRAGMENT", FS_SHADER_PATH);
 
 	glAttachShader(SHADER_GL_ID, VS_GL_ID);
 	glAttachShader(SHADER_GL_ID, FS_GL_ID);
@@ -99,6 +115,8 @@ bool ZSpire::Shader::compileFromFile(const char* VS_SHADER_PATH, const char* FS_
 	//Clean up
 	glDeleteShader(VS_GL_ID);
 	glDeleteShader(FS_GL_ID);
+
+	bindUniforms();
 
 	return true;
 }

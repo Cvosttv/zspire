@@ -1,5 +1,8 @@
 namespace ZSpire {
-	void setForwardObjectShader(Shader* shader);
+	
+	namespace ForwardRender {
+		void setForwardObjectShader(Shader* shader);
 
-	void RenderSceneForward(Scene* scene);
+		void RenderScene(Scene* scene);
+	}
 }

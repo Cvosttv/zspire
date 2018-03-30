@@ -26,8 +26,8 @@
 
 #include "../includes/zs-deffered-render.h"
 
-//ZSpire::Shader* object_shader;
-//ZSpire::Shader* light_shader;
+ZSpire::Shader* object_shader;
+ZSpire::Shader* light_shader;
 
 
 unsigned int SCR_WIDTH;
@@ -40,15 +40,45 @@ unsigned int gBufferNormalTextureBuffer;
 unsigned int gBufferPositionTextureBuffer;
 
 void ZSpire::DefferedRender::setDefferedShaders(Shader* obj_shader, Shader* lighting_shader) {
-	//object_shader = obj_shader;
-//	light_shader = lighting_shader;
+	object_shader = obj_shader;
+	light_shader = lighting_shader;
 }
 
-void ZSpire::DefferedRender::RenderSceneDeffered(Scene* scene) {
+void ZSpire::DefferedRender::RenderScene(Scene* scene) {
 
 	glBindFramebuffer(GL_FRAMEBUFFER, gBufferFBO);
 
+	object_shader->Use();
 
+	object_shader->updateCamera();
+
+	
+	for (unsigned int obj = 0; obj < scene->getObjectsCount(); obj++) {
+		Transform * tr = scene->getObjectAt(obj)->getTransform();
+
+		object_shader->setTransform(tr);
+
+		scene->getObjectAt(obj)->Draw();
+	}
+
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+
+	light_shader->Use();
+
+	for (unsigned int light = 0; light < scene->getLightsCount(); light++) {
+		light_shader->setLight(light, scene->getLightAt(light));
+	}
+
+	glActiveTexture(GL_TEXTURE5);
+	glBindTexture(GL_TEXTURE_2D ,gBufferDiffuseTextureBuffer);
+
+	glActiveTexture(GL_TEXTURE6);
+	glBindTexture(GL_TEXTURE_2D, gBufferNormalTextureBuffer);
+
+	glActiveTexture(GL_TEXTURE7);
+	glBindTexture(GL_TEXTURE_2D, gBufferPositionTextureBuffer);
+
+	getPlaneMesh2D()->Draw();
 }
 
 void ZSpire::DefferedRender::set_gBufferSize(unsigned int WIDTH, unsigned int HEIGHT) {

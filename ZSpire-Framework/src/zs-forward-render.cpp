@@ -15,11 +15,11 @@
 
 ZSpire::Shader* object_shader;
 
-void ZSpire::setForwardObjectShader(Shader* shader) {
+void ZSpire::ForwardRender::setForwardObjectShader(Shader* shader) {
 	object_shader = shader;
 }
 
-void ZSpire::RenderSceneForward(Scene* scene) {
+void ZSpire::ForwardRender::RenderScene(Scene* scene) {
 	object_shader->Use();
 
 	object_shader->updateCamera();
