@@ -10,11 +10,13 @@ typedef unsigned int uint;
 
 #include "stdio.h"
 
-#include "../includes\scene_loader.h"
-#include "../includes\startup_window.h"
-#include "../includes\objects_window.h"
-#include "../includes\property_inspector.h"
-#include "../includes\file_window.h"
+#include "../includes/zs-math.h"
+
+#include "../includes/scene_loader.h"
+#include "../includes/startup_window.h"
+#include "../includes/objects_window.h"
+#include "../includes/property_inspector.h"
+#include "../includes/file_window.h"
 
 #include "../includes/zs-shader.h"
 #include "../includes/Renderer.h"
@@ -22,6 +24,9 @@ typedef unsigned int uint;
 #include "../includes/zs-camera.h"
 
 #include "../includes/resources_window.h"
+
+float cam_pitch = 0;
+float cam_yaw = 0;
 
 ZSpire::Shader obj_shader;
 
@@ -83,6 +88,8 @@ int main(int argc, char* argv[])
 	
 	}
 	
+	glEnable(GL_DEPTH_TEST);
+
 	obj_shader.InitializeShader();
 	obj_shader.compileFromFile("shaders/object.vs", "shaders/object.fs");
 	ZSpire::Renderer::setObjectShaderPtr(&obj_shader);
@@ -108,10 +115,24 @@ int main(int argc, char* argv[])
 			if (event.type == SDL_QUIT)
 				done = true;
 
-			//if(event.type == SDL_MOUSEMOTION) {
-				//setMouseStateXYPOSvalue(event.motion.x, event.motion.y);
-				//setMouseStateRelativeXYPOSvalue(event.motion.xrel, event.motion.yrel);
-			//}
+			if(event.type == SDL_MOUSEMOTION) {
+				
+				cam_yaw += event.motion.xrel * 0.06f;
+				cam_pitch += event.motion.yrel * 0.06f;
+
+			//	if (cam_pitch > 89.0f)
+				//	cam_pitch = 89.0f;
+				//if (cam_pitch < -89.0f)
+					//cam_pitch = -89.0f;
+
+				ZSVECTOR3 front;
+				front.X = cos(DegToRad(cam_yaw)) * cos(DegToRad(cam_pitch));
+				front.Y = sin(DegToRad(cam_pitch));
+				front.Z = sin(DegToRad(cam_yaw)) * cos(DegToRad(cam_pitch));
+				vNormalize(&front);
+
+				ZSpire::setCameraFront(front);
+			}
 
 		}
 		ImGui_ImplSdlGL3_NewFrame(window);
@@ -129,7 +150,7 @@ int main(int argc, char* argv[])
 		// Rendering
 		glViewport(0, 0, (int)ImGui::GetIO().DisplaySize.x, (int)ImGui::GetIO().DisplaySize.y);
 		glClearColor(clear_color.x, clear_color.y, clear_color.z, clear_color.w);
-		glClear(GL_COLOR_BUFFER_BIT);
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 		ZSpire::Renderer::RenderScene();
 

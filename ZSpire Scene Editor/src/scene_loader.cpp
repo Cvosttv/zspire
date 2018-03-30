@@ -99,6 +99,7 @@ void LoadScene(const char* path){
 					strcpy(obj.dtexture_name, texture);
 
 					obj.diffuse_texture = getTexturePtrByName(texture);
+					if(obj.diffuse_texture != nullptr)
 					obj.hasDiffuseTexture = true;
 				}
 				
@@ -109,6 +110,7 @@ void LoadScene(const char* path){
 					strcpy(obj.ntexture_name, texture);
 
 					obj.normal_texture = getTexturePtrByName(texture);
+					if (obj.normal_texture != nullptr)
 					obj.hasNormalTexture = true;
 				}
 
@@ -119,6 +121,7 @@ void LoadScene(const char* path){
 					strcpy(obj.mesh_name, mesh);
 
 					obj.mesh = getMeshPtrByName(mesh);
+					if (obj.mesh != nullptr)
 					obj.hasMesh = true;
 				}
 

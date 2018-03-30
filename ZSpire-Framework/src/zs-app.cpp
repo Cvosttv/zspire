@@ -34,6 +34,7 @@
 
 #include <GL/gl.h>
 
+#include "../includes/zs-vulkan.h"
 
 SDL_Window *window;
 SDL_GLContext glcontext;
@@ -65,6 +66,8 @@ bool ZSpire::ZSpireApp::createWindow(ZSWindowDesc desc){
 		SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
 		SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 3);
 	}
+	
+
 	SDL_DisplayMode current;
 	SDL_GetCurrentDisplayMode(0, &current);
 	current.refresh_rate = 60;

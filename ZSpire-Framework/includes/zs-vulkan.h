@@ -1,3 +1,7 @@
+#ifndef ZSVULKAN
+#define ZSVULKAN
+#endif
+
 #include <vulkan/vulkan.h>
 
 

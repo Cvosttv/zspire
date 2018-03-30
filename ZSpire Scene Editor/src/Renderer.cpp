@@ -4,7 +4,6 @@
 
 #include "../includes/Renderer.h"
 
-#include "../includes/Light.h"
 
 ZSpire::Shader* object_shader;
 

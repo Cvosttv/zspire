@@ -78,7 +78,7 @@ ZSpire::Mesh* ZSpire::LoadMeshFromBuffer(void* buffer, size_t size) {
 
 	processNode(scene->mRootNode, scene);
 
-	
+	processed_meshes = 0;
 	return result;
 }
 
@@ -94,7 +94,7 @@ ZSpire::Mesh* ZSpire::LoadMeshesFromFile(const char* file_path){
 
 	processNode(scene->mRootNode, scene);
 
-
+	processed_meshes = 0;
 	return result;
 
 }

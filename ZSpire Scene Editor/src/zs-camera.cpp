@@ -71,4 +71,10 @@ ZSMATRIX4x4 ZSpire::getCameraViewMatrix() {
 
 void ZSpire::setCameraPosition(ZSVECTOR3 position) {
 	camera_pos = position;
+	updateCameraMatrix();
+}
+
+void ZSpire::setCameraFront(ZSVECTOR3 front) {
+	camera_target = front;
+	updateCameraMatrix();
 }

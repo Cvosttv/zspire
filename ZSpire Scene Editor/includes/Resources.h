@@ -25,11 +25,13 @@ struct MeshResource {
 	unsigned int byte_start;
 	unsigned int byte_end;
 
+	bool isLoaded = false;
 	bool isRemoved = false;
 
 	MeshResource() {
 		file_path[0] = '\0';
 		file_to_write_path[0] = '\0';
+		name[0] = '\0';
 	}
 
 };
@@ -47,6 +49,7 @@ struct TextureResource {
 	unsigned int byte_start;
 	unsigned int byte_end;
 
+	bool isLoaded = false;
 	bool isRemoved = false;
 
 	TextureResource() {
