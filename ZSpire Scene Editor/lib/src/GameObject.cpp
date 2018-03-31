@@ -8,7 +8,7 @@ typedef unsigned int uint;
 #include "../includes/GameObject.h"
 
 void GameObject::setLabel(const char* label){
-	strcpy_s(this->label, label);
+	strcpy(this->label, label);
 }
 
 std::vector<GameObject> objs;

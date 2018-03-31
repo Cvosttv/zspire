@@ -30,14 +30,19 @@
 //  2016-10-15: Misc: Added a void* user_data parameter to Clipboard function handlers.
 //  2016-09-05: OpenGL: Fixed save and restore of current scissor rectangle.
 //  2016-07-29: OpenGL: Explicitly setting GL_UNPACK_ROW_LENGTH to reduce issues because SDL changes it. (#752)
-
 #include "imgui.h"
 #include "../includes/imgui_impl_sdl_gl3.h"
 
 // SDL,GL3W
 #include <SDL.h>
 #include <SDL_syswm.h>
-#include <glew.h>    // This example is using gl3w to access OpenGL functions (because it is small). You may use glew/glad/glLoadGen/etc. whatever already works for you.
+#ifdef _WIN32
+#include <glew.h>
+#endif
+#ifdef __linux__
+#include <GL/glew.h>
+#endif
+// This example is using gl3w to access OpenGL functions (because it is small). You may use glew/glad/glLoadGen/etc. whatever already works for you.
 
 // SDL data
 static Uint64       g_Time = 0;

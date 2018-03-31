@@ -2,6 +2,7 @@
 
 #include <vector>
 #include "stdio.h"
+#include <cstring>
 
 #include "../includes/zs-math.h"
 #include "../includes/zs-texture.h"

@@ -2,8 +2,12 @@
 #define FOURCC_DXT1 0x31545844 // Equivalent to "DXT1" in ASCII
 #define FOURCC_DXT3 0x33545844 // Equivalent to "DXT3" in ASCII
 #define FOURCC_DXT5 0x35545844 // Equivalent to "DXT5" in ASCII
-
+#ifdef _WIN32
 #include <glew.h>
+#endif
+#ifdef __linux__
+#include <GL/glew.h>
+#endif
 
 #include "stdio.h"
 #include "stdlib.h"
@@ -93,7 +97,7 @@ bool ZSpire::Texture::LoadDDSFromFile(const char* file_path) {
 	struct stat buff;
 
 
-	fstat(_fileno(file), &buff);
+	fstat(fileno(file), &buff);
 
 	unsigned char * data = (unsigned char*)malloc(sizeof(unsigned char*) * buff.st_size);
 	fread(data, 1, buff.st_size, file);

@@ -7,7 +7,9 @@ typedef unsigned int uint;
 #include "string.h"
 #include <string>
 #include <iostream>
+#ifdef _WIN32
 #include <windows.h>
+#endif
 
 #include "../includes/file_window.h"
 
@@ -18,6 +20,7 @@ void ZSWindows::UpdateFileList() {
 	files.resize(0);
 	
 	std::string search_path = path + "/*.*";
+#ifdef _WIN32
 	WIN32_FIND_DATA fd;
 	HANDLE hFind = ::FindFirstFile(search_path.c_str(), &fd);
 	if (hFind != INVALID_HANDLE_VALUE) {
@@ -40,7 +43,7 @@ void ZSWindows::UpdateFileList() {
 		} while (::FindNextFile(hFind, &fd));
 		::FindClose(hFind);
 	}
-	
+#endif
 }
 
 void ZSWindows::DrawFilesWindow(SDL_Window * window){
