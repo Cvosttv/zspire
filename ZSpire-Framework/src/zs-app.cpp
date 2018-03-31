@@ -1,5 +1,4 @@
-#define GLEW_STATIC
-
+﻿
 #include <SDL.h>
 #include <vector>
 
@@ -30,6 +29,8 @@
 #include <iostream>
 #endif 
 
+#include "../includes/zs-vulkan.h"
+
 SDL_Window *window;
 SDL_GLContext glcontext;
 
@@ -57,8 +58,15 @@ bool ZSpire::ZSpireApp::createWindow(ZSWindowDesc desc){
 	SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
 	SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 24);
 	SDL_GL_SetAttribute(SDL_GL_STENCIL_SIZE, 8);
-	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
-	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 3);
+//	if (desc.OGL_VERSION == OPENGL4_6) {
+//		SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 4);
+//		SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 6);
+//	}
+//	else {
+		SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
+		SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 3);
+//	}
+	
 	SDL_DisplayMode current;
 	SDL_GetCurrentDisplayMode(0, &current);
 	current.refresh_rate = 60;
@@ -179,4 +187,16 @@ void ZSpire::ZSpireApp::postFrame() {
 
 void ZSpire::ZSpireApp:: gl_clear() {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+}
+
+char* ZSpire::ZSpireApp::getGpuNameGL() {
+
+	const GLubyte* renderer = glGetString(GL_RENDERER);
+	return (char*)renderer;
+}
+
+char* ZSpire::ZSpireApp::getGpuVendorGL() {
+
+	const GLubyte* vendor = glGetString(GL_VENDOR);
+	return (char*)vendor;
 }

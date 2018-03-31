@@ -1,4 +1,6 @@
-typedef unsigned int uint;
+#define _CRT_SECURE_NO_WARNINGS
+
+
 #include "imgui.h"
 #include <SDL.h>
 #include <vector>
@@ -10,10 +12,7 @@ typedef unsigned int uint;
 #include "../includes/GameObject.h"
 #include "../includes/property_inspector.h"
 
-#include "../includes/zs-texture.h"
-#include "../includes/geometry.h"
-
-#include "../includes/Resources.h"
+#include "../includes/zs-mesh-loader.h"
 
 int selected_gameobject = -1;
 int selected_mesh = -1;
@@ -24,17 +23,19 @@ static bool alpha_half_preview = false;
 static bool options_menu = true;
 static bool hdr = false;
 
+char resource_prev_path[64];
+
 int misc_flags = (hdr ? ImGuiColorEditFlags_HDR : 0) | (alpha_half_preview ? ImGuiColorEditFlags_AlphaPreviewHalf : (alpha_preview ? ImGuiColorEditFlags_AlphaPreview : 0)) | (options_menu ? 0 : ImGuiColorEditFlags_NoOptions);
 
 void ZSWindows::DrawInspectorWindow(SDL_Window* window){
 
 	ImGui::Begin("Properties"); // создаём окно
 
-	if(selected_gameobject >= 0){
+	if (selected_gameobject >= 0) {
 		GameObject* obj = getObjectPtr(selected_gameobject);
 
 		ImGui::InputText("Label", obj->label, 255);
-		
+
 		float translation[3] = { obj->transform._getPosition().X, obj->transform._getPosition().Y, obj->transform._getPosition().Z };
 		float scale[3] = { obj->transform._getScale().X, obj->transform._getScale().Y, obj->transform._getScale().Z };
 		float rotation[3] = { obj->transform._getRotation().X, obj->transform._getRotation().Y, obj->transform._getRotation().Z };
@@ -48,14 +49,29 @@ void ZSWindows::DrawInspectorWindow(SDL_Window* window){
 		obj->transform.setPosition(ZSVECTOR3(translation[0], translation[1], translation[2]));
 		obj->transform.setScale(ZSVECTOR3(scale[0], scale[1], scale[2]));
 		obj->transform.setRotation(ZSVECTOR3(rotation[0], rotation[1], rotation[2]));
-	
+
+		obj->transform.updateMatrix();
+
 		ImGui::Separator();
 		ImGui::InputText("Diffuse Texture string", obj->dtexture_name, 64);
 		ImGui::InputText("Normal Texture string", obj->ntexture_name, 64);
 
+		TextureResource* te = getTexturePtrByName(obj->dtexture_name);
+
+		if (te != nullptr) {
+			obj->diffuse_texture = te;
+		}
+
 		ImGui::Separator();
 		ImGui::InputText("Mesh string", obj->mesh_name, 64);
-		ImGui::InputInt("Mesh index", &obj->meshIndex, 64);
+		ImGui::InputInt("Mesh index", &obj->meshIndex, 1);
+
+		MeshResource* me = getMeshPtrByName(obj->mesh_name);
+
+		if (me != nullptr) {
+			obj->mesh = me;
+			obj->hasMesh = true;
+		}
 		/*
 		ImGui::Separator();
 
@@ -114,9 +130,23 @@ void ZSWindows::DrawInspectorWindow(SDL_Window* window){
 	if (selected_texture >= 0) {
 		TextureResource* obj = getTextureAt(selected_texture);
 
+		strcpy(resource_prev_path, obj->file_path);
+
 		ImGui::InputText("Label", obj->name, 64);
 		ImGui::InputText("Path", obj->file_path, 128);
 		ImGui::InputText("Pack file", obj->file_to_write_path, 128);
+
+		if (strcmp(resource_prev_path, obj->file_path) == 0) {
+
+			FILE* test = fopen(obj->file_path, "r");
+			if (test != NULL && obj->isLoaded == false) { //File exists
+				obj->texture.LoadDDSFromFile(obj->file_path);
+				obj->isLoaded = true;
+
+			}
+		if(test != NULL)
+			fclose(test);
+		}
 
 		if (ImGui::Button("Delete") == true) {
 			obj->isRemoved = true;
@@ -128,10 +158,23 @@ void ZSWindows::DrawInspectorWindow(SDL_Window* window){
 	if (selected_mesh >= 0) {
 		MeshResource* obj = getMeshAt(selected_mesh);
 
+		strcpy(resource_prev_path, obj->file_path);
+
 		ImGui::InputText("Label", obj->name, 64);
 		ImGui::InputText("Path", obj->file_path, 128);
 		ImGui::InputText("Pack file", obj->file_to_write_path, 128);
-
+		//If has changed
+		if (strcmp(resource_prev_path, obj->file_path) == 0) {
+			
+			FILE* test = fopen(obj->file_path, "r");
+			if(test != NULL && obj->isLoaded == false){ //File exists
+				obj->meshes = ZSpire::LoadMeshesFromFile(obj->file_path);
+				obj->isLoaded = true;
+			
+			}
+			if (test != NULL)
+			fclose(test);
+		}
 
 		if (ImGui::Button("Delete") == true) {
 			obj->isRemoved = true;

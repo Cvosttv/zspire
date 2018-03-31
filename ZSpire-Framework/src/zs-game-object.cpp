@@ -1,5 +1,7 @@
 #include "string.h"
 
+#include <vector>
+
 #include "../includes/zs-math.h"
 #include "../includes/zs-resource.h"
 #include "../includes/zs-mesh.h"
@@ -62,4 +64,8 @@ void ZSpire::GameObject::setLabel(const char* label) {
 
 char* ZSpire::GameObject::getLabel() {
 	return this->label;
+}
+
+void ZSpire::GameObject::addChild(GameObject* obj){
+	children.push_back(obj);
 }

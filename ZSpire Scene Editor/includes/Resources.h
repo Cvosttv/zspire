@@ -1,7 +1,19 @@
 
+#ifndef ZSRESOURCES
+#define ZSRESOURCES
+#endif
+
+#ifndef ZSMESH
+#include "zs-mesh.h"
+#endif
+
+#ifndef ZSTEXTURE
+#include "zs-texture.h"
+#endif
+
 struct MeshResource {
 
-	Mesh mesh;
+	ZSpire::Mesh* meshes;
 	char name[64];
 
 	char file_path[128];
@@ -13,11 +25,13 @@ struct MeshResource {
 	unsigned int byte_start;
 	unsigned int byte_end;
 
+	bool isLoaded = false;
 	bool isRemoved = false;
 
 	MeshResource() {
 		file_path[0] = '\0';
 		file_to_write_path[0] = '\0';
+		name[0] = '\0';
 	}
 
 };
@@ -35,6 +49,7 @@ struct TextureResource {
 	unsigned int byte_start;
 	unsigned int byte_end;
 
+	bool isLoaded = false;
 	bool isRemoved = false;
 
 	TextureResource() {
@@ -54,3 +69,7 @@ TextureResource* getTextureAt(unsigned int index);
 void addTexture(TextureResource mesh);
 
 void loadResources(const char* path);
+
+TextureResource* getTexturePtrByName(const char* name);
+
+MeshResource* getMeshPtrByName(const char* name);

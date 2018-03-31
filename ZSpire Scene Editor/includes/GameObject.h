@@ -1,3 +1,15 @@
+#ifndef ZSTRANSFORM
+#include "zs-transform.h"
+#endif
+
+#ifndef ZSRESOURCES
+#include "Resources.h"
+#endif
+
+#ifndef ZSSHADER
+#include "zs-shader.h"
+#endif
+
 class GameObject {
 public:
 
@@ -10,8 +22,17 @@ public:
 	int meshIndex = 0;
 
 	ZSpire::Transform transform;
+	TextureResource* diffuse_texture;
+	TextureResource* normal_texture;
+	MeshResource* mesh;
+
+	bool hasMesh = false;
+	bool hasDiffuseTexture = false;
+	bool hasNormalTexture = false;
 
 	void setLabel(const char* label);
+
+	void Draw(ZSpire::Shader* shader);
 
 	GameObject() {
 		dtexture_name[0] = '\0';

@@ -5,8 +5,6 @@ typedef unsigned int uint;
 
 #include "../includes/zs-math.h"
 #include "../includes/zs-transform.h"
-#include "../includes/Camera.hpp"
-#include "../includes/Light.h"
 #include "../includes/GameObject.h"
 
 void GameObject::setLabel(const char* label){
@@ -43,16 +41,26 @@ void createNewObject() {
 	addObject(obj);
 }
 
-GameObject getObject(uint pos)
+void GameObject::Draw(ZSpire::Shader* shader) {
+	shader->setTransform(&transform);
+
+	if (hasDiffuseTexture) diffuse_texture->texture.Use(0);
+
+	if (hasNormalTexture) normal_texture->texture.Use(1);
+
+	if(hasMesh) mesh->meshes[meshIndex].Draw();
+}
+
+GameObject getObject(unsigned int pos)
 {
 	return objs[pos];
 }
 
-GameObject* getObjectPtr(uint pos)
+GameObject* getObjectPtr(unsigned int pos)
 {
 	return &objs[pos];
 }
 
 uint getObjectsAmount(){
-	return objs.size();
+	return (unsigned int)objs.size();
 }

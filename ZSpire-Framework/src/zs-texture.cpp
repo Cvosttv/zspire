@@ -24,6 +24,8 @@
 #define _fileno fileno
 #endif
 
+#include "../includes/zs-logger.h"
+
 void ZSpire::Texture::InitializeTexture() {
 	glGenTextures(1, &this->TEXTURE_ID);
 	glBindTexture(GL_TEXTURE_2D, this->TEXTURE_ID);
@@ -91,14 +93,14 @@ bool ZSpire::Texture::LoadDDSFromBuffer(unsigned char* buffer) {
 bool ZSpire::Texture::LoadDDSFromFile(const char* file_path) {
 	FILE * file = fopen(file_path, "rb");
 	if (file == NULL) {
-		//dlogger::Log(TYPE_ERROR, "%s %s", "Can't load DDS file ", file_path);
+		ZSpire::Log(TYPE_ERROR, "%s %s", "Can't load DDS file ", file_path);
 		return false;
 	}
 	unsigned char header[128];
 	fread(header, 1, 128, file);
 
 	if (header[0] != 'D' && header[1] != 'D' && header[2] != 'S') {
-	//	dlogger::Log(TYPE_ERROR, "%s %s %s", "Perhaps, file ", file_path, " is'nt DDS image file.");
+		ZSpire::Log(TYPE_ERROR, "%s %s %s", "Perhaps, file ", file_path, " is'nt DDS image file.");
 		return false;
 	}
 	fseek(file, 0, SEEK_SET);

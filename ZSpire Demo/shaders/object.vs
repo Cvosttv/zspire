@@ -6,6 +6,8 @@ layout (location = 3) in vec3 tangent;
 layout (location = 4) in vec3 bitangent;
 
 out vec2 UVCoord;
+out vec3 n_Normal;
+out vec3 n_FragmentPos;
 
 uniform mat4 cam_projection;
 uniform mat4 cam_view;
@@ -13,5 +15,7 @@ uniform mat4 object_transform;
 
 void main(){
 	UVCoord = uv;
-	gl_Position = cam_projection * cam_view * object_transform * vec4(position, 1.0);
+	n_Normal = normalize(normal);
+	n_FragmentPos = (object_transform * vec4(position, 1.0)).xyz;
+	gl_Position = cam_projection * cam_view * object_transform * vec4(position, 1.0);	
 }

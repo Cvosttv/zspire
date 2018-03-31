@@ -25,8 +25,10 @@ namespace ZSpire {
 		bool hasNormalTexture = false;
 		bool hasMesh = false;
 
+		std::vector<GameObject*> children;
+
 	public:
-		
+		void addChild(GameObject* obj);
 
 		void setPosition(ZSVECTOR3 pos);
 		void setScale(ZSVECTOR3 scale);

@@ -11,11 +11,11 @@
 
 
 
-bool ZSpire::AudioSource::Open(const char* Filename, bool Looped)
+bool ZSpire::AudioSource::Open(const char* Filename)
 {
 	
 
-	mLooped = Looped;
+	//mLooped = Looped;
 
 	alGenSources(1, &mSourceID);
 	if (!CheckALError()) return false;
@@ -27,7 +27,7 @@ bool ZSpire::AudioSource::Open(const char* Filename, bool Looped)
 	alSourcef(mSourceID, AL_GAIN, 1.0f);
 	alSource3f(mSourceID, AL_POSITION, 0,0,0);
 	alSource3f(mSourceID, AL_VELOCITY, 0,0,0);
-	alSourcei(mSourceID, AL_LOOPING, mLooped);
+	//alSourcei(mSourceID, AL_LOOPING, mLooped);
 
 	
 	ALsizei size, freq;
@@ -41,6 +41,14 @@ bool ZSpire::AudioSource::Open(const char* Filename, bool Looped)
 	alSourcei(mSourceID, AL_BUFFER, mBufferID);
 
 		return true;
+}
+
+void ZSpire::AudioSource::setGain(float gain){
+	alSourcef(mSourceID, AL_GAIN, gain);
+}
+
+void ZSpire::AudioSource::setLoopingEnabled(bool enabled) {
+	alSourcei(mSourceID, AL_LOOPING, enabled);
 }
 
 void ZSpire::AudioSource::Play()

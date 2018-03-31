@@ -6,14 +6,14 @@
 
 #include "../includes/zs-math.h"
 
-#include "../includes/geometry.h"
+#include "../includes/zs-mesh.h"
 
 #include "../includes/zs-mesh-loader.h"
 
 Assimp::Importer importer;
 unsigned int loadflags = aiProcess_CalcTangentSpace | aiProcess_Triangulate | aiProcess_FlipUVs;
 unsigned int processed_meshes = 0;
-Mesh* results_ptr;
+ZSpire::Mesh* results_ptr;
 
 void processMesh(aiMesh* mesh, const aiScene* scene) {
 	unsigned int vertices = mesh->mNumVertices;
@@ -45,8 +45,8 @@ void processMesh(aiMesh* mesh, const aiScene* scene) {
 			indices[i * 3 + j] = face.mIndices[j];
 	}
 
-	results_ptr[processed_meshes].initMesh();
-	processMesh(&results_ptr[processed_meshes], vertices_arr, indices, vertices, faces * 3);
+	results_ptr[processed_meshes].InitializeMesh();
+	results_ptr[processed_meshes].processMesh(vertices_arr, indices, vertices, faces * 3);
 	processed_meshes += 1;
 
 }
@@ -66,7 +66,7 @@ void processNode(aiNode* node, const aiScene* scene) {
 
 }
 
-Mesh* ZSpire::LoadMeshFromBuffer(void* buffer, size_t size) {
+ZSpire::Mesh* ZSpire::LoadMeshFromBuffer(void* buffer, size_t size) {
 
 	Mesh* result;
 
@@ -78,11 +78,11 @@ Mesh* ZSpire::LoadMeshFromBuffer(void* buffer, size_t size) {
 
 	processNode(scene->mRootNode, scene);
 
-	
+	processed_meshes = 0;
 	return result;
 }
 
-Mesh* ZSpire::LoadMeshesFromFile(const char* file_path){
+ZSpire::Mesh* ZSpire::LoadMeshesFromFile(const char* file_path){
 
 	Mesh* result;
 	
@@ -94,7 +94,7 @@ Mesh* ZSpire::LoadMeshesFromFile(const char* file_path){
 
 	processNode(scene->mRootNode, scene);
 
-
+	processed_meshes = 0;
 	return result;
 
 }

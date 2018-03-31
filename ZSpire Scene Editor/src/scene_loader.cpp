@@ -9,20 +9,16 @@ typedef unsigned int uint;
 #include <string>
 
 #include "../includes/zs-math.h"
-#include "../includes/geometry.h"
+#include "../includes/zs-mesh.h"
 #include "../includes/scene_loader.h"
 #include "../includes/Camera.hpp"
 #include "../includes/Light.h"
 #include "../includes/zs-transform.h"
 #include "../includes/GameObject.h"
 
-#include "../includes/zs-texture.h"
-
 #include <stddef.h>
 #include <fcntl.h>
 #include <sys/stat.h>
-
-#include "../includes/Resources.h"
 
 bool isSceneLoaded = false;
 char loadedScenePath[256];
@@ -47,6 +43,7 @@ void readBFile(char* content, const char* file, uint size) {
 	fread(content, 1, size, fileP);
 	fclose(fileP);
 }
+
 
 
 void LoadScene(const char* path){
@@ -100,13 +97,21 @@ void LoadScene(const char* path){
 					fscanf(scene_file, "%s", texture);
 
 					strcpy(obj.dtexture_name, texture);
-				}
 
+					obj.diffuse_texture = getTexturePtrByName(texture);
+					if(obj.diffuse_texture != nullptr)
+					obj.hasDiffuseTexture = true;
+				}
+				
 				if (strcmp(header0, "ntex") == 0) {
 					char texture[64];
 					fscanf(scene_file, "%s", texture);
 
 					strcpy(obj.ntexture_name, texture);
+
+					obj.normal_texture = getTexturePtrByName(texture);
+					if (obj.normal_texture != nullptr)
+					obj.hasNormalTexture = true;
 				}
 
 				if (strcmp(header0, "mesh") == 0) {
@@ -114,6 +119,10 @@ void LoadScene(const char* path){
 					fscanf(scene_file, "%s %d", mesh, &obj.meshIndex);
 
 					strcpy(obj.mesh_name, mesh);
+
+					obj.mesh = getMeshPtrByName(mesh);
+					if (obj.mesh != nullptr)
+					obj.hasMesh = true;
 				}
 
 				if (strcmp(header0, "_sc") == 0) {
@@ -162,7 +171,7 @@ void LoadScene(const char* path){
 
 					fseek(scene_file, 1, SEEK_CUR);
 				}
-
+				obj.transform.updateMatrix();
 				
 
 			}
