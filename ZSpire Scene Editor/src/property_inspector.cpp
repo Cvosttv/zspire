@@ -56,22 +56,14 @@ void ZSWindows::DrawInspectorWindow(SDL_Window* window){
 		ImGui::InputText("Diffuse Texture string", obj->dtexture_name, 64);
 		ImGui::InputText("Normal Texture string", obj->ntexture_name, 64);
 
-		TextureResource* te = getTexturePtrByName(obj->dtexture_name);
-
-		if (te != nullptr) {
-			obj->diffuse_texture = te;
-		}
-
+		
 		ImGui::Separator();
 		ImGui::InputText("Mesh string", obj->mesh_name, 64);
 		ImGui::InputInt("Mesh index", &obj->meshIndex, 1);
 
-		MeshResource* me = getMeshPtrByName(obj->mesh_name);
+		RefreshObjectData(selected_gameobject);
 
-		if (me != nullptr) {
-			obj->mesh = me;
-			obj->hasMesh = true;
-		}
+		
 		/*
 		ImGui::Separator();
 
@@ -136,6 +128,10 @@ void ZSWindows::DrawInspectorWindow(SDL_Window* window){
 		ImGui::InputText("Path", obj->file_path, 128);
 		ImGui::InputText("Pack file", obj->file_to_write_path, 128);
 
+		ImGui::InputFloat("Max Anisotropy", &obj->texture.params.max_anisotropy, 1);
+
+		obj->texture.setTextureParams();
+
 		if (strcmp(resource_prev_path, obj->file_path) == 0) {
 
 			FILE* test = fopen(obj->file_path, "r");
@@ -170,7 +166,7 @@ void ZSWindows::DrawInspectorWindow(SDL_Window* window){
 			if(test != NULL && obj->isLoaded == false){ //File exists
 				obj->meshes = ZSpire::LoadMeshesFromFile(obj->file_path);
 				obj->isLoaded = true;
-			
+				RefreshObjectsData();
 			}
 			if (test != NULL)
 			fclose(test);

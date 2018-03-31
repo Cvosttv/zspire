@@ -33,15 +33,21 @@ unsigned int getFileSize(const char* path) {
 	struct stat buff;
 
 	FILE *part = fopen(path, "rb");
-	fstat(_fileno(part), &buff);
+	//Check if file exist
+	if (part != NULL) {
+		fstat(_fileno(part), &buff);
 
-	return buff.st_size;
+		return buff.st_size;
+	}
+	return 0;
 }
 void readBFile(char* content, const char* file, uint size) {
 	FILE* fileP = fopen(file, "rb");
 
-	fread(content, 1, size, fileP);
-	fclose(fileP);
+	if (fileP != NULL) { //Check if file exist
+		fread(content, 1, size, fileP);
+		fclose(fileP);
+	}
 }
 
 
@@ -200,7 +206,7 @@ void saveScene(){
 	unsigned int res_textures_count = getTexturesCount();
 
 	for (unsigned int i = 0; i < res_textures_count; i++) {
-		if (getTextureAt(i)->isRemoved == false) {
+		if (getTextureAt(i)->isRemoved == false && strlen(getTextureAt(i)->file_to_write_path) > 0 && strlen(getTextureAt(i)->file_path) > 0) {
 			PackFileState* writepack = nullptr;
 
 			bool found = false;
@@ -221,7 +227,8 @@ void saveScene(){
 				remove(getTextureAt(i)->file_to_write_path);
 			}
 
-			fprintf(resource_map_write, "tex %s %s %s\n", getTextureAt(i)->file_path, getTextureAt(i)->name, getTextureAt(i)->file_to_write_path);
+			fprintf(resource_map_write, "tex %s %s %s %f\n", getTextureAt(i)->file_path, getTextureAt(i)->name, getTextureAt(i)->file_to_write_path,
+				getTextureAt(i)->texture.params.max_anisotropy);
 
 
 			uint source_size = getFileSize(getTextureAt(i)->file_path);
@@ -246,7 +253,7 @@ void saveScene(){
 	}
 	
 	for (unsigned int i = 0; i < res_meshes_count; i++) {
-		if (getMeshAt(i)->isRemoved == false) {
+		if (getMeshAt(i)->isRemoved == false && strlen(getMeshAt(i)->file_to_write_path) > 0 && strlen(getMeshAt(i)->file_path) > 0) {
 
 			PackFileState* writepack = nullptr;
 
@@ -268,7 +275,7 @@ void saveScene(){
 				remove(getMeshAt(i)->file_to_write_path);
 			}
 
-
+			
 			fprintf(resource_map_write, "mesh %s %s %s\n", getMeshAt(i)->file_path, getMeshAt(i)->name, getMeshAt(i)->file_to_write_path);
 
 
@@ -281,9 +288,11 @@ void saveScene(){
 
 			FILE* toWrite = fopen(getMeshAt(i)->file_to_write_path, "ab");
 
-			fwrite(content, 1, source_size, toWrite);
-			fclose(toWrite);
-			writepack->written_bytes += source_size;
+			if (toWrite != NULL) {
+				fwrite(content, 1, source_size, toWrite);
+				fclose(toWrite);
+				writepack->written_bytes += source_size;
+			}
 
 			int startbyte = writepack->written_bytes - source_size;
 			fprintf(scene_write, "mesh %s %s ", getMeshAt(i)->name, getMeshAt(i)->file_to_write_path);

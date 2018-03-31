@@ -42,8 +42,6 @@ int main() {
 
 	ZSpire::LoadGlyphes("text/glyph48.DDS", "text/glyph48.fnt");
 
-	//texture.InitializeTexture();
-	//texture.LoadDDSFromFile("ext_road_night.DDS");
 
 	shader.InitializeShader();
 	shader.compileFromFile("shaders/object.vs", "shaders/object.fs");
@@ -71,9 +69,6 @@ int main() {
 	//ZSpire::ForwardRender::setForwardObjectShader(&shader);
 	ZSpire::DefferedRender::Init_gBuffer();
 	ZSpire::DefferedRender::setDefferedShaders(&deffered_object_shader, &deffered_light_shader);
-
-	//scene.getObjectAt(1)->setMesh(&mesh2[0]);
-	//scene.getObjectAt(1)->setDiffuseTexture(&texture);
 	
 	ZSpire::InitializeCamera();
 	ZSpire::setCameraProjectionType(CAMERA_PROJECTION_PERSPECTIVE);
@@ -108,7 +103,7 @@ int main() {
 
 		ZSpire::DrawString(L"abcdefgh test", text_shader, 100, 100, ZSRGBCOLOR(255,255,0));
 
-	//	ZSpire::ForwardRender::RenderSceneForward(&scene);
+		//ZSpire::ForwardRender::RenderScene(&scene);
 		ZSpire::DefferedRender::RenderScene(&scene);
 
 		app.postFrame();

@@ -59,6 +59,8 @@ struct TextureResource {
 
 };
 
+void RefreshObjectData(int i);
+void RefreshObjectsData();
 
 unsigned int getMeshesCount();
 MeshResource* getMeshAt(unsigned int index);

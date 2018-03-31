@@ -24,3 +24,7 @@
 
 	#include <zs-input.h>
 #endif
+
+#ifdef ZS_Framework
+#include "zs-settings.h"
+#endif
