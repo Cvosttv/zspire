@@ -12,9 +12,9 @@ void ZSWindows::DrawStartupWindow(SDL_Window * window) {
 	if (ImGui::Button("Load...")) {
 
 		char buf[512];
-		strcpy_s(buf, "Loading scene - ");
-		strcat_s(buf, SceneLoadPath);
-		strcat_s(buf, " ...");
+		strcpy(buf, "Loading scene - ");
+		strcat(buf, SceneLoadPath);
+		strcat(buf, " ...");
 
 		//window->setTitle(buf);
 

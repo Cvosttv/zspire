@@ -8,6 +8,7 @@
 #include <fstream>
 #include <sstream>
 #include <iostream>
+#include <cstring>
 
 //#include "../includes/zs-errors-checker.h"
 #include "../includes/zs-math.h"

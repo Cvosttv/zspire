@@ -5,8 +5,12 @@ typedef unsigned int uint;
 #include "../includes/imgui_impl_sdl_gl3.h"
 
 #include <SDL.h>
-
+#ifdef _WIN32
 #include <glew.h>
+#endif 
+#ifdef __linux__
+#include <GL/glew.h>
+#endif
 
 #include "stdio.h"
 
@@ -74,8 +78,8 @@ int main(int argc, char* argv[])
 	SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
 	SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 24);
 	SDL_GL_SetAttribute(SDL_GL_STENCIL_SIZE, 8);
-	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 4);
-	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 6);
+	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
+	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 3);
 	SDL_DisplayMode current;
 	SDL_GetCurrentDisplayMode(0, &current);
 	SDL_Window *window = SDL_CreateWindow("ZSpire Scene Editor", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, WIDTH, HEIGHT, SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE);

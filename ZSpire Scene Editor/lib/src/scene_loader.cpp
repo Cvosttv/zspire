@@ -3,8 +3,10 @@ typedef unsigned int uint;
 #include "stdio.h"
 #include "string.h"
 #include <cstdio>
+#ifdef _WIN32
 #include <process.h>
 #include <windows.h>
+#endif
 #include <vector>
 #include <string>
 
@@ -33,7 +35,7 @@ unsigned int getFileSize(const char* path) {
 	struct stat buff;
 
 	FILE *part = fopen(path, "rb");
-	fstat(_fileno(part), &buff);
+	fstat(fileno(part), &buff);
 
 	return buff.st_size;
 }
@@ -49,7 +51,9 @@ void readBFile(char* content, const char* file, uint size) {
 void LoadScene(const char* path){
 	strcpy(loadedScenePath, path);
 	FILE* scene_file;
-	fopen_s(&scene_file, path, "rb");
+#ifdef _WIN32
+	fopen(&scene_file, path, "rb");
+#endif
 
 	char reslist_file[128];
 	strcpy(reslist_file, path);
@@ -356,7 +360,7 @@ void saveScene(){
 
 void createNewScene(const char* name) {
 	isSceneLoaded = true;
-	strcpy_s(loadedScenePath, name);
+	strcpy(loadedScenePath, name);
 
 	FILE* scenereslist_write = fopen((std::string(name) + "_reslist").c_str(), "w");
 	fclose(scenereslist_write);
