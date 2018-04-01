@@ -54,14 +54,18 @@ bool ZSpire::LoadSceneFromFile(const char* file_path, Scene* result) {
 
 			fscanf(scene_file, "%s %s", rd.label, rd.packFilePath);
 
+			float aniso = 0;
+
 			fseek(scene_file, 1, SEEK_CUR); //Jump over space
 			fread(&rd.start_byte, 4, 1, scene_file); //Read 4 bytes (int) 
 			fread(&rd.end_byte, 4, 1, scene_file);
+			fread(&aniso, 4, 1, scene_file);
 			fseek(scene_file, 1, SEEK_CUR); //Jump over \n sign
 
 			Texture texture;
 			texture.resource_desc = rd;
 			texture.loadFromResourceDesk();
+			texture.params.max_anisotropy = aniso;
 			texture.setTextureParams();
 			result->addTexture(texture);
 

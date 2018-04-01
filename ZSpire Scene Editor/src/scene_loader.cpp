@@ -245,9 +245,11 @@ void saveScene(){
 			writepack->written_bytes += source_size;
 			
 			int startbyte = writepack->written_bytes - source_size;
+			float aniso = getTextureAt(i)->texture.params.max_anisotropy;
 			fprintf(scene_write, "tex %s %s ", getTextureAt(i)->name , getTextureAt(i)->file_to_write_path);
 			fwrite(&startbyte, 4, 1, scene_write);
 			fwrite(&writepack->written_bytes, 4, 1, scene_write);
+			fwrite(&aniso, 4, 1, scene_write);
 			fprintf(scene_write, "\n");
 		}
 	}

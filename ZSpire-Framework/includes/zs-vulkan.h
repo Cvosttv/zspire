@@ -5,6 +5,8 @@
 
 
 namespace ZSpire {
-
-	bool InitVulkan();
+	namespace Vulkan {
+		bool InitVulkan();
+		bool InitDevice(int device);
+	}
 }

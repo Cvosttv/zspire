@@ -76,7 +76,8 @@ bool ZSpire::ZSpireApp::createWindow(ZSWindowDesc desc){
 #endif
 
 #ifdef USE_VULKAN
-	InitVulkan();
+	ZSpire::Vulkan::InitVulkan();
+	ZSpire::Vulkan::InitDevice(0);
 #endif
 
 	SDL_DisplayMode current;
@@ -86,9 +87,17 @@ bool ZSpire::ZSpireApp::createWindow(ZSWindowDesc desc){
 	int RESIZABLE_FLAG = SDL_WINDOW_RESIZABLE;
 	if (desc.isResizable == false) RESIZABLE_FLAG = 0;
 
-	
+	int GPU_API;
 
-	window = SDL_CreateWindow(desc.WINDOW_TITLE, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, desc.WIDTH, desc.HEIGHT, SDL_WINDOW_OPENGL | RESIZABLE_FLAG);
+#ifdef USE_GL
+	GPU_API = SDL_WINDOW_OPENGL;
+#endif
+
+#ifdef USE_VULKAN
+	GPU_API = SDL_WINDOW_VULKAN;
+#endif
+
+	window = SDL_CreateWindow(desc.WINDOW_TITLE, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, desc.WIDTH, desc.HEIGHT, GPU_API | RESIZABLE_FLAG);
 
 	if (desc.isFullscreen == true) {
 		SDL_SetWindowFullscreen(window, SDL_WINDOW_FULLSCREEN);

@@ -35,6 +35,8 @@ void addObject(GameObject object){
 
 }
 
+
+
 void createNewObject() {
 	GameObject obj;
 	obj.setLabel("gameobject");
