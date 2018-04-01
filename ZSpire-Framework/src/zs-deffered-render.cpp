@@ -26,7 +26,8 @@
 
 #include "../includes/zs-deffered-render.h"
 
-ZSpire::Shader* deffered_object_shader;
+//ZSpire::Shader* deffered_object_shader;
+ZSpire::Shader* deff_obj_shader;
 ZSpire::Shader* light_shader;
 
 
@@ -42,7 +43,7 @@ unsigned int gBufferPositionTextureBuffer;
 unsigned int gBufferDepthBuffer;
 
 void ZSpire::DefferedRender::setDefferedShaders(Shader* obj_shader, Shader* lighting_shader) {
-	deffered_object_shader = obj_shader;
+	deff_obj_shader = obj_shader;
 	light_shader = lighting_shader;
 }
 
@@ -52,15 +53,15 @@ void ZSpire::DefferedRender::RenderScene(Scene* scene) {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glEnable(GL_DEPTH_TEST);
 
-	deffered_object_shader->Use();
+	deff_obj_shader->Use();
 
-	deffered_object_shader->updateCamera();
+	deff_obj_shader->updateCamera();
 
 	
 	for (unsigned int obj = 0; obj < scene->getObjectsCount(); obj++) {
 		Transform * tr = scene->getObjectAt(obj)->getTransform();
 
-		deffered_object_shader->setTransform(tr);
+		deff_obj_shader->setTransform(tr);
 
 		scene->getObjectAt(obj)->Draw();
 	}

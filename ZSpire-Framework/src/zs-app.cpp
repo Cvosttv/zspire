@@ -71,16 +71,11 @@ bool ZSpire::ZSpireApp::createWindow(ZSWindowDesc desc){
 		SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
 		SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 3);
 //	}
-	
-<<<<<<< HEAD
-=======
 #endif
 
 #ifdef USE_VULKAN
 	InitVulkan();
 #endif
-
->>>>>>> 3fe968f0a286c410e807ea8e9991b1ba177383a1
 	SDL_DisplayMode current;
 	SDL_GetCurrentDisplayMode(0, &current);
 	current.refresh_rate = 60;
