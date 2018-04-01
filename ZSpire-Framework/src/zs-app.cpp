@@ -1,4 +1,6 @@
-﻿
+﻿#define ZS_Framework
+#include "../includes/zspire.h"
+
 #include <SDL.h>
 #include <vector>
 
@@ -29,7 +31,9 @@
 #include <iostream>
 #endif 
 
+#ifdef USE_VULKAN
 #include "../includes/zs-vulkan.h"
+#endif
 
 SDL_Window *window;
 SDL_GLContext glcontext;
@@ -52,6 +56,7 @@ bool ZSpire::ZSpireApp::createWindow(ZSWindowDesc desc){
 	setLocalScreenSize(desc.WIDTH, desc.HEIGHT);
 	DefferedRender::set_gBufferSize(desc.WIDTH, desc.HEIGHT);
 
+#ifdef USE_GL
 	// Setup window
 	SDL_GL_SetAttribute(SDL_GL_CONTEXT_FLAGS, NULL);
 	SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
@@ -67,6 +72,15 @@ bool ZSpire::ZSpireApp::createWindow(ZSWindowDesc desc){
 		SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 3);
 //	}
 	
+<<<<<<< HEAD
+=======
+#endif
+
+#ifdef USE_VULKAN
+	InitVulkan();
+#endif
+
+>>>>>>> 3fe968f0a286c410e807ea8e9991b1ba177383a1
 	SDL_DisplayMode current;
 	SDL_GetCurrentDisplayMode(0, &current);
 	current.refresh_rate = 60;
@@ -96,8 +110,6 @@ bool ZSpire::ZSpireApp::createWindow(ZSWindowDesc desc){
 #endif
 		return false;
 	}
-
-	glEnable(GL_DEPTH_TEST);
 
 	return true;
 }

@@ -13,6 +13,10 @@
 
 namespace ZSpire {
 
+	struct ZSTextureParams {
+		float max_anisotropy = 0;
+	};
+
 	struct TextureProperties {
 		unsigned int WIDTH;
 		unsigned int HEIGHT;
@@ -24,6 +28,10 @@ namespace ZSpire {
 		
 
 	public:
+
+		ZSTextureParams params;
+		void setTextureParams();
+
 		ZSResourceDesc resource_desc;
 		bool loadFromResourceDesk();
 
@@ -32,7 +40,6 @@ namespace ZSpire {
 		void InitializeTexture();
 		bool LoadDDSFromBuffer(unsigned char* buffer);
 		bool LoadDDSFromFile(const char* file_path);
-		void setAnisotropyValue(float aniso);
 		void Release();
 		unsigned int getTextureGL_ID();
 	};

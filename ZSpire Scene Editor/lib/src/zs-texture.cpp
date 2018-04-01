@@ -122,7 +122,12 @@ unsigned int ZSpire::Texture::getTextureGL_ID() {
 	return this->TEXTURE_ID;
 }
 
-void ZSpire::Texture::setAnisotropyValue(float aniso) {
+
+
+void ZSpire::Texture::setTextureParams() {
 	glBindTexture(GL_TEXTURE_2D, this->TEXTURE_ID);
-	glTexParameterf(GL_TEXTURE_2D, GL_ARB_texture_filter_anisotropic, aniso);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAX_ANISOTROPY_EXT, this->params.max_anisotropy);
 }
