@@ -26,7 +26,8 @@
 
 #include "../includes/zs-deffered-render.h"
 
-ZSpire::Shader* object_shader;
+//ZSpire::Shader* deffered_object_shader;
+ZSpire::Shader* deff_obj_shader;
 ZSpire::Shader* light_shader;
 
 
@@ -39,24 +40,28 @@ unsigned int gBufferDiffuseTextureBuffer;
 unsigned int gBufferNormalTextureBuffer;
 unsigned int gBufferPositionTextureBuffer;
 
+unsigned int gBufferDepthBuffer;
+
 void ZSpire::DefferedRender::setDefferedShaders(Shader* obj_shader, Shader* lighting_shader) {
-	object_shader = obj_shader;
+	deff_obj_shader = obj_shader;
 	light_shader = lighting_shader;
 }
 
 void ZSpire::DefferedRender::RenderScene(Scene* scene) {
 
 	glBindFramebuffer(GL_FRAMEBUFFER, gBufferFBO);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	glEnable(GL_DEPTH_TEST);
 
-	object_shader->Use();
+	deff_obj_shader->Use();
 
-	object_shader->updateCamera();
+	deff_obj_shader->updateCamera();
 
 	
 	for (unsigned int obj = 0; obj < scene->getObjectsCount(); obj++) {
 		Transform * tr = scene->getObjectAt(obj)->getTransform();
 
-		object_shader->setTransform(tr);
+		deff_obj_shader->setTransform(tr);
 
 		scene->getObjectAt(obj)->Draw();
 	}
@@ -78,6 +83,7 @@ void ZSpire::DefferedRender::RenderScene(Scene* scene) {
 	glActiveTexture(GL_TEXTURE7);
 	glBindTexture(GL_TEXTURE_2D, gBufferPositionTextureBuffer);
 
+	glDisable(GL_DEPTH_TEST);
 	getPlaneMesh2D()->Draw();
 }
 
@@ -89,6 +95,9 @@ void ZSpire::DefferedRender::set_gBufferSize(unsigned int WIDTH, unsigned int HE
 void ZSpire::DefferedRender::Init_gBuffer() {
 	glGenFramebuffers(1, &gBufferFBO);
 	glBindFramebuffer(GL_FRAMEBUFFER, gBufferFBO);
+
+	glGenRenderbuffers(1, &gBufferDepthBuffer);
+
 	//Generate Diffuse Albedo texture
 	glGenTextures(1, &gBufferDiffuseTextureBuffer);
 	glBindTexture(GL_TEXTURE_2D, gBufferDiffuseTextureBuffer);
@@ -117,5 +126,11 @@ void ZSpire::DefferedRender::Init_gBuffer() {
 
 	unsigned int attachments[3] = { GL_COLOR_ATTACHMENT0, GL_COLOR_ATTACHMENT1, GL_COLOR_ATTACHMENT2 };
 	glDrawBuffers(3, attachments);
+
+	glBindRenderbuffer(GL_RENDERBUFFER, gBufferDepthBuffer);
+	glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT, SCR_WIDTH, SCR_HEIGHT);
+	glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, gBufferDepthBuffer);
+	
+
 
 }

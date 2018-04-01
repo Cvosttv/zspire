@@ -63,6 +63,7 @@ bool ZSpire::LoadSceneFromFile(const char* file_path, Scene* result) {
 			Texture texture;
 			texture.resource_desc = rd;
 			texture.loadFromResourceDesk();
+			texture.setTextureParams();
 			result->addTexture(texture);
 
 		}
