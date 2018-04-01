@@ -26,11 +26,7 @@
 
 #include "../includes/zs-deffered-render.h"
 
-<<<<<<< HEAD
-ZSpire::Shader* deff_object_shader;
-=======
 ZSpire::Shader* deff_obj_shader;
->>>>>>> a528c8742cbb92d6d8f3b4d96b6acf2d15d18622
 ZSpire::Shader* light_shader;
 
 
@@ -46,11 +42,7 @@ unsigned int gBufferPositionTextureBuffer;
 unsigned int gBufferDepthBuffer;
 
 void ZSpire::DefferedRender::setDefferedShaders(Shader* obj_shader, Shader* lighting_shader) {
-<<<<<<< HEAD
-	deff_object_shader = obj_shader;
-=======
 	deff_obj_shader = obj_shader;
->>>>>>> a528c8742cbb92d6d8f3b4d96b6acf2d15d18622
 	light_shader = lighting_shader;
 }
 
@@ -59,26 +51,16 @@ void ZSpire::DefferedRender::RenderScene(Scene* scene) {
 	glBindFramebuffer(GL_FRAMEBUFFER, gBufferFBO);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glEnable(GL_DEPTH_TEST);
-
-<<<<<<< HEAD
-	deff_object_shader->Use();
-
-	deff_object_shader->updateCamera();
-=======
+	
 	deff_obj_shader->Use();
 
 	deff_obj_shader->updateCamera();
->>>>>>> a528c8742cbb92d6d8f3b4d96b6acf2d15d18622
 
 	
 	for (unsigned int obj = 0; obj < scene->getObjectsCount(); obj++) {
 		Transform * tr = scene->getObjectAt(obj)->getTransform();
-
-<<<<<<< HEAD
-		deff_object_shader->setTransform(tr);
-=======
+		
 		deff_obj_shader->setTransform(tr);
->>>>>>> a528c8742cbb92d6d8f3b4d96b6acf2d15d18622
 
 		scene->getObjectAt(obj)->Draw();
 	}
