@@ -33,6 +33,10 @@ void ZSpire::Scene::addObject(GameObject obj) {
 	this->game_objects.push_back(obj);
 }
 
+void ZSpire::Scene::addLight(Light obj) {
+	this->lights.push_back(obj);
+}
+
 bool ZSpire::LoadSceneFromFile(const char* file_path, Scene* result) {
 	FILE* scene_file = fopen(file_path, "rb");
 	char header[5];
@@ -158,7 +162,7 @@ bool ZSpire::LoadSceneFromFile(const char* file_path, Scene* result) {
 					obj.setMesh(m);
 				}
 
-				if (strcmp(header0, "_tr") == 0) {
+				if (strcmp(header0, "tr") == 0) {
 					fseek(scene_file, 1, SEEK_CUR);
 					ZSVECTOR3 position;
 					fread(&position.X, sizeof(float), 1, scene_file);
@@ -169,7 +173,7 @@ bool ZSpire::LoadSceneFromFile(const char* file_path, Scene* result) {
 
 					fseek(scene_file, 1, SEEK_CUR);
 				}
-				if (strcmp(header0, "_rt") == 0) {
+				if (strcmp(header0, "rt") == 0) {
 					fseek(scene_file, 1, SEEK_CUR);
 
 					ZSVECTOR3 rotation;
@@ -182,7 +186,7 @@ bool ZSpire::LoadSceneFromFile(const char* file_path, Scene* result) {
 
 					fseek(scene_file, 1, SEEK_CUR);
 				}
-				if (strcmp(header0, "_sc") == 0) {
+				if (strcmp(header0, "sc") == 0) {
 					fseek(scene_file, 1, SEEK_CUR);
 				
 					ZSVECTOR3 scale;
@@ -200,6 +204,54 @@ bool ZSpire::LoadSceneFromFile(const char* file_path, Scene* result) {
 			}
 			result->addObject(obj);
 		}
+
+
+		if (strcmp(prefix, "light") == 0) {
+			Light obj;
+
+			char header0[120];
+
+			while (true) {
+				int step = fscanf(scene_file, "%s", header0);
+
+				if (step == EOF || strcmp(header0, "end") == 0) { break; }
+
+				if (strcmp(header0, "str") == 0) {
+					char label[120];
+					fscanf(scene_file, "%s", label);
+
+					obj.setLabel(label);
+				}
+
+				if (strcmp(header0, "pos") == 0) {
+					fseek(scene_file, 1, SEEK_CUR);
+					ZSVECTOR3 position;
+					fread(&position.X, sizeof(float), 1, scene_file);
+					fread(&position.Y, sizeof(float), 1, scene_file);
+					fread(&position.Z, sizeof(float), 1, scene_file);
+
+					obj.setLightPosition(position);
+
+					fseek(scene_file, 1, SEEK_CUR);
+				}
+				if (strcmp(header0, "dir") == 0) {
+					fseek(scene_file, 1, SEEK_CUR);
+
+					ZSVECTOR3 rotation;
+
+					fread(&rotation.X, sizeof(float), 1, scene_file);
+					fread(&rotation.Y, sizeof(float), 1, scene_file);
+					fread(&rotation.Z, sizeof(float), 1, scene_file);
+
+					obj.setLightDirection(rotation);
+
+					fseek(scene_file, 1, SEEK_CUR);
+				}
+
+			}
+			result->addLight(obj);
+		}
+
 	}
 	fclose(scene_file);
 	return true;

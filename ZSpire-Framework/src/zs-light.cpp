@@ -1,7 +1,14 @@
 
+#include "string.h"
+
 #include "../includes/zs-math.h"
 
 #include "../includes/zs-light.h"
+
+#ifdef __linux__
+#define strcpy_s strcpy
+#endif
+
 
 void ZSpire::Light::setLightType(ZS_LIGHT_TYPE light_type) {
 	this->light_type = light_type;
@@ -10,6 +17,10 @@ void ZSpire::Light::setLightType(ZS_LIGHT_TYPE light_type) {
 void ZSpire::Light::setLightPosition(ZSVECTOR3 position) {
 
 	this->position = position;
+}
+
+void ZSpire::Light::setLightDirection(ZSVECTOR3 dir) {
+	this->light_direction = dir;
 }
 
 void ZSpire::Light::setLightColor(ZSRGBCOLOR color) {
@@ -26,4 +37,12 @@ ZSRGBCOLOR ZSpire::Light::getDiffuseColor() {
 
 ZSVECTOR3 ZSpire::Light::getDirection() {
 	return this->light_direction;
+}
+
+void ZSpire::Light::setLabel(const char* label) {
+	strcpy_s(this->label, label);
+}
+
+char* ZSpire::Light::getLabel() {
+	return this->label;
 }

@@ -44,5 +44,9 @@ namespace ZSpire {
 		
 		char* getLabel();
 		void setLabel(const char* label);
+
+		GameObject() {
+			label[0] = '\0';
+		}
 	};
 }

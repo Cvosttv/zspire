@@ -22,6 +22,7 @@ namespace ZSpire {
 		std::vector<Light> lights;
 	public:
 		void addObject(GameObject obj);
+		void addLight(Light obj);
 		unsigned int getObjectsCount();
 		GameObject* getObjectAt(unsigned int index);
 		GameObject* getObjectByLabel(const char* label);

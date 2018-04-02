@@ -125,8 +125,9 @@ void ZSpire::ZSpireApp::ZSDestroyWindow() {
 }
 
 void ZSpire::ZSpireApp::MSGBox(const char* title, const char* message) {
+#ifdef _WIN32
 	MessageBox(NULL, message, title, MB_OK);
-
+#endif
 }
 
 void ZSpire::ZSpireApp::PollEvents() {
@@ -183,13 +184,13 @@ void ZSpire::ZSpireApp::setWindowProperties(ZSWindowDesc desc) {
 	rWIDTH = desc.WIDTH;
 	rHeight = desc.HEIGHT;
 
-	//if(){}
 	SDL_SetWindowSize(window, rWIDTH, rHeight);
 	
 	setCameraProjectionResolution((float)rWIDTH, (float)rHeight);
 	updateCameraMatrix();
 	setLocalScreenSize(rWIDTH, rHeight);
 
+	glViewport(0,0, rWIDTH, rHeight);
 }
 
 void ZSpire::ZSpireApp::postFrame() {

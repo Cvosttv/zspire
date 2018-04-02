@@ -75,3 +75,5 @@ void loadResources(const char* path);
 TextureResource* getTexturePtrByName(const char* name);
 
 MeshResource* getMeshPtrByName(const char* name);
+
+void InitializePlaneResource();

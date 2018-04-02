@@ -31,6 +31,10 @@ Light* getLightPtr(unsigned int index) {
 	return &lights[index];
 }
 
+Light getLight(unsigned int index) {
+	return lights[index];
+}
+
 Light* getLightByLabelPtr(const char* label) {
 	for (unsigned int i = 0; i < getLightsAmount(); i++) {
 		if (strcmp(lights[i].label, label) == 0) return &lights[i];

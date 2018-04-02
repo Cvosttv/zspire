@@ -89,6 +89,9 @@ int main(int argc, char* argv[])
 	
 	glEnable(GL_DEPTH_TEST);
 
+	ZSpire::createPlane2D();
+	InitializePlaneResource();
+
 	obj_shader.InitializeShader();
 	obj_shader.compileFromFile("shaders/object.vs", "shaders/object.fs");
 	ZSpire::Renderer::setObjectShaderPtr(&obj_shader);

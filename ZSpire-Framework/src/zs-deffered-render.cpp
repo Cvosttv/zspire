@@ -51,7 +51,7 @@ void ZSpire::DefferedRender::RenderScene(Scene* scene) {
 	glBindFramebuffer(GL_FRAMEBUFFER, gBufferFBO);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glEnable(GL_DEPTH_TEST);
-	
+
 	deff_obj_shader->Use();
 
 	deff_obj_shader->updateCamera();
@@ -59,7 +59,7 @@ void ZSpire::DefferedRender::RenderScene(Scene* scene) {
 	
 	for (unsigned int obj = 0; obj < scene->getObjectsCount(); obj++) {
 		Transform * tr = scene->getObjectAt(obj)->getTransform();
-		
+
 		deff_obj_shader->setTransform(tr);
 
 		scene->getObjectAt(obj)->Draw();

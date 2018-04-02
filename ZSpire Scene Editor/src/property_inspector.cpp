@@ -140,12 +140,15 @@ void ZSWindows::DrawInspectorWindow(SDL_Window* window){
 		ImGui::InputText("Label", obj->label, 255);
 
 		float translation[3] = { obj->pos.X, obj->pos.Y, obj->pos.Z };
+		float direction[3] = { obj->direction.X, obj->direction.Y, obj->direction.Z };
 
 		ImGui::Separator();
 
 		ImGui::InputFloat3("Translation", translation);
+		ImGui::InputFloat3("Direction", direction);
 
 		obj->pos = ZSVECTOR3(translation[0], translation[1], translation[2]);
+		obj->direction = ZSVECTOR3(direction[0], direction[1], direction[2]);
 
 		float color[3] = { (float)obj->light_color.r / 256, (float)obj->light_color.g / 256, (float)obj->light_color.b / 256 };
 
