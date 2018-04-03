@@ -99,6 +99,7 @@ ZSpire::Mesh* ZSpire::LoadMeshFromBuffer(void* buffer, size_t size, ZSLOADEDMESH
 
 	result = (Mesh*)malloc(sizeof(Mesh) * scene->mNumMeshes);
 
+	if (loadinfo != nullptr)
 	loadinfo->amount_meshes = scene->mNumMeshes;
 
 	results_ptr = result;
@@ -117,6 +118,7 @@ ZSpire::Mesh* ZSpire::LoadMeshesFromFile(const char* file_path, ZSLOADEDMESHINFO
 
 	result = (Mesh*)malloc(sizeof(Mesh) * scene->mNumMeshes);
 
+	if(loadinfo != nullptr)
 	loadinfo->amount_meshes = scene->mNumMeshes;
 
 	results_ptr = result;

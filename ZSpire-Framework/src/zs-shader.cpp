@@ -163,8 +163,8 @@ void ZSpire::Shader::updateCamera(){
 	unsigned int proj_id = glGetUniformLocation(this->SHADER_GL_ID, "cam_projection");
 	unsigned int view_id = glGetUniformLocation(this->SHADER_GL_ID, "cam_view");
 
-	glUniformMatrix4fv(proj_id, 1, GL_FALSE, &getCameraProjectionMatrix().m[0][0]);
-	glUniformMatrix4fv(view_id, 1, GL_FALSE, &getCameraViewMatrix().m[0][0]);
+	glUniformMatrix4fv(proj_id, 1, GL_FALSE, &Camera::getCameraProjectionMatrix().m[0][0]);
+	glUniformMatrix4fv(view_id, 1, GL_FALSE, &Camera::getCameraViewMatrix().m[0][0]);
 }
 
 void ZSpire::Shader::setLight(unsigned int index, Light* light) {

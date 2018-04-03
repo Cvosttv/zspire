@@ -4,8 +4,9 @@
 
 #include "../includes/zs-camera.h"
 
-
+ZSCAMERAMODE camera_mode;
 ZSPROJECTIONTYPE projection_type;
+
 float FOV;
 float ZNearPlane;
 float ZFarPlane;
@@ -19,34 +20,37 @@ ZSVECTOR3 camera_target = ZSVECTOR3(0.0f, 0.0f, -1.0f);
 
 ZSMATRIX4x4 PROJECTION;
 ZSMATRIX4x4 VIEW;
-ZSMATRIX4x4 CAMMATRIX;
 
-void ZSpire::InitializeCamera(){
+ZSMATRIX4x4 PROJECTION_UI;
+ZSMATRIX4x4 VIEW_UI;
+
+void ZSpire::Camera::InitializeCamera(){
 	FOV = 45.0f;
 	ZNearPlane = 0.3f;
 	ZFarPlane = 1000.0f;
 	projection_type = CAMERA_PROJECTION_ORTHOGRAPHIC;
+	camera_mode = CAMERA_MODE_SCENE;
 
 	CAMERA_PROJ_WIDTH = 640;
 	CAMERA_PROJ_HEIGHT = 480;
 }
 
-void ZSpire::setCameraProjectionType(ZSPROJECTIONTYPE type) {
+void ZSpire::Camera::setCameraProjectionType(ZSPROJECTIONTYPE type) {
 	projection_type = type;
 }
 
-void ZSpire::setCameraZPlanes(float znear, float zfar) {
+void ZSpire::Camera::setCameraZPlanes(float znear, float zfar) {
 	ZNearPlane = znear;
 	ZFarPlane = zfar;
 }
 
-void ZSpire::setCameraFOV(float nfov) {
+void ZSpire::Camera::setCameraFOV(float nfov) {
 	FOV = nfov;
 }
 
-void ZSpire::updateCameraMatrix() {
+void ZSpire::Camera::updateCameraMatrix() {
 	if (projection_type == CAMERA_PROJECTION_ORTHOGRAPHIC) {
-		PROJECTION = getOrthogonal(0, CAMERA_PROJ_WIDTH, 0, CAMERA_PROJ_HEIGHT);
+		PROJECTION = getOrthogonal(0, CAMERA_PROJ_WIDTH, 0, CAMERA_PROJ_HEIGHT, ZNearPlane, ZFarPlane);
 	}
 	else {
 		PROJECTION = getPerspective(FOV, CAMERA_PROJ_WIDTH / CAMERA_PROJ_HEIGHT, ZNearPlane, ZFarPlane);
@@ -54,21 +58,41 @@ void ZSpire::updateCameraMatrix() {
 
 	VIEW = matrixLookAt(camera_pos, camera_target, camera_up);
 
-	CAMMATRIX = PROJECTION * VIEW;
+	PROJECTION_UI = getOrthogonal(0, CAMERA_PROJ_WIDTH, 0, CAMERA_PROJ_HEIGHT);
+	VIEW_UI = matrixLookAt(camera_pos, camera_target, camera_up);
 }
 
-void ZSpire::setCameraProjectionResolution(float WIDTH, float HEIGHT) {
+void ZSpire::Camera::setCameraProjectionResolution(float WIDTH, float HEIGHT) {
 	CAMERA_PROJ_WIDTH = WIDTH;
 	CAMERA_PROJ_HEIGHT = HEIGHT;
 }
 
-ZSMATRIX4x4 ZSpire::getCameraProjectionMatrix(){
-	return PROJECTION;
+ZSMATRIX4x4 ZSpire::Camera::getCameraProjectionMatrix(){
+	if (camera_mode == CAMERA_MODE_SCENE) {
+		return PROJECTION;
+	}
+
+	if (camera_mode == CAMERA_MODE_UI) {
+		return PROJECTION_UI;
+	}
+	return getIdentity();
 }
-ZSMATRIX4x4 ZSpire::getCameraViewMatrix() {
-	return VIEW;
+ZSMATRIX4x4 ZSpire::Camera::getCameraViewMatrix() {
+	if (camera_mode == CAMERA_MODE_SCENE) {
+		return VIEW;
+	}
+
+	if (camera_mode == CAMERA_MODE_UI) {
+		return VIEW_UI;
+	}
+
+	return getIdentity();
 }
 
-void ZSpire::setCameraPosition(ZSVECTOR3 position) {
+void ZSpire::Camera::setCameraPosition(ZSVECTOR3 position) {
 	camera_pos = position;
+}
+
+void ZSpire::Camera::setCameraMode(ZSCAMERAMODE mode){
+	camera_mode = mode;
 }

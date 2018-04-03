@@ -52,8 +52,9 @@ bool ZSpire::ZSpireApp::createWindow(ZSWindowDesc desc){
 		return false;
 	}
 
-	setCameraProjectionResolution((float)desc.WIDTH, (float)desc.HEIGHT);
-	updateCameraMatrix();
+	Camera::setCameraProjectionResolution((float)desc.WIDTH, (float)desc.HEIGHT);
+	Camera::updateCameraMatrix();
+	
 	setLocalScreenSize(desc.WIDTH, desc.HEIGHT);
 	DefferedRender::set_gBufferSize(desc.WIDTH, desc.HEIGHT);
 
@@ -186,8 +187,9 @@ void ZSpire::ZSpireApp::setWindowProperties(ZSWindowDesc desc) {
 
 	SDL_SetWindowSize(window, rWIDTH, rHeight);
 	
-	setCameraProjectionResolution((float)rWIDTH, (float)rHeight);
-	updateCameraMatrix();
+	Camera::setCameraProjectionResolution((float)rWIDTH, (float)rHeight);
+	Camera::updateCameraMatrix();
+	
 	setLocalScreenSize(rWIDTH, rHeight);
 
 	glViewport(0,0, rWIDTH, rHeight);

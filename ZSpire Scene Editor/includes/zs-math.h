@@ -142,10 +142,7 @@
 			this->updateGL();
 		}
 
-		//unsigned long getHex();
-		//RGBColor RGBColor::getRGB();
-		//RGBColor getInvertedColor();
-		//Vector3 getVector3();
+		
 
 	};
 

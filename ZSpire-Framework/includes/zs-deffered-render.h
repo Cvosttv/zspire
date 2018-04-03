@@ -1,5 +1,5 @@
 #ifndef ZSSCENE
-#include "../includes/zs-scene.h"
+#include "zs-scene.h"
 #endif
 
 namespace ZSpire {
