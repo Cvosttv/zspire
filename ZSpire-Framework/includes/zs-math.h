@@ -142,11 +142,6 @@
 			this->updateGL();
 		}
 
-		//unsigned long getHex();
-		//RGBColor RGBColor::getRGB();
-		//RGBColor getInvertedColor();
-		//Vector3 getVector3();
-
 	};
 
 	float DegToRad(float degrees);
@@ -158,6 +153,7 @@
 	ZSMATRIX4x4 matrixMM(ZSMATRIX4x4 l, ZSMATRIX4x4 r);
 	ZSMATRIX4x4 getPerspective(float fovy, float aspect, float zNear, float zFar);
 	ZSMATRIX4x4 getOrthogonal(float left, float right, float bottom, float top);
+	ZSMATRIX4x4 getOrthogonal(float left, float right, float bottom, float top, float zNear, float zFar);
 	ZSMATRIX4x4 matrixLookAt(ZSVECTOR3 eye, ZSVECTOR3 center, ZSVECTOR3 up);
 	
 	ZSMATRIX4x4 getScale(float scaleX, float scaleY, float scaleZ);

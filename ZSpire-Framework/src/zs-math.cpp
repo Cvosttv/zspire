@@ -182,6 +182,22 @@ ZSMATRIX4x4 getOrthogonal(float left, float right, float bottom, float top)
 	return out;
 }
 
+ZSMATRIX4x4 getOrthogonal(float left, float right, float bottom, float top, float zNear, float zFar) {
+	ZSMATRIX4x4 out = getIdentity();
+	out.m[0][0] = 2.0f / (right - left);
+	out.m[1][1] = 2.0f / (top - bottom);
+
+	out.m[2][2] = -1.0f / (zFar - zNear);
+	out.m[3][2] = -zNear / (zFar - zNear);
+
+	out.m[3][0] = -(right + left) / (right - left);
+	out.m[3][1] = -(top + bottom) / (top - bottom);
+
+
+	return out;
+}
+
+
 void ZSRGBCOLOR::updateGL() {
 	this->gl_r = (float)r / 255;
 	this->gl_g = (float)g / 255;

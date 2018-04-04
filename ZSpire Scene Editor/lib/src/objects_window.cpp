@@ -23,6 +23,7 @@ void ZSWindows::DrawObjectListWindow(SDL_Window * window){
 		if (ImGui::BeginMenu("Objects"))
 		{
 			if (ImGui::MenuItem("New Object", "Ctrl+N")) { createNewObject(); }
+			if (ImGui::MenuItem("New Light", "Ctrl+N+L")) { createNewLight(); }
 			ImGui::EndMenu();
 		}
 		
@@ -38,18 +39,30 @@ void ZSWindows::DrawObjectListWindow(SDL_Window * window){
 	}
 	if (ImGui::TreeNode("Objects"))
 	{
-		ImGui::BeginChild("Scrolling");
 		for (unsigned int n = 0; n < getObjectsAmount(); n++) {
-			if (ImGui::Button(getObject(n).label) == true) {
-				ZSWindows::Inspector::selectObject(n);
+			if (getObjectPtr(n)->deleted == false) {
+				if (ImGui::Button(getObjectPtr(n)->label) == true) {
+					ZSWindows::Inspector::selectObject(n);
+				}
 			}
-
 		}
 
-		ImGui::EndChild();
 		ImGui::TreePop();
 	}
 	
+	if (ImGui::TreeNode("Lights"))
+	{
+		for (unsigned int n = 0; n < getLightsAmount(); n++) {
+			if (getLightPtr(n)->deleted == false) {
+				if (ImGui::Button(getLightPtr(n)->label) == true) {
+					ZSWindows::Inspector::selectLight(n);
+				}
+			}
+		}
+
+
+		ImGui::TreePop();
+	}
 
 	ImGui::End(); // end window
 

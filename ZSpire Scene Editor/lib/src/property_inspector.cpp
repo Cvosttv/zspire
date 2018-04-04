@@ -14,9 +14,10 @@
 
 #include "../includes/zs-mesh-loader.h"
 
-int selected_gameobject = -1;
-int selected_mesh = -1;
-int selected_texture = -1;
+int selected_gameobject = NON_SHOWING;
+int selected_mesh = NON_SHOWING;
+int selected_texture = NON_SHOWING;
+int selected_light = NON_SHOWING;
 
 static bool alpha_preview = true;
 static bool alpha_half_preview = false;
@@ -61,62 +62,14 @@ void ZSWindows::DrawInspectorWindow(SDL_Window* window){
 		ImGui::InputText("Mesh string", obj->mesh_name, 64);
 		ImGui::InputInt("Mesh index", &obj->meshIndex, 1);
 
+	
 		RefreshObjectData(selected_gameobject);
-
 		
-		/*
-		ImGui::Separator();
-
-		ImGui::Checkbox("Is Audio Source", &obj->isAudioSource);
-		ImGui::Checkbox("Is Camera", &obj->isCamera);
-		ImGui::Checkbox("Is Audio Listener", &obj->isAudioListener);
-		ImGui::Checkbox("Is Light", &obj->isLight);
-
-		ImGui::Separator();
-
-		int render_type = 0;
-
-		if (obj->isDefaultRender == true) render_type = 0;
-		if (obj->isInstancedRender == true) render_type = 1;
-		if (obj->isDefaultRender != true * obj->isInstancedRender != true) render_type = 2;
-
-
-		ImGui::RadioButton("Default Render", &render_type, 0);
-		ImGui::RadioButton("Instanced Render", &render_type, 1);
-		ImGui::RadioButton("No Render", &render_type, 2); 
-
-		switch (render_type) {
-		case 0: obj->isDefaultRender = true; obj->isInstancedRender = false; break;
-		case 1: obj->isDefaultRender = false; obj->isInstancedRender = true; break;
-		case 2: obj->isDefaultRender = false; obj->isInstancedRender = false; break;
+		if (ImGui::Button("Delete") == true) {
+			obj->deleted = true;
+			selected_gameobject = NON_SHOWING;
 		}
-
-		ImGui::Separator();
-
-		if (obj->isLight) {
-			ImGui::RadioButton("Directional", &obj->light_type, 1);
-			ImGui::RadioButton("Point", &obj->light_type, 2);
-			ImGui::RadioButton("Spot", &obj->light_type, 3);
-
-			float color[3] = { (float)obj->light.light_color.r / 256, (float)obj->light.light_color.g / 256, (float)obj->light.light_color.b / 256 };
-
-			ImGui::ColorEdit3("Light Color##1", color, misc_flags);
-
-			obj->light.light_color.r = (int)(color[0] * 256);
-			obj->light.light_color.g = (int)(color[1] * 256);
-			obj->light.light_color.b = (int)(color[2] * 256);
-		}
-
-		if (obj->isCamera) {
-			ImGui::InputFloat("Z near", &obj->cam.nearPlane);
-			ImGui::InputFloat("Z Far", &obj->cam.farPlane);
-
-			ImGui::InputFloat("FOV", &obj->cam.fov);
-
-			ImGui::Checkbox("Cull Faces", &obj->cam.cullFace);
-			ImGui::Checkbox("Render Depth", &obj->cam.drawDepth);
-
-		}*/
+		
 	}
 
 	if (selected_texture >= 0) {
@@ -138,7 +91,7 @@ void ZSWindows::DrawInspectorWindow(SDL_Window* window){
 			if (test != NULL && obj->isLoaded == false) { //File exists
 				obj->texture.LoadDDSFromFile(obj->file_path);
 				obj->isLoaded = true;
-
+				RefreshObjectsData();
 			}
 		if(test != NULL)
 			fclose(test);
@@ -146,7 +99,8 @@ void ZSWindows::DrawInspectorWindow(SDL_Window* window){
 
 		if (ImGui::Button("Delete") == true) {
 			obj->isRemoved = true;
-			selected_texture = -1;
+			selected_texture = NON_SHOWING;
+			RefreshObjectsData();
 		}
 
 	}
@@ -174,27 +128,72 @@ void ZSWindows::DrawInspectorWindow(SDL_Window* window){
 
 		if (ImGui::Button("Delete") == true) {
 			obj->isRemoved = true;
-			selected_mesh = -1;
+			selected_mesh = NON_SHOWING;
+			RefreshObjectsData();
 		}
 	}
 
+	if (selected_light >= 0) {
+
+		Light* obj = getLightPtr(selected_light);
+
+		ImGui::InputText("Label", obj->label, 255);
+
+		float translation[3] = { obj->pos.X, obj->pos.Y, obj->pos.Z };
+		float direction[3] = { obj->direction.X, obj->direction.Y, obj->direction.Z };
+
+		ImGui::Separator();
+
+		ImGui::InputFloat3("Translation", translation);
+		ImGui::InputFloat3("Direction", direction);
+
+		obj->pos = ZSVECTOR3(translation[0], translation[1], translation[2]);
+		obj->direction = ZSVECTOR3(direction[0], direction[1], direction[2]);
+
+		float color[3] = { (float)obj->light_color.r / 256, (float)obj->light_color.g / 256, (float)obj->light_color.b / 256 };
+
+		ImGui::ColorEdit3("Light Color##1", color, misc_flags);
+		
+		obj->light_color.r = (int)(color[0] * 256);
+		obj->light_color.g = (int)(color[1] * 256);
+		obj->light_color.b = (int)(color[2] * 256);
+
+		if (ImGui::Button("Delete") == true) {
+			obj->deleted = true;
+			selected_light = NON_SHOWING;
+		}
+
+		
+	}
 	ImGui::End(); // end window
+}
+
+void ZSWindows::Inspector::selectLight(unsigned int light_to_select){
+	
+	selected_light = (int)light_to_select;
+	selected_gameobject = NON_SHOWING;
+	selected_texture = NON_SHOWING;
+	selected_mesh = NON_SHOWING;
+	
 }
 
 void ZSWindows::Inspector::selectObject(unsigned int obj_to_select){
 	selected_gameobject = (int)obj_to_select;
-	selected_texture = -1;
-	selected_mesh = -1;
+	selected_texture = NON_SHOWING;
+	selected_mesh = NON_SHOWING;
+	selected_light = NON_SHOWING;
 }
 
 void ZSWindows::Inspector::selectTexture(unsigned int texture_to_select){
-	selected_gameobject = -1;
+	selected_gameobject = NON_SHOWING;
 	selected_texture = (int)texture_to_select;
-	selected_mesh = -1;
+	selected_mesh = NON_SHOWING;
+	selected_light = NON_SHOWING;
 }
 
 void ZSWindows::Inspector::selectMesh(unsigned int mesh_to_select) {
-	selected_gameobject = -1;
-	selected_texture = -1;
+	selected_gameobject = NON_SHOWING;
+	selected_texture = NON_SHOWING;
 	selected_mesh = (int)mesh_to_select;
+	selected_light = NON_SHOWING;
 }

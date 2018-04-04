@@ -51,8 +51,9 @@ bool ZSpire::ZSpireApp::createWindow(ZSWindowDesc desc){
 		return false;
 	}
 
-	setCameraProjectionResolution((float)desc.WIDTH, (float)desc.HEIGHT);
-	updateCameraMatrix();
+	Camera::setCameraProjectionResolution((float)desc.WIDTH, (float)desc.HEIGHT);
+	Camera::updateCameraMatrix();
+	
 	setLocalScreenSize(desc.WIDTH, desc.HEIGHT);
 	DefferedRender::set_gBufferSize(desc.WIDTH, desc.HEIGHT);
 
@@ -74,7 +75,8 @@ bool ZSpire::ZSpireApp::createWindow(ZSWindowDesc desc){
 #endif
 
 #ifdef USE_VULKAN
-	InitVulkan();
+	ZSpire::Vulkan::InitVulkan();
+	ZSpire::Vulkan::InitDevice(0);
 #endif
 	SDL_DisplayMode current;
 	SDL_GetCurrentDisplayMode(0, &current);
@@ -83,9 +85,17 @@ bool ZSpire::ZSpireApp::createWindow(ZSWindowDesc desc){
 	int RESIZABLE_FLAG = SDL_WINDOW_RESIZABLE;
 	if (desc.isResizable == false) RESIZABLE_FLAG = 0;
 
-	
+	int GPU_API;
 
-	window = SDL_CreateWindow(desc.WINDOW_TITLE, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, desc.WIDTH, desc.HEIGHT, SDL_WINDOW_OPENGL | RESIZABLE_FLAG);
+#ifdef USE_GL
+	GPU_API = SDL_WINDOW_OPENGL;
+#endif
+
+#ifdef USE_VULKAN
+	GPU_API = SDL_WINDOW_VULKAN;
+#endif
+
+	window = SDL_CreateWindow(desc.WINDOW_TITLE, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, desc.WIDTH, desc.HEIGHT, GPU_API | RESIZABLE_FLAG);
 
 	if (desc.isFullscreen == true) {
 		SDL_SetWindowFullscreen(window, SDL_WINDOW_FULLSCREEN);
@@ -178,13 +188,14 @@ void ZSpire::ZSpireApp::setWindowProperties(ZSWindowDesc desc) {
 	rWIDTH = desc.WIDTH;
 	rHeight = desc.HEIGHT;
 
-	//if(){}
 	SDL_SetWindowSize(window, rWIDTH, rHeight);
 	
-	setCameraProjectionResolution((float)rWIDTH, (float)rHeight);
-	updateCameraMatrix();
+	Camera::setCameraProjectionResolution((float)rWIDTH, (float)rHeight);
+	Camera::updateCameraMatrix();
+	
 	setLocalScreenSize(rWIDTH, rHeight);
 
+	glViewport(0,0, rWIDTH, rHeight);
 }
 
 void ZSpire::ZSpireApp::postFrame() {

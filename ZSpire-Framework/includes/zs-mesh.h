@@ -1,12 +1,11 @@
-#ifndef ZSMESH
-#define ZSMESH
-#endif
+#define MESH_NO_INDICES -1
 
 #ifndef ZSRESOURCE
-#include "../includes/zs-resource.h"
+#include "zs-resource.h"
 #endif
 
-#define MESH_NO_INDICES -1
+
+#ifndef ZSMESH
 
 namespace ZSpire {
 	class Mesh {
@@ -25,10 +24,15 @@ namespace ZSpire {
 		void Release();
 		void Draw();
 		void processMesh(ZSVERTEX* vertsf, unsigned int* indices, unsigned int verticesCount, unsigned int indicesCount);
-		void processMesh(ZSVERTEX* vertsf, unsigned int verticesCount );
+		void processMesh(ZSVERTEX* vertsf, unsigned int verticesCount);
 	};
 
 	void createPlane2D();
 	Mesh* getPlaneMesh2D();
 
 }
+
+#define ZSMESH
+#endif
+
+

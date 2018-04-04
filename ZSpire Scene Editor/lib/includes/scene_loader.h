@@ -13,7 +13,6 @@
 struct PackFileState {
 	char path[128];
 	unsigned int written_bytes = 0;
-//	bool IsFirstTime = false;
 };
 
 bool IsSceneLoaded();

@@ -22,6 +22,8 @@ void ZSpire::ForwardRender::setForwardObjectShader(Shader* shader) {
 void ZSpire::ForwardRender::RenderScene(Scene* scene) {
 	object_shader->Use();
 
+	Camera::setCameraMode(CAMERA_MODE_SCENE);
+
 	object_shader->updateCamera();
 
 	for (unsigned int light = 0; light < scene->getLightsCount(); light ++) {
@@ -35,4 +37,15 @@ void ZSpire::ForwardRender::RenderScene(Scene* scene) {
 		
 		scene->getObjectAt(obj)->Draw();
 	}
+
+	Camera::setCameraMode(CAMERA_MODE_UI);
+	object_shader->updateCamera();
+}
+
+void ZSpire::ForwardRender::RenderSpriteUI(UI::SpriteUI* sprite) {
+	object_shader->Use();
+
+	object_shader->setTransform(sprite->getTransform());
+
+	sprite->Draw();
 }

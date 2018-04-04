@@ -19,17 +19,30 @@ namespace ZSpire {
 
 		ZS_LIGHT_TYPE light_type;
 
+		char label[128];
+
 	public:
 
 		void setLightType(ZS_LIGHT_TYPE light_type);
 
 		void setLightPosition(ZSVECTOR3 position);
+		void setLightDirection(ZSVECTOR3 dir);
 
 		void setLightColor(ZSRGBCOLOR color);
 
 		ZSVECTOR3 getPosition();
 		ZSVECTOR3 getDirection();
 		ZSRGBCOLOR getDiffuseColor();
+
+		char* getLabel();
+		void setLabel(const char* label);
+
+		Light() {
+			label[0] = '\0';
+			light_type = LIGHT_TYPE_DIRECTIONAL;
+			position = ZSVECTOR3(0.0f, 0.0f, 0.0f);
+
+		}
 
 	};
 
