@@ -1,19 +1,16 @@
-#ifndef ZSSHADER
-#define ZSSHADER
-#endif
-
 #ifndef ZSMATH
-#include "../includes/zs-math.h"
+#include "zs-math.h"
 #endif
 
 #ifndef ZSLIGHT
-#include "../includes/zs-light.h"
+#include "zs-light.h"
 #endif
 
 #ifndef ZSTRANSFORM
-#include "../includes/zs-transform.h"
+#include "zs-transform.h"
 #endif // !ZSTRANSFORM
 
+#ifndef ZSSHADER
 
 namespace ZSpire {
 	class Shader {
@@ -30,7 +27,7 @@ namespace ZSpire {
 		void setUniformFloat(const char* uniform_string, float value);
 		void setUniformColor3(const char* uniform, ZSRGBCOLOR color);
 
-		
+
 		void InitializeShader();
 		bool compileFromFile(const char* VS_SHADER_PATH, const char* FS_SHADER_PATH);
 		bool compileFromBuffer(const char* VS_CONTENT, const char* FS_CONTENT);
@@ -43,3 +40,7 @@ namespace ZSpire {
 		void updateCamera();
 	};
 }
+
+#define ZSSHADER
+#endif
+

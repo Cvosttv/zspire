@@ -66,13 +66,13 @@ int main() {
 	transform.updateMatrix();
 
 	ZSpire::LoadSceneFromFile("scene.scn", &scene);
-	//ZSpire::ForwardRender::setForwardObjectShader(&shader);
-	ZSpire::DefferedRender::Init_gBuffer();
-	ZSpire::DefferedRender::setDefferedShaders(&deffered_object_shader, &deffered_light_shader);
+	ZSpire::ForwardRender::setForwardObjectShader(&shader);
+	//ZSpire::DefferedRender::Init_gBuffer();
+	//ZSpire::DefferedRender::setDefferedShaders(&deffered_object_shader, &deffered_light_shader);
 	
-	ZSpire::InitializeCamera();
-	ZSpire::setCameraProjectionType(CAMERA_PROJECTION_PERSPECTIVE);
-	ZSpire::updateCameraMatrix();
+	ZSpire::Camera::InitializeCamera();
+	ZSpire::Camera::setCameraProjectionType(CAMERA_PROJECTION_PERSPECTIVE);
+	ZSpire::Camera::updateCameraMatrix();
 
 	asurce.Play();
 	
@@ -103,8 +103,8 @@ int main() {
 
 		ZSpire::DrawString(L"abcdefgh test", text_shader, 100, 100, ZSRGBCOLOR(255,255,0));
 
-		//ZSpire::ForwardRender::RenderScene(&scene);
-		ZSpire::DefferedRender::RenderScene(&scene);
+		ZSpire::ForwardRender::RenderScene(&scene);
+		//ZSpire::DefferedRender::RenderScene(&scene);
 
 		app.postFrame();
 

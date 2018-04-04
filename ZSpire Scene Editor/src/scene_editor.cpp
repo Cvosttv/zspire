@@ -1,6 +1,5 @@
 #define _CRT_SECURE_NO_WARNINGS
 
-typedef unsigned int uint;
 #include "imgui.h"
 #include "../includes/imgui_impl_sdl_gl3.h"
 
@@ -82,7 +81,7 @@ int main(int argc, char* argv[])
 	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 3);
 	SDL_DisplayMode current;
 	SDL_GetCurrentDisplayMode(0, &current);
-	SDL_Window *window = SDL_CreateWindow("ZSpire Scene Editor", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, WIDTH, HEIGHT, SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE);
+	SDL_Window *window = SDL_CreateWindow("ZSpire Scene Editor", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, WIDTH, HEIGHT, SDL_WINDOW_OPENGL);
 	SDL_GLContext glcontext = SDL_GL_CreateContext(window);
 	SDL_GL_SetSwapInterval(1); // Enable vsync
 
@@ -93,6 +92,9 @@ int main(int argc, char* argv[])
 	}
 	
 	glEnable(GL_DEPTH_TEST);
+
+	ZSpire::createPlane2D();
+	InitializePlaneResource();
 
 	obj_shader.InitializeShader();
 	obj_shader.compileFromFile("shaders/object.vs", "shaders/object.fs");

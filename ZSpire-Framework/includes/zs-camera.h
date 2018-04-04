@@ -6,22 +6,18 @@
 #include "../includes/zs-transform.h"
 #endif
 
+#define CAMERA_MODE_UI 1
+#define CAMERA_MODE_SCENE 2
 
 #define CAMERA_PROJECTION_PERSPECTIVE 1
 #define CAMERA_PROJECTION_ORTHOGRAPHIC 2
 
+typedef unsigned int ZSCAMERAMODE;
 typedef unsigned int ZSPROJECTIONTYPE;
 
 namespace ZSpire {
+	namespace Camera {
 
-	struct ZSCAMERADESC {
-		ZSPROJECTIONTYPE projection_type;
-		float FOV;
-		float ZNearPlane;
-		float ZFarPlane;
-		};
-		
-		
 		void InitializeCamera();
 
 		void setCameraProjectionType(ZSPROJECTIONTYPE type);
@@ -38,4 +34,7 @@ namespace ZSpire {
 
 		ZSMATRIX4x4 getCameraProjectionMatrix();
 		ZSMATRIX4x4 getCameraViewMatrix();
+
+		void setCameraMode(ZSCAMERAMODE mode);
+	}
 }

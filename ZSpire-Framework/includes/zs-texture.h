@@ -1,15 +1,9 @@
-//#ifndef ZSMATH
-//#include "../includes/zs-math.h"
-//#endif
 
 #ifndef ZSRESOURCE
-#include "../includes/zs-resource.h"
+#include "zs-resource.h"
 #endif
 
 #ifndef ZSTEXTURE
-#define ZSTEXTURE
-#endif
-
 
 namespace ZSpire {
 
@@ -25,7 +19,7 @@ namespace ZSpire {
 	class Texture {
 	protected:
 		unsigned int TEXTURE_ID;
-		
+
 
 	public:
 
@@ -44,3 +38,5 @@ namespace ZSpire {
 		unsigned int getTextureGL_ID();
 	};
 }
+#define ZSTEXTURE
+#endif

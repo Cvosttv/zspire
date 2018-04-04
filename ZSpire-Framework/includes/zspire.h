@@ -12,6 +12,7 @@
 	#include <zs-camera.h>
 	#include <zs-mesh-loader.h>
 	#include <zs-game-object.h>
+	#include <zs-ui.h>
 	#include <zs-text-renderer.h>
 
 	#include <zs-scene.h>

@@ -14,6 +14,7 @@ class GameObject {
 public:
 
 	bool exist = true;
+	bool deleted;
 	char label[255];
 
 	char dtexture_name[64];
@@ -35,6 +36,7 @@ public:
 	void Draw(ZSpire::Shader* shader);
 
 	GameObject() {
+		deleted = false;
 		dtexture_name[0] = '\0';
 		ntexture_name[0] = '\0';
 		mesh_name[0] = '\0';

@@ -26,7 +26,6 @@
 
 #include "../includes/zs-deffered-render.h"
 
-//ZSpire::Shader* deffered_object_shader;
 ZSpire::Shader* deff_obj_shader;
 ZSpire::Shader* light_shader;
 

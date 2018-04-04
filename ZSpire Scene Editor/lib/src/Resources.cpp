@@ -18,11 +18,20 @@ std::vector<MeshResource> meshes;
 
 std::vector<TextureResource> textures;
 
+MeshResource plane_resource;
+
+void InitializePlaneResource() {
+	plane_resource.meshes = ZSpire::getPlaneMesh2D();
+}
 
 void RefreshObjectData(int i) {
 	MeshResource* me = getMeshPtrByName(getObjectPtr(i)->mesh_name);
 
-	if (me != nullptr) {
+	getObjectPtr(i)->hasMesh = false;
+	getObjectPtr(i)->hasDiffuseTexture = false;
+	getObjectPtr(i)->hasNormalTexture = false;
+
+	if (me != nullptr && me->isRemoved == false) {
 		getObjectPtr(i)->mesh = me;
 		getObjectPtr(i)->hasMesh = true;
 	}
@@ -30,14 +39,14 @@ void RefreshObjectData(int i) {
 
 	TextureResource* de = getTexturePtrByName(getObjectPtr(i)->dtexture_name);
 
-	if (de != nullptr) {
+	if (de != nullptr && de->isRemoved == false) {
 		getObjectPtr(i)->diffuse_texture = de;
 		getObjectPtr(i)->hasDiffuseTexture = true;
 	}
 
 	TextureResource* ne = getTexturePtrByName(getObjectPtr(i)->ntexture_name);
 
-	if (ne != nullptr) {
+	if (ne != nullptr && ne->isRemoved == false) {
 		getObjectPtr(i)->normal_texture = ne;
 		getObjectPtr(i)->hasNormalTexture = true;
 	}
@@ -134,6 +143,10 @@ TextureResource* getTexturePtrByName(const char* name) {
 
 MeshResource* getMeshPtrByName(const char* name) {
 	unsigned int meshes_count = getMeshesCount();
+
+	if (strcmp(name, "@plane") == 0) {
+		return &plane_resource;
+	}
 
 	for (unsigned int i = 0; i < meshes_count; i++) {
 		if (strcmp(name, getMeshAt(i)->name) == 0) return getMeshAt(i);

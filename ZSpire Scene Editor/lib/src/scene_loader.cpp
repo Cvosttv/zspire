@@ -1,5 +1,5 @@
 #define _CRT_SECURE_NO_WARNINGS
-typedef unsigned int uint;
+
 #include "stdio.h"
 #include "string.h"
 #include <cstdio>
@@ -43,7 +43,7 @@ unsigned int getFileSize(const char* path) {
 	}
 	return 0;
 }
-void readBFile(char* content, const char* file, uint size) {
+void readBFile(char* content, const char* file, unsigned int size) {
 	FILE* fileP = fopen(file, "rb");
 
 	if (fileP != NULL) { //Check if file exist
@@ -135,7 +135,7 @@ void LoadScene(const char* path){
 					obj.hasMesh = true;
 				}
 
-				if (strcmp(header0, "_sc") == 0) {
+				if (strcmp(header0, "sc") == 0) {
 					fseek(scene_file, 1, SEEK_CUR);
 
 					float scX;
@@ -151,7 +151,7 @@ void LoadScene(const char* path){
 					obj.transform.setScale(ZSVECTOR3(scX, scY, scZ));
 
 				}
-				if (strcmp(header0, "_tr") == 0) {
+				if (strcmp(header0, "tr") == 0) {
 					fseek(scene_file, 1, SEEK_CUR);
 
 					float posX;
@@ -166,7 +166,7 @@ void LoadScene(const char* path){
 
 					fseek(scene_file, 1, SEEK_CUR);
 				}
-				if (strcmp(header0, "_rt") == 0) {
+				if (strcmp(header0, "rt") == 0) {
 					fseek(scene_file, 1, SEEK_CUR);
 
 					float rotX;
@@ -188,6 +188,64 @@ void LoadScene(const char* path){
 			addObject(obj);
 
 		}
+
+		if (strcmp(prefix, "light") == 0) {
+			Light obj;
+
+
+			char header0[120];
+
+			while (true) {
+				int step = fscanf(scene_file, "%s", header0);
+
+				if (step == EOF || strcmp(header0, "end") == 0) { break; }
+
+				if (strcmp(header0, "str") == 0) {
+					char label[120];
+					fscanf(scene_file, "%s", label);
+
+					strcpy(obj.label, label);
+				}
+
+				
+
+				
+				if (strcmp(header0, "pos") == 0) {
+					fseek(scene_file, 1, SEEK_CUR);
+
+					float posX;
+					float posY;
+					float posZ;
+
+					fread(&posX, sizeof(float), 1, scene_file);
+					fread(&posY, sizeof(float), 1, scene_file);
+					fread(&posZ, sizeof(float), 1, scene_file);
+
+					obj.pos = ZSVECTOR3(posX, posY, posZ);
+
+					fseek(scene_file, 1, SEEK_CUR);
+				}
+				
+				if (strcmp(header0, "dir") == 0) {
+					fseek(scene_file, 1, SEEK_CUR);
+
+					float dirX;
+					float dirY;
+					float dirZ;
+
+					fread(&dirX, sizeof(float), 1, scene_file);
+					fread(&dirY, sizeof(float), 1, scene_file);
+					fread(&dirZ, sizeof(float), 1, scene_file);
+
+					obj.direction = ZSVECTOR3(dirX, dirY, dirZ);
+
+					fseek(scene_file, 1, SEEK_CUR);
+				}
+			}
+			addLight(obj);
+
+		}
+
 	}
 
 	isSceneLoaded = true;
@@ -235,7 +293,7 @@ void saveScene(){
 				getTextureAt(i)->texture.params.max_anisotropy);
 
 
-			uint source_size = getFileSize(getTextureAt(i)->file_path);
+			unsigned int source_size = getFileSize(getTextureAt(i)->file_path);
 
 			char* content = (char*)malloc(source_size + 1);
 			readBFile(content, getTextureAt(i)->file_path, source_size);
@@ -249,9 +307,11 @@ void saveScene(){
 			writepack->written_bytes += source_size;
 			
 			int startbyte = writepack->written_bytes - source_size;
+			float aniso = getTextureAt(i)->texture.params.max_anisotropy;
 			fprintf(scene_write, "tex %s %s ", getTextureAt(i)->name , getTextureAt(i)->file_to_write_path);
 			fwrite(&startbyte, 4, 1, scene_write);
 			fwrite(&writepack->written_bytes, 4, 1, scene_write);
+			fwrite(&aniso, 4, 1, scene_write);
 			fprintf(scene_write, "\n");
 		}
 	}
@@ -283,7 +343,7 @@ void saveScene(){
 			fprintf(resource_map_write, "mesh %s %s %s\n", getMeshAt(i)->file_path, getMeshAt(i)->name, getMeshAt(i)->file_to_write_path);
 
 
-			uint source_size = getFileSize(getMeshAt(i)->file_path);
+			unsigned int source_size = getFileSize(getMeshAt(i)->file_path);
 
 			char* content = (char*)malloc(source_size + 1);
 			readBFile(content, getMeshAt(i)->file_path, source_size);
@@ -309,7 +369,8 @@ void saveScene(){
 
 	fclose(resource_map_write);
 
-	for (uint i = 0; i < getObjectsAmount(); i++) {
+	//Writing gameobjects
+	for (unsigned int i = 0; i < getObjectsAmount(); i++) {
 		GameObject obj;
 		obj = getObject(i);
 		fprintf(scene_write, "obj\n");
@@ -338,21 +399,21 @@ void saveScene(){
 		float rotY = obj.transform._getRotation().Y;
 		float rotZ = obj.transform._getRotation().Z;
 
-		fprintf(scene_write, "_tr ");
+		fprintf(scene_write, "tr ");
 		fwrite(&posX, sizeof(float), 1, scene_write);
 		fwrite(&posY, sizeof(float), 1, scene_write);
 		fwrite(&posZ, sizeof(float), 1, scene_write);
 		fprintf(scene_write, "\n");
 		
 	
-		fprintf(scene_write, "_sc ");
+		fprintf(scene_write, "sc ");
 		fwrite(&scX, sizeof(float), 1, scene_write);
 		fwrite(&scY, sizeof(float), 1, scene_write);
 		fwrite(&scZ, sizeof(float), 1, scene_write);
 		fprintf(scene_write, "\n");
 
 
-		fprintf(scene_write, "_rt ");
+		fprintf(scene_write, "rt ");
 		fwrite(&rotX, sizeof(float), 1, scene_write);
 		fwrite(&rotY, sizeof(float), 1, scene_write);
 		fwrite(&rotZ, sizeof(float), 1, scene_write);
@@ -360,6 +421,40 @@ void saveScene(){
 
 
 
+
+		fprintf(scene_write, "end\n");
+	}
+
+
+
+	//Writing lights
+	for (unsigned int i = 0; i < getLightsAmount(); i++) {
+		Light obj;
+		obj = getLight(i);
+		fprintf(scene_write, "light\n");
+
+		if (strlen(obj.label) >= 1)
+			fprintf(scene_write, "str %s\n", obj.label);
+
+		float posX = obj.pos.X;
+		float posY = obj.pos.Y;
+		float posZ = obj.pos.Z;
+
+		float dirX = obj.direction.X;
+		float dirY = obj.direction.Y;
+		float dirZ = obj.direction.Z;
+
+		fprintf(scene_write, "pos ");
+		fwrite(&posX, sizeof(float), 1, scene_write);
+		fwrite(&posY, sizeof(float), 1, scene_write);
+		fwrite(&posZ, sizeof(float), 1, scene_write);
+		fprintf(scene_write, "\n");
+
+		fprintf(scene_write, "dir ");
+		fwrite(&dirX, sizeof(float), 1, scene_write);
+		fwrite(&dirY, sizeof(float), 1, scene_write);
+		fwrite(&dirZ, sizeof(float), 1, scene_write);
+		fprintf(scene_write, "\n");
 
 		fprintf(scene_write, "end\n");
 	}

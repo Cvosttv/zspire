@@ -1,18 +1,16 @@
 #ifndef ZSMESH
-#include "../includes/zs-mesh.h"
+#include "zs-mesh.h"
 #endif
 
 #ifndef ZSGAMEOBJECT
-#include "../includes/zs-game-object.h"
+#include "zs-game-object.h"
 #endif
 
 #ifndef ZSSCENE
-#define ZSSCENE
-#endif
 
 namespace ZSpire {
 
-	
+
 	class Scene {
 	protected:
 		std::vector<Texture> scene_textures;
@@ -22,6 +20,7 @@ namespace ZSpire {
 		std::vector<Light> lights;
 	public:
 		void addObject(GameObject obj);
+		void addLight(Light obj);
 		unsigned int getObjectsCount();
 		GameObject* getObjectAt(unsigned int index);
 		GameObject* getObjectByLabel(const char* label);
@@ -39,3 +38,6 @@ namespace ZSpire {
 	bool LoadSceneFromFile(const char* file_path, Scene* result);
 
 }
+
+#define ZSSCENE
+#endif
