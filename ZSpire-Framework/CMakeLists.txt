@@ -43,6 +43,7 @@ ADD_LIBRARY(ZSpireFramework STATIC
 	src/zs-text-renderer.cpp
 	src/zs-texture.cpp
 	src/zs-transform.cpp
+	src/zs-ui.cpp
 	src/zs-vulkan.cpp)
 
 TARGET_LINK_LIBRARIES(
