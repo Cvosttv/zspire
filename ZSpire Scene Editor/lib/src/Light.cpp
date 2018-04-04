@@ -1,6 +1,7 @@
 #define _CRT_SECURE_NO_WARNINGS
 
 #include <vector>
+#include <cstring>
 #include "../includes/zs-math.h"
 #include "../includes/Light.h"
 
