@@ -82,27 +82,37 @@ enum
 };
 #endif
 
+#ifndef ZSUI
+#include "zs-ui.h"
+#endif
+
 namespace ZSpire {
+	namespace Input {
+		struct MouseState {
+			unsigned int x;
+			unsigned int y;
 
-	struct MouseState {
-		unsigned int x;
-		unsigned int y;
+			int relativeX;
+			int relativeY;
 
-		int relativeX;
-		int relativeY;
-		
-		bool LEFT_BTN_DOWN = false;
-		bool RIGHT_BTN_DOWN = false;
-	};
+			bool LEFT_BTN_DOWN = false;
+			bool RIGHT_BTN_DOWN = false;
+		};
 
-	void addKeyToQueue(int KEY);
-	bool isKeyPressed(int KEY);
-	void clearQueue();
-	MouseState* getMouseState();
+		void setWinWH(unsigned int W, unsigned int H);
 
-	void setMouseStateXYPOSvalue(unsigned int x, unsigned int y);
-	void setMouseStateRelativeXYPOSvalue(int x, int y);
-	void setMouseStateLeftButtonDownBool(bool left_down);
-	void setMouseStateRightButtonDownBool(bool right_down);
-	void setMouseStateWheelButtonDownBool(bool wheel_down);
+		void addKeyToQueue(int KEY);
+		bool isKeyPressed(int KEY);
+		void clearQueue();
+		MouseState* getMouseState();
+
+		bool isButtonHoveredByCursor(UI::ButtonUI* button);
+		bool isButtonClicked(UI::ButtonUI* button);
+
+		void setMouseStateXYPOSvalue(unsigned int x, unsigned int y);
+		void setMouseStateRelativeXYPOSvalue(int x, int y);
+		void setMouseStateLeftButtonDownBool(bool left_down);
+		void setMouseStateRightButtonDownBool(bool right_down);
+		void setMouseStateWheelButtonDownBool(bool wheel_down);
+	}
 }

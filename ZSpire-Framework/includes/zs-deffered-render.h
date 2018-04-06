@@ -9,5 +9,8 @@ namespace ZSpire {
 		void RenderScene(Scene* scene);
 		void Init_gBuffer();
 		void set_gBufferSize(unsigned int WIDTH, unsigned int HEIGHT);
+
+		void destroy_gBuffer();
+		void resize_gBuffer(unsigned int W, unsigned int H);
 	}
 }

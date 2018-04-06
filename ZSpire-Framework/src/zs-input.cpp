@@ -4,9 +4,17 @@ int pressed_keys[MAX_KEYS];
 
 int keys_pressed_amount = 0;
 
-ZSpire::MouseState mouse_state;
+ZSpire::Input::MouseState mouse_state;
 
-void ZSpire::addKeyToQueue(int KEY) {
+unsigned int WIN_WIDTH;
+unsigned int WIN_HEIGHT;
+
+void ZSpire::Input::setWinWH(unsigned int W, unsigned int H) {
+	WIN_WIDTH = W;
+	WIN_HEIGHT = H;
+}
+
+void ZSpire::Input::addKeyToQueue(int KEY) {
 
 	if (keys_pressed_amount <= MAX_KEYS) {
 
@@ -17,7 +25,7 @@ void ZSpire::addKeyToQueue(int KEY) {
 	}
 }
 
-bool ZSpire::isKeyPressed(int KEY) {
+bool ZSpire::Input::isKeyPressed(int KEY) {
 	if (keys_pressed_amount > 0) {
 		for (int i = 0; i < keys_pressed_amount; i++) {
 
@@ -37,35 +45,50 @@ void clearMouseState() {
 }
 
 
-void ZSpire::clearQueue() {
+void ZSpire::Input::clearQueue() {
 	keys_pressed_amount = 0;
 	clearMouseState();
 }
 
-ZSpire::MouseState* ZSpire::getMouseState() {
+ZSpire::Input::MouseState* ZSpire::Input::getMouseState() {
 	return &mouse_state;
 }
 
 
-void ZSpire::setMouseStateXYPOSvalue(unsigned int x, unsigned int y){
+void ZSpire::Input::setMouseStateXYPOSvalue(unsigned int x, unsigned int y){
 
 	mouse_state.x = x;
 	mouse_state.y = y;
 }
 
-void ZSpire::setMouseStateRelativeXYPOSvalue(int x, int y) {
+void ZSpire::Input::setMouseStateRelativeXYPOSvalue(int x, int y) {
 	mouse_state.relativeX = x;
 	mouse_state.relativeY = y;
 }
 
-void ZSpire::setMouseStateLeftButtonDownBool(bool left_down) {
+void ZSpire::Input::setMouseStateLeftButtonDownBool(bool left_down) {
 	mouse_state.LEFT_BTN_DOWN = left_down;
 }
 
-void ZSpire::setMouseStateRightButtonDownBool(bool right_down) {
+void ZSpire::Input::setMouseStateRightButtonDownBool(bool right_down) {
 	mouse_state.RIGHT_BTN_DOWN = right_down;
 }
 
-void ZSpire::setMouseStateWheelButtonDownBool(bool wheel_down) {
+void ZSpire::Input::setMouseStateWheelButtonDownBool(bool wheel_down) {
 	mouse_state.RIGHT_BTN_DOWN = wheel_down;
+}
+
+bool ZSpire::Input::isButtonHoveredByCursor(UI::ButtonUI* button){
+	if (mouse_state.x >= button->getTransform()->getPosition().X &&
+		mouse_state.x <= button->getTransform()->getPosition().X + button->getTransform()->getScale().X &&
+		WIN_HEIGHT - mouse_state.y <= button->getTransform()->getPosition().Y + button->getTransform()->getScale().Y &&
+		WIN_HEIGHT - mouse_state.y >= button->getTransform()->getPosition().Y)
+		return true;
+	return false;
+}
+
+bool ZSpire::Input::isButtonClicked(UI::ButtonUI* button){
+	if (mouse_state.LEFT_BTN_DOWN == true && isButtonHoveredByCursor(button) == true)
+		return true;
+	return false;
 }

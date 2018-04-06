@@ -57,6 +57,8 @@ namespace ZSpire {
 			void setSize(ZSVECTOR2 size);
 			void setPosition(ZSVECTOR2 pos);
 
+			Transform* getTransform();
+
 			ButtonUI() {
 				text[0] = L'\0';
 				setSize(ZSVECTOR2(100, 50));

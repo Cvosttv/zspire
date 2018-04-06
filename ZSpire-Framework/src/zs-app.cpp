@@ -52,6 +52,8 @@ bool ZSpire::ZSpireApp::createWindow(ZSWindowDesc desc){
 		return false;
 	}
 
+	Input::setWinWH(desc.WIDTH, desc.HEIGHT);
+
 	Camera::setCameraProjectionResolution((float)desc.WIDTH, (float)desc.HEIGHT);
 	Camera::updateCameraMatrix();
 	
@@ -125,6 +127,13 @@ void ZSpire::ZSpireApp::ZSDestroyWindow() {
 	SDL_Quit();
 }
 
+void ZSpire::ZSpireApp::ZSDestroyApp() {
+	ZSDestroyWindow();
+
+	PostQuitMessage(0);
+	exit(0);
+}
+
 void ZSpire::ZSpireApp::MSGBox(const char* title, const char* message) {
 #ifdef _WIN32
 	MessageBox(NULL, message, title, MB_OK);
@@ -140,28 +149,28 @@ void ZSpire::ZSpireApp::PollEvents() {
 
 	case SDL_KEYDOWN: {
 		int cc = event.key.keysym.sym;
-		addKeyToQueue(cc);
+		Input::addKeyToQueue(cc);
 		break;
 	}
 
 	case SDL_MOUSEMOTION: {
-		setMouseStateXYPOSvalue(event.motion.x, event.motion.y);
-		setMouseStateRelativeXYPOSvalue(event.motion.xrel, event.motion.yrel);
+		Input::setMouseStateXYPOSvalue(event.motion.x, event.motion.y);
+		Input::setMouseStateRelativeXYPOSvalue(event.motion.xrel, event.motion.yrel);
 			break;
 	}
 
 	case SDL_MOUSEBUTTONDOWN: {
 		switch (event.button.button) {
 		case SDL_BUTTON_LEFT: {
-			setMouseStateLeftButtonDownBool(true);
+			Input::setMouseStateLeftButtonDownBool(true);
 			break;
 		}
 		case SDL_BUTTON_RIGHT: {
-			setMouseStateRightButtonDownBool(true);
+			Input::setMouseStateRightButtonDownBool(true);
 			break;
 		}
 		case SDL_BUTTON_MIDDLE: {
-			setMouseStateWheelButtonDownBool(true);
+			Input::setMouseStateWheelButtonDownBool(true);
 			break;
 		}
 		}
@@ -187,6 +196,10 @@ void ZSpire::ZSpireApp::setWindowProperties(ZSWindowDesc desc) {
 
 	SDL_SetWindowSize(window, rWIDTH, rHeight);
 	
+	Input::setWinWH(rWIDTH, rHeight);
+
+	DefferedRender::resize_gBuffer(rWIDTH, rHeight);
+
 	Camera::setCameraProjectionResolution((float)rWIDTH, (float)rHeight);
 	Camera::updateCameraMatrix();
 	

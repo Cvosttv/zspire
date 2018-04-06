@@ -19,7 +19,6 @@ ZSpire::Scene scene;
 
 ZSpire::AudioSource asurce;
 
-ZSpire::UI::SpriteUI spr;
 ZSpire::UI::ButtonUI butto;
 
 int main() {
@@ -72,15 +71,12 @@ int main() {
 	ZSpire::UI::setShader(&shader);
 	ZSpire::UI::setShaderText(&text_shader);
 	ZSpire::LoadSceneFromFile("scene.scn", &scene);
-	ZSpire::ForwardRender::setForwardObjectShader(&shader);
-	//ZSpire::DefferedRender::Init_gBuffer();
-	//ZSpire::DefferedRender::setDefferedShaders(&deffered_object_shader, &deffered_light_shader);
+	//ZSpire::ForwardRender::setForwardObjectShader(&shader);
+	ZSpire::DefferedRender::Init_gBuffer();
+	ZSpire::DefferedRender::setDefferedShaders(&deffered_object_shader, &deffered_light_shader);
 	
 	ZSpire::Camera::setCameraProjectionType(CAMERA_PROJECTION_PERSPECTIVE);
 	ZSpire::Camera::updateCameraMatrix();
-
-	spr.setTexture(scene.getTexturePtr(0));
-	spr.setPosition(ZSVECTOR2(20, 20));
 
 	butto.setTexture(scene.getTexturePtr(0));
 	butto.setPosition(ZSVECTOR2(300,300));
@@ -92,9 +88,9 @@ int main() {
 
 		app.PollEvents();
 
-		ZSpire::MouseState* ms = ZSpire::getMouseState();
+		ZSpire::Input::MouseState* ms = ZSpire::Input::getMouseState();
 
-		if (ZSpire::isKeyPressed(SDLK_a) == true) {
+		if (ZSpire::Input::isKeyPressed(SDLK_a) == true) {
 			app.ZSDestroyWindow();
 		}
 
@@ -111,17 +107,19 @@ int main() {
 		shader.Use();
 		shader.setTransform(&transform);
 
-		ZSpire::ForwardRender::RenderScene(&scene);
-		//ZSpire::DefferedRender::RenderScene(&scene);
+		//ZSpire::ForwardRender::RenderScene(&scene);
+		ZSpire::DefferedRender::RenderScene(&scene);
 
 		ZSpire::UI::ToggleUI();
 
-		spr.Draw();
 		butto.Draw();
+
+		if (ZSpire::Input::isButtonClicked(&butto) == true)
+			app.ZSDestroyApp();
 
 		app.postFrame();
 
-		ZSpire::clearQueue();
+		ZSpire::Input::clearQueue();
 	}
 
 	app.ZSDestroyWindow();

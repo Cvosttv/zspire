@@ -54,6 +54,9 @@ void ZSpire::UI::ButtonUI::Draw(){
 	ZSpire::DrawString(text, *text_shader, pos.X + size.X / 2  - this->text_len / 2, pos.Y + size.Y / 2 - this->text_max_h / 2, text_color);
 
 }
+ZSpire::Transform* ZSpire::UI::ButtonUI::getTransform(){
+	return sprite.getTransform();
+}
 
 void ZSpire::UI::setShader(Shader* shader){
 	ui_shader = shader;
@@ -75,12 +78,6 @@ void ZSpire::UI::SpriteUI::Draw() {
 	ui_shader->Use();
 
 	ui_shader->setTransform(getTransform());
-
-	//ui_shader->setUniformFloat("size_x", this->transform.getScale().X);
-	//ui_shader->setUniformFloat("size_y", this->transform.getScale().Y);
-
-	//ui_shader->setUniformFloat("pos_x", this->transform.getPosition().X);
-	//ui_shader->setUniformFloat("pos_y", this->transform.getPosition().Y);
 
 	texture->Use(0);
 

@@ -30,8 +30,10 @@ void ZSpire::Camera::InitializeCamera(){
 	projection_type = CAMERA_PROJECTION_ORTHOGRAPHIC;
 	camera_mode = CAMERA_MODE_SCENE;
 
-	CAMERA_PROJ_WIDTH = 640;
-	CAMERA_PROJ_HEIGHT = 480;
+	if(CAMERA_PROJ_WIDTH == 0)
+		CAMERA_PROJ_WIDTH = 640;
+	if(CAMERA_PROJ_HEIGHT == 0)
+		CAMERA_PROJ_HEIGHT = 480;
 }
 
 void ZSpire::Camera::setCameraProjectionType(ZSPROJECTIONTYPE type) {

@@ -41,6 +41,8 @@ unsigned int gBufferPositionTextureBuffer;
 
 unsigned int gBufferDepthBuffer;
 
+bool isActive = false;
+
 void ZSpire::DefferedRender::setDefferedShaders(Shader* obj_shader, Shader* lighting_shader) {
 	deff_obj_shader = obj_shader;
 	light_shader = lighting_shader;
@@ -53,6 +55,8 @@ void ZSpire::DefferedRender::RenderScene(Scene* scene) {
 	glEnable(GL_DEPTH_TEST);
 
 	deff_obj_shader->Use();
+
+	Camera::setCameraMode(CAMERA_MODE_SCENE);
 
 	deff_obj_shader->updateCamera();
 
@@ -92,6 +96,8 @@ void ZSpire::DefferedRender::set_gBufferSize(unsigned int WIDTH, unsigned int HE
 }
 
 void ZSpire::DefferedRender::Init_gBuffer() {
+	isActive = true;
+
 	glGenFramebuffers(1, &gBufferFBO);
 	glBindFramebuffer(GL_FRAMEBUFFER, gBufferFBO);
 
@@ -129,7 +135,20 @@ void ZSpire::DefferedRender::Init_gBuffer() {
 	glBindRenderbuffer(GL_RENDERBUFFER, gBufferDepthBuffer);
 	glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT, SCR_WIDTH, SCR_HEIGHT);
 	glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, gBufferDepthBuffer);
-	
+}
 
+void ZSpire::DefferedRender::destroy_gBuffer() {
+	glDeleteFramebuffers(1, &gBufferFBO);
+	glDeleteRenderbuffers(1, &gBufferDepthBuffer);
+	//Remove all textures
+	glDeleteTextures(1, &gBufferDiffuseTextureBuffer);
+	glDeleteTextures(1, &gBufferNormalTextureBuffer);
+	glDeleteTextures(1, &gBufferPositionTextureBuffer);
+}
 
+void ZSpire::DefferedRender::resize_gBuffer(unsigned int W, unsigned int H) {
+	SCR_WIDTH = W;
+	SCR_HEIGHT = H;
+	if(isActive == true)
+	Init_gBuffer();
 }
