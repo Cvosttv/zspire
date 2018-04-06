@@ -31,6 +31,9 @@ namespace ZSpire {
 		void addTexture(Texture texture);
 		void addMesh(Mesh mesh);
 
+		Texture* getTexturePtr(unsigned int index);
+		Mesh* getMeshPtr(unsigned int index);
+
 		Texture* findTextureResourceByLabel(const char* label);
 		Mesh* findMeshResourceByLabel(const char* label, unsigned int index);
 	};

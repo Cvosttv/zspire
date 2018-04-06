@@ -16,12 +16,12 @@ void ZSpire::Transform::setRotation(ZSVECTOR3 rotation) {
 
 void ZSpire::Transform::updateMatrix(){
 
-	ZSMATRIX4x4 position_mat = getTranslation(position.X, position.Y, position.Z);
-	ZSMATRIX4x4 scale_mat = getScale(scale.X, scale.Y, scale.Z);
+	ZSMATRIX4x4 position_mat = getTranslationMat(position.X, position.Y, position.Z);
+	ZSMATRIX4x4 scale_mat = getScaleMat(scale.X, scale.Y, scale.Z);
 
-	ZSMATRIX4x4 rotation_x_mat = getRotationX(rotation.X);
-	ZSMATRIX4x4 rotation_y_mat = getRotationY(rotation.Y);
-	ZSMATRIX4x4 rotation_z_mat = getRotationZ(rotation.Z);
+	ZSMATRIX4x4 rotation_x_mat = getRotationXMat(rotation.X);
+	ZSMATRIX4x4 rotation_y_mat = getRotationYMat(rotation.Y);
+	ZSMATRIX4x4 rotation_z_mat = getRotationZMat(rotation.Z);
 
 	ZSMATRIX4x4 result = getIdentity();
 
@@ -35,4 +35,12 @@ void ZSpire::Transform::updateMatrix(){
 }
 
 
-
+ZSVECTOR3 ZSpire::Transform::getPosition(){
+	return position;
+}
+ZSVECTOR3 ZSpire::Transform::getScale(){
+	return scale;
+}
+ZSVECTOR3 ZSpire::Transform::getRotation() {
+	return rotation;
+}

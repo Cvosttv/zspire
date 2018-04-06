@@ -295,3 +295,10 @@ ZSpire::Mesh* ZSpire::Scene::findMeshResourceByLabel(const char* label, unsigned
 	}
 	return nullptr;
 }
+
+ZSpire::Texture* ZSpire::Scene::getTexturePtr(unsigned int index){
+	return &scene_textures[index];
+}
+ZSpire::Mesh* ZSpire::Scene::getMeshPtr(unsigned int index) {
+	return &scene_meshes[index];
+}

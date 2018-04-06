@@ -19,8 +19,12 @@ ZSpire::Scene scene;
 
 ZSpire::AudioSource asurce;
 
+ZSpire::UI::SpriteUI spr;
+ZSpire::UI::ButtonUI butto;
 
 int main() {
+
+	ZSpire::Camera::InitializeCamera();
 
 	ZSpire::ZSWindowDesc dec;
 	dec.WIDTH = 1280;
@@ -55,7 +59,7 @@ int main() {
 	deffered_light_shader.InitializeShader();
 	deffered_light_shader.compileFromFile("shaders/deffered/lighting.vs", "shaders/deffered/lighting.fs");
 
-
+	
 
 	asurce.Open("test.wav");
 
@@ -65,14 +69,22 @@ int main() {
 	transform.setPosition(ZSVECTOR3(1,0,0));
 	transform.updateMatrix();
 
+	ZSpire::UI::setShader(&shader);
+	ZSpire::UI::setShaderText(&text_shader);
 	ZSpire::LoadSceneFromFile("scene.scn", &scene);
 	ZSpire::ForwardRender::setForwardObjectShader(&shader);
 	//ZSpire::DefferedRender::Init_gBuffer();
 	//ZSpire::DefferedRender::setDefferedShaders(&deffered_object_shader, &deffered_light_shader);
 	
-	ZSpire::Camera::InitializeCamera();
 	ZSpire::Camera::setCameraProjectionType(CAMERA_PROJECTION_PERSPECTIVE);
 	ZSpire::Camera::updateCameraMatrix();
+
+	spr.setTexture(scene.getTexturePtr(0));
+	spr.setPosition(ZSVECTOR2(20, 20));
+
+	butto.setTexture(scene.getTexturePtr(0));
+	butto.setPosition(ZSVECTOR2(300,300));
+	butto.setText(L"test");
 
 	asurce.Play();
 	
@@ -99,12 +111,13 @@ int main() {
 		shader.Use();
 		shader.setTransform(&transform);
 
-		//ZSpire::getPlaneMesh2D()->Draw();
-
-		ZSpire::DrawString(L"abcdefgh test", text_shader, 100, 100, ZSRGBCOLOR(255,255,0));
-
 		ZSpire::ForwardRender::RenderScene(&scene);
 		//ZSpire::DefferedRender::RenderScene(&scene);
+
+		ZSpire::UI::ToggleUI();
+
+		spr.Draw();
+		butto.Draw();
 
 		app.postFrame();
 

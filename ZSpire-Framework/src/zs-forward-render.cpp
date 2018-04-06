@@ -38,14 +38,6 @@ void ZSpire::ForwardRender::RenderScene(Scene* scene) {
 		scene->getObjectAt(obj)->Draw();
 	}
 
-	Camera::setCameraMode(CAMERA_MODE_UI);
-	object_shader->updateCamera();
+	
 }
 
-void ZSpire::ForwardRender::RenderSpriteUI(UI::SpriteUI* sprite) {
-	object_shader->Use();
-
-	object_shader->setTransform(sprite->getTransform());
-
-	sprite->Draw();
-}

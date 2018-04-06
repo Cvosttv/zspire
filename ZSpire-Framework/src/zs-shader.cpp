@@ -181,3 +181,10 @@ void ZSpire::Shader::setLight(unsigned int index, Light* light) {
 	setUniformVec3(dir.c_str(), light->getDirection());
 	setUniformVec3(pos.c_str(), light->getPosition());
 }
+
+void ZSpire::Shader::updateFrameResolution(){
+	ZSVECTOR2 res = Camera::getCameraResolution();
+
+	this->setUniformFloat("frame_x", res.X);
+	this->setUniformFloat("frame_y", res.Y);
+}

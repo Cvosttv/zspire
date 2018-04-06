@@ -13,6 +13,5 @@ namespace ZSpire {
 
 		void RenderScene(Scene* scene);
 
-		void RenderSpriteUI(UI::SpriteUI* sprite);
 	}
 }

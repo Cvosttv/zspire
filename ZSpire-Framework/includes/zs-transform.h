@@ -29,6 +29,11 @@ namespace ZSpire {
 		void setPosition(ZSVECTOR3 pos);
 		void setScale(ZSVECTOR3 scale);
 		void setRotation(ZSVECTOR3 rotation);
+
+		ZSVECTOR3 getPosition();
+		ZSVECTOR3 getScale();
+		ZSVECTOR3 getRotation();
+
 		void updateMatrix();
 	};
 }

@@ -206,7 +206,7 @@ void ZSpire::DrawString(const wchar_t* text, float pos_x, float pos_y, ZSRGBCOLO
 	//DrawString(text, text_shader, pos_x, pos_y, color);
 }
 
-unsigned int ZSpire::GetStringLength(wchar_t* text) {
+unsigned int ZSpire::GetStringLength(const wchar_t* text) {
 
 
 	unsigned int step_x_passed = 0;
@@ -224,7 +224,7 @@ unsigned int ZSpire::GetStringLength(wchar_t* text) {
 	return step_x_passed;
 }
 
-unsigned int ZSpire::GetMaximumLetterHeight(wchar_t* text) {
+unsigned int ZSpire::GetMaximumLetterHeight(const wchar_t* text) {
 
 	unsigned int result = 0;
 

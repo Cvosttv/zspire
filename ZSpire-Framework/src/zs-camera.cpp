@@ -22,7 +22,6 @@ ZSMATRIX4x4 PROJECTION;
 ZSMATRIX4x4 VIEW;
 
 ZSMATRIX4x4 PROJECTION_UI;
-ZSMATRIX4x4 VIEW_UI;
 
 void ZSpire::Camera::InitializeCamera(){
 	FOV = 45.0f;
@@ -58,8 +57,7 @@ void ZSpire::Camera::updateCameraMatrix() {
 
 	VIEW = matrixLookAt(camera_pos, camera_target, camera_up);
 
-	PROJECTION_UI = getOrthogonal(0, CAMERA_PROJ_WIDTH, 0, CAMERA_PROJ_HEIGHT);
-	VIEW_UI = matrixLookAt(camera_pos, camera_target, camera_up);
+	PROJECTION_UI = getOrthogonal(0, CAMERA_PROJ_WIDTH, 0, CAMERA_PROJ_HEIGHT, ZNearPlane, ZFarPlane);
 }
 
 void ZSpire::Camera::setCameraProjectionResolution(float WIDTH, float HEIGHT) {
@@ -83,7 +81,7 @@ ZSMATRIX4x4 ZSpire::Camera::getCameraViewMatrix() {
 	}
 
 	if (camera_mode == CAMERA_MODE_UI) {
-		return VIEW_UI;
+		return getIdentity();
 	}
 
 	return getIdentity();
@@ -95,4 +93,8 @@ void ZSpire::Camera::setCameraPosition(ZSVECTOR3 position) {
 
 void ZSpire::Camera::setCameraMode(ZSCAMERAMODE mode){
 	camera_mode = mode;
+}
+
+ZSVECTOR2 ZSpire::Camera::getCameraResolution() {
+	return ZSVECTOR2(CAMERA_PROJ_WIDTH, CAMERA_PROJ_HEIGHT);
 }

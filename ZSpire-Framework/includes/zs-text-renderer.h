@@ -28,7 +28,7 @@ namespace ZSpire {
 
 	void DrawString(const wchar_t* text, float pos_x, float pos_y, ZSRGBCOLOR color);
 
-	unsigned int GetStringLength(wchar_t* text);
+	unsigned int GetStringLength(const wchar_t* text);
 
-	unsigned int GetMaximumLetterHeight(wchar_t* text);
+	unsigned int GetMaximumLetterHeight(const wchar_t* text);
 }

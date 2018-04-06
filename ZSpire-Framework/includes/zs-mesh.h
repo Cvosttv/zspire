@@ -29,6 +29,7 @@ namespace ZSpire {
 
 	void createPlane2D();
 	Mesh* getPlaneMesh2D();
+	Mesh* getUiSpriteMesh2D();
 
 }
 

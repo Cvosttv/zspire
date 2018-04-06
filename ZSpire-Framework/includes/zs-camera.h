@@ -36,5 +36,7 @@ namespace ZSpire {
 		ZSMATRIX4x4 getCameraViewMatrix();
 
 		void setCameraMode(ZSCAMERAMODE mode);
+
+		ZSVECTOR2 getCameraResolution();
 	}
 }

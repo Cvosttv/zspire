@@ -111,7 +111,7 @@ ZSMATRIX4x4 matrixLookAt(ZSVECTOR3 eye, ZSVECTOR3 center, ZSVECTOR3 up)
 	return out;
 }
 
-ZSMATRIX4x4 getScale(float scaleX, float scaleY, float scaleZ) {
+ZSMATRIX4x4 getScaleMat(float scaleX, float scaleY, float scaleZ) {
 
 	ZSMATRIX4x4 mat;
 
@@ -122,7 +122,7 @@ ZSMATRIX4x4 getScale(float scaleX, float scaleY, float scaleZ) {
 
 	return mat;
 }
-ZSMATRIX4x4 getTranslation(float trX, float trY, float trZ) {
+ZSMATRIX4x4 getTranslationMat(float trX, float trY, float trZ) {
 
 	ZSMATRIX4x4 mat;
 
@@ -135,7 +135,7 @@ ZSMATRIX4x4 getTranslation(float trX, float trY, float trZ) {
 		;
 }
 
-ZSMATRIX4x4 getRotationX(float thetaN) {
+ZSMATRIX4x4 getRotationXMat(float thetaN) {
 	double theta = DegToRad(thetaN);
 	ZSMATRIX4x4 mat;
 
@@ -146,7 +146,7 @@ ZSMATRIX4x4 getRotationX(float thetaN) {
 
 	return mat;
 }
-ZSMATRIX4x4 getRotationY(float thetaN) {
+ZSMATRIX4x4 getRotationYMat(float thetaN) {
 	double theta = DegToRad(thetaN);
 	ZSMATRIX4x4 mat;
 
@@ -157,7 +157,7 @@ ZSMATRIX4x4 getRotationY(float thetaN) {
 
 	return mat;
 }
-ZSMATRIX4x4 getRotationZ(float thetaN) {
+ZSMATRIX4x4 getRotationZMat(float thetaN) {
 	double theta = DegToRad(thetaN);
 	ZSMATRIX4x4 mat;
 

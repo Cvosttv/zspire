@@ -10,27 +10,46 @@
 #include "../includes/zs-math.h"
 #include "../includes/zs-mesh.h"
 
-ZSVERTEX vertices[] = {
+ZSVERTEX plane_vertices[] = {
 	// positions              // texture coords
 	ZSVERTEX(ZSVECTOR3(1.0f,  1.0f, 0.0f),		ZSVECTOR2(1.0f, 1.0f)),   // top right
 	ZSVERTEX(ZSVECTOR3(1.0f, -1.0f, 0.0f),		ZSVECTOR2(1.0f, 0.0f)),   // bottom right
 	ZSVERTEX(ZSVECTOR3(-1.0f, -1.0f, 0.0f),		ZSVECTOR2(0.0f, 0.0f)),   // bottom left
 	ZSVERTEX(ZSVECTOR3(-1.0f,  1.0f, 0.0f),		ZSVECTOR2(0.0f, 1.0f))   // top left 
 };
+
+ZSVERTEX ui_sprite_vertices[] = {
+	// positions              // texture coords
+	ZSVERTEX(ZSVECTOR3(1.0f,  1.0f, 0.0f),		ZSVECTOR2(1.0f, 1.0f)),   // top right
+	ZSVERTEX(ZSVECTOR3(1.0f, 0.0f, 0.0f),		ZSVECTOR2(1.0f, 0.0f)),   // bottom right
+	ZSVERTEX(ZSVECTOR3(0.0f, 0.0f, 0.0f),		ZSVECTOR2(0.0f, 0.0f)),   // bottom left
+	ZSVERTEX(ZSVECTOR3(0.0f,  1.0f, 0.0f),		ZSVECTOR2(0.0f, 1.0f))   // top left 
+};
+
 unsigned int ind[] = { 0,1,2, 0,2,3 };
 
 ZSpire::Mesh plane2D;
+ZSpire::Mesh uiSprite2D;
 
 void ZSpire::createPlane2D() {
 	plane2D.InitializeMesh();
 
-	plane2D.processMesh(vertices, ind, 4, 6);
+	plane2D.processMesh(plane_vertices, ind, 4, 6);
+
+	uiSprite2D.InitializeMesh();
+
+	uiSprite2D.processMesh(ui_sprite_vertices, ind, 4, 6);
 
 }
 
 ZSpire::Mesh* ZSpire::getPlaneMesh2D(){
 	return &plane2D;
 }
+
+ZSpire::Mesh* ZSpire::getUiSpriteMesh2D() {
+	return &uiSprite2D;
+}
+
 
 void ZSpire::Mesh::InitializeMesh() {
 	glGenVertexArrays(1, &this->meshVAO);
