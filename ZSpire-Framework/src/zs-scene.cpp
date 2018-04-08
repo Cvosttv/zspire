@@ -302,3 +302,13 @@ ZSpire::Texture* ZSpire::Scene::getTexturePtr(unsigned int index){
 ZSpire::Mesh* ZSpire::Scene::getMeshPtr(unsigned int index) {
 	return &scene_meshes[index];
 }
+
+void ZSpire::Scene::Release() {
+	for (unsigned int tex_i = 0; tex_i < scene_textures.size(); tex_i ++) {
+		scene_textures[tex_i].Release();
+	}
+
+	for (unsigned int mesh_i = 0; mesh_i < scene_textures.size(); mesh_i++) {
+		scene_meshes[mesh_i].Release();
+	}
+}

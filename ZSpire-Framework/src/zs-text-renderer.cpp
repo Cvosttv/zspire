@@ -158,13 +158,17 @@ bool ZSpire::LoadGlyphes(const char* texture, const char* glyph_map, float scale
 
 void ZSpire::DrawLetter(unsigned int letter, Shader text_shader, float step) {
 	text_shader.setUniformFloat("step", step);
-	text_shader.setUniformFloat("offset_y", glyphs[letter].offset_y);
+	text_shader.setUniformFloat("offset_y", glyphs[116].sizeY - glyphs[letter].sizeY - glyphs[letter].offset_y + glyphs[116].offset_y);
 	glBindVertexArray(glyphs[letter].VAO);
 
 	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 }
 
-void ZSpire::DrawString(const wchar_t* text, Shader text_shader, float pos_x, float pos_y, ZSRGBCOLOR color) {
+void ZSpire::DrawString(const wchar_t* text, Shader text_shader, ZSVECTOR2 pos, ZSRGBCOLOR color) {
+	
+	float pos_x = pos.X;
+	float pos_y = pos.Y;
+	
 	glEnable(GL_BLEND);
 	glDisable(GL_DEPTH_TEST);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -200,11 +204,6 @@ void ZSpire::DrawString(const wchar_t* text, Shader text_shader, float pos_x, fl
 
 
 
-
-void ZSpire::DrawString(const wchar_t* text, float pos_x, float pos_y, ZSRGBCOLOR color) {
-	//dshaders::Shader text_shader = dshaders::getTextShader();
-	//DrawString(text, text_shader, pos_x, pos_y, color);
-}
 
 unsigned int ZSpire::GetStringLength(const wchar_t* text) {
 

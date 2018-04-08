@@ -21,7 +21,7 @@ void main()
 {             
 
     float pos_x = (posT_x * 2 - 1) / res_x + (Position.x / res_x * 2 - 1) + (step * 2 - 1) / res_x;    
-    float pos_y = (posT_y * 2 ) / res_y + (Position.y / res_y * 2 - 1) ;
+    float pos_y = (posT_y * 2 ) / res_y + (Position.y / res_y * 2 - 1) + (offset_y * 2 ) / res_y;
 
     gl_Position = vec4(pos_x, pos_y, 1, 1.0);              
     uvs = vertexUV;                                                          

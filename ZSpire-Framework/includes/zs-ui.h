@@ -19,7 +19,7 @@ namespace ZSpire {
 		class SpriteUI {
 		protected:
 			Transform transform;
-			Texture* texture;
+			Texture* texture = nullptr;
 		public:
 			void Draw();
 			Transform* getTransform();
@@ -43,6 +43,9 @@ namespace ZSpire {
 			ZSVECTOR2 pos;
 			ZSVECTOR2 size;
 
+			Texture* default_texture = nullptr;
+			Texture* hovered_texture = nullptr;
+
 			float text_len;
 			float text_max_h;
 
@@ -52,7 +55,8 @@ namespace ZSpire {
 
 			void Draw();
 
-			void setTexture(Texture* texture);
+			void setDefaultTexture(Texture* texture);
+			void setHoveredTexture(Texture* texture);
 
 			void setSize(ZSVECTOR2 size);
 			void setPosition(ZSVECTOR2 pos);
@@ -66,10 +70,24 @@ namespace ZSpire {
 
 		};
 
+		class TextUI {
+		protected:
+			wchar_t text[500];
+			ZSRGBCOLOR color;
+			ZSVECTOR2 pos;
+
+		public:
+			void setText(const wchar_t* text);
+			void setPosition(ZSVECTOR2 pos);
+			void setTextColor(ZSRGBCOLOR color);
+			void Draw();
+		};
+
 		void setShaderText(Shader* _text_shader);
 		void setShader(Shader* shader);
 		void ToggleUI();
 	}
+
 }
 
 #define ZSUI

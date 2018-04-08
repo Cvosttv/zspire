@@ -36,6 +36,8 @@ namespace ZSpire {
 
 		Texture* findTextureResourceByLabel(const char* label);
 		Mesh* findMeshResourceByLabel(const char* label, unsigned int index);
+
+		void Release();
 	};
 
 	bool LoadSceneFromFile(const char* file_path, Scene* result);

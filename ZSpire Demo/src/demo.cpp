@@ -5,15 +5,12 @@
 
 ZSpire::ZSpireApp app;
 
-ZSpire::Texture texture;
 ZSpire::Shader shader;
 ZSpire::Shader text_shader;
 
 ZSpire::Shader deffered_object_shader;
 ZSpire::Shader deffered_light_shader;
 
-
-ZSpire::Transform transform;
 
 ZSpire::Scene scene;
 
@@ -65,8 +62,6 @@ int main() {
 	
 	ZSpire::ZSLOADEDMESHINFO inf;
 
-	transform.setPosition(ZSVECTOR3(1,0,0));
-	transform.updateMatrix();
 
 	ZSpire::UI::setShader(&shader);
 	ZSpire::UI::setShaderText(&text_shader);
@@ -78,9 +73,11 @@ int main() {
 	ZSpire::Camera::setCameraProjectionType(CAMERA_PROJECTION_PERSPECTIVE);
 	ZSpire::Camera::updateCameraMatrix();
 
-	butto.setTexture(scene.getTexturePtr(0));
+	butto.setDefaultTexture(scene.getTexturePtr(0));
+	butto.setHoveredTexture(scene.getTexturePtr(1));
 	butto.setPosition(ZSVECTOR2(300,300));
-	butto.setText(L"test");
+	butto.setSize(ZSVECTOR2(200,100));
+	butto.setText(L"Привет!");
 
 	asurce.Play();
 	
@@ -104,8 +101,6 @@ int main() {
 
 		app.gl_clear();
 
-		shader.Use();
-		shader.setTransform(&transform);
 
 		//ZSpire::ForwardRender::RenderScene(&scene);
 		ZSpire::DefferedRender::RenderScene(&scene);

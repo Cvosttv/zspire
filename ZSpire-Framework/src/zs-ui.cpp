@@ -8,6 +8,8 @@
 
 #include "../includes/zs-text-renderer.h"
 
+#include "../includes/zs-input.h"
+
 #include <wchar.h>
 
 ZSpire::Shader* ui_shader;
@@ -38,9 +40,13 @@ void ZSpire::UI::ButtonUI::setText(const wchar_t* text){
 void ZSpire::UI::ButtonUI::setTextColor(ZSRGBCOLOR text_color){
 	this->text_color = text_color;
 }
-void ZSpire::UI::ButtonUI::setTexture(Texture* texture){
-	this->sprite.setTexture(texture);
+void ZSpire::UI::ButtonUI::setDefaultTexture(Texture* texture){
+	this->default_texture = texture;
 }
+void ZSpire::UI::ButtonUI::setHoveredTexture(Texture* texture) {
+	this->hovered_texture = texture;
+}
+
 void ZSpire::UI::ButtonUI::setPosition(ZSVECTOR2 pos){
 	this->sprite.setPosition(pos);
 	this->pos = pos;
@@ -50,8 +56,16 @@ void ZSpire::UI::ButtonUI::setSize(ZSVECTOR2 size){
 	this->size = size;
 }
 void ZSpire::UI::ButtonUI::Draw(){
+	bool hovered = Input::isButtonHoveredByCursor(this);
+
+	if (!hovered)
+		this->sprite.setTexture(default_texture);
+
+	if (hovered && hovered_texture != nullptr)
+		this->sprite.setTexture(hovered_texture);
+
 	this->sprite.Draw();
-	ZSpire::DrawString(text, *text_shader, pos.X + size.X / 2  - this->text_len / 2, pos.Y + size.Y / 2 - this->text_max_h / 2, text_color);
+	ZSpire::DrawString(text, *text_shader, ZSVECTOR2(pos.X + size.X / 2  - this->text_len / 2, pos.Y + size.Y / 2 - this->text_max_h / 2), text_color);
 
 }
 ZSpire::Transform* ZSpire::UI::ButtonUI::getTransform(){
@@ -78,8 +92,16 @@ void ZSpire::UI::SpriteUI::Draw() {
 	ui_shader->Use();
 
 	ui_shader->setTransform(getTransform());
-
+	if(texture != nullptr)
 	texture->Use(0);
 
 	getUiSpriteMesh2D()->Draw();
+}
+
+void ZSpire::UI::TextUI::setText(const wchar_t* text){
+	wcscpy(this->text, text);
+}
+void ZSpire::UI::TextUI::Draw() {
+	ZSpire::DrawString(text, *text_shader, pos, this->color);
+
 }
