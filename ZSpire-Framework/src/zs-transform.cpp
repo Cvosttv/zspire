@@ -11,7 +11,7 @@ void ZSpire::Transform::setScale(ZSVECTOR3 scale) {
 }
 
 void ZSpire::Transform::setRotation(ZSVECTOR3 rotation) {
-	this->rotation = rotation;
+	this->rotation = ZSVECTOR3(rotation.X, rotation.Y, rotation.Z);
 }
 
 void ZSpire::Transform::updateMatrix(){

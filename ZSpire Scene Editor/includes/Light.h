@@ -2,9 +2,15 @@
 #define ZSLIGHT
 #endif
 
+#define LIGHTSOURCE_DIRECTIONAL 1
+#define LIGHTSOURCE_SPOT 3
+#define LIGHTSOURCE_POINT 2
+
 class Light {
 public:
 	
+	int type;
+
 	char label[255];
 	bool deleted;
 
@@ -19,6 +25,7 @@ public:
 	void setLightAttenuationParams(float linear, float quadratic, float maxlight);
 
 	Light() {
+		type = LIGHTSOURCE_DIRECTIONAL;
 		label[0] = '\0';
 		deleted = false;
 		pos = ZSVECTOR3(0.0f, 0.0f, 0.0f);

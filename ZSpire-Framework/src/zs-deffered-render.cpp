@@ -53,6 +53,7 @@ void ZSpire::DefferedRender::RenderScene(Scene* scene) {
 	glBindFramebuffer(GL_FRAMEBUFFER, gBufferFBO);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glEnable(GL_DEPTH_TEST);
+	glEnable(GL_CULL_FACE);
 
 	deff_obj_shader->Use();
 
@@ -87,6 +88,8 @@ void ZSpire::DefferedRender::RenderScene(Scene* scene) {
 	glBindTexture(GL_TEXTURE_2D, gBufferPositionTextureBuffer);
 
 	glDisable(GL_DEPTH_TEST);
+	
+	glDisable(GL_CULL_FACE);
 	getPlaneMesh2D()->Draw();
 }
 
@@ -138,15 +141,20 @@ void ZSpire::DefferedRender::Init_gBuffer() {
 }
 
 void ZSpire::DefferedRender::destroy_gBuffer() {
-	glDeleteFramebuffers(1, &gBufferFBO);
-	glDeleteRenderbuffers(1, &gBufferDepthBuffer);
-	//Remove all textures
-	glDeleteTextures(1, &gBufferDiffuseTextureBuffer);
-	glDeleteTextures(1, &gBufferNormalTextureBuffer);
-	glDeleteTextures(1, &gBufferPositionTextureBuffer);
+	if (isActive == true) {
+		glDeleteFramebuffers(1, &gBufferFBO);
+		glDeleteRenderbuffers(1, &gBufferDepthBuffer);
+		//Remove all textures
+		glDeleteTextures(1, &gBufferDiffuseTextureBuffer);
+		glDeleteTextures(1, &gBufferNormalTextureBuffer);
+		glDeleteTextures(1, &gBufferPositionTextureBuffer);
+	}
 }
 
 void ZSpire::DefferedRender::resize_gBuffer(unsigned int W, unsigned int H) {
+	//Destroy gBuffer Textures first
+	destroy_gBuffer();
+	
 	SCR_WIDTH = W;
 	SCR_HEIGHT = H;
 	if(isActive == true)

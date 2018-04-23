@@ -158,6 +158,7 @@ void ZSWindows::DrawInspectorWindow(SDL_Window* window){
 		obj->light_color.g = (int)(color[1] * 256);
 		obj->light_color.b = (int)(color[2] * 256);
 
+		obj->light_color.updateGL();
 		if (ImGui::Button("Delete") == true) {
 			obj->deleted = true;
 			selected_light = NON_SHOWING;

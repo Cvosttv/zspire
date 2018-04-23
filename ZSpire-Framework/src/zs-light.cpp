@@ -10,7 +10,7 @@
 #endif
 
 
-void ZSpire::Light::setLightType(ZS_LIGHT_TYPE light_type) {
+void ZSpire::Light::setLightType(ZSLIGHTTYPE light_type) {
 	this->light_type = light_type;
 }
 
@@ -37,6 +37,10 @@ ZSRGBCOLOR ZSpire::Light::getDiffuseColor() {
 
 ZSVECTOR3 ZSpire::Light::getDirection() {
 	return this->light_direction;
+}
+
+ZSLIGHTTYPE ZSpire::Light::getLightType() {
+	return light_type;
 }
 
 void ZSpire::Light::setLabel(const char* label) {

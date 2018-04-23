@@ -89,7 +89,7 @@ bool ZSpire::Texture::LoadDDSFromBuffer(unsigned char* buffer) {
 	free(bufferT);
 	return true;
 }
-
+//Load DDS texture from file
 bool ZSpire::Texture::LoadDDSFromFile(const char* file_path) {
 	FILE * file = fopen(file_path, "rb");
 	if (file == NULL) {

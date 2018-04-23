@@ -70,7 +70,11 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>D:\LIBS\ASSIMP;D:\LIBS\SDL;D:\LIBS\IMGUI;D:\LIBS\GL;$(IncludePath)</IncludePath>
+    <IncludePath>%ZSlibs%\ASSIMP;%ZSlibs%\SDL;%ZSlibs%\IMGUI;%ZSlibs%\GL;$(IncludePath)</IncludePath>
+    <LibraryPath>%ZSlibs%;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <IncludePath>D:\LIBS\GL;D:\LIBS\IMGUI;D:\LIBS\SDL;D:\LIBS\ASSIMP;$(IncludePath)</IncludePath>
     <LibraryPath>D:\LIBS;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -80,6 +84,7 @@
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
+      <AdditionalIncludeDirectories>D:\LIBS\IMGUI;D:\LIBS\GL;D:\LIBS\SDL;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -120,42 +125,53 @@
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalDependencies>opengl32.lib;SDL2.lib;SDL2main.lib;SDL2test.lib;glew32s.lib;glew32.lib;assimp_x64.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <SubSystem>Windows</SubSystem>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="includes\Camera.hpp" />
-    <ClInclude Include="includes\DColor.h" />
-    <ClInclude Include="includes\DMath.h" />
     <ClInclude Include="includes\file_window.h" />
     <ClInclude Include="includes\GameObject.h" />
-    <ClInclude Include="includes\geometry.h" />
     <ClInclude Include="includes\imgui_impl_sdl_gl3.h" />
     <ClInclude Include="includes\Light.h" />
-    <ClInclude Include="includes\Material.h" />
     <ClInclude Include="includes\objects_window.h" />
-    <ClInclude Include="includes\pdem_loader.h" />
     <ClInclude Include="includes\property_inspector.h" />
+    <ClInclude Include="includes\Renderer.h" />
+    <ClInclude Include="includes\Resources.h" />
+    <ClInclude Include="includes\resources_window.h" />
     <ClInclude Include="includes\scene_loader.h" />
     <ClInclude Include="includes\startup_window.h" />
+    <ClInclude Include="includes\zs-camera.h" />
+    <ClInclude Include="includes\zs-math.h" />
+    <ClInclude Include="includes\zs-mesh-loader.h" />
+    <ClInclude Include="includes\zs-mesh.h" />
+    <ClInclude Include="includes\zs-shader.h" />
+    <ClInclude Include="includes\zs-texture.h" />
+    <ClInclude Include="includes\zs-transform.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="IMGUI\imgui.cpp" />
     <ClCompile Include="IMGUI\imgui_demo.cpp" />
     <ClCompile Include="IMGUI\imgui_draw.cpp" />
-    <ClCompile Include="src\DColor.cpp" />
-    <ClCompile Include="src\DMath.cpp" />
     <ClCompile Include="src\file_window.cpp" />
     <ClCompile Include="src\GameObject.cpp" />
-    <ClCompile Include="src\geometry.cpp" />
     <ClCompile Include="src\imgui_impl_sdl_gl3.cpp" />
     <ClCompile Include="src\Light.cpp" />
-    <ClCompile Include="src\Material.cpp" />
     <ClCompile Include="src\objects_window.cpp" />
-    <ClCompile Include="src\pdem_loader.cpp" />
     <ClCompile Include="src\property_inspector.cpp" />
+    <ClCompile Include="src\Renderer.cpp" />
+    <ClCompile Include="src\Resources.cpp" />
+    <ClCompile Include="src\resources_window.cpp" />
     <ClCompile Include="src\scene_editor.cpp" />
     <ClCompile Include="src\scene_loader.cpp" />
     <ClCompile Include="src\startup_window.cpp" />
+    <ClCompile Include="src\zs-camera.cpp" />
+    <ClCompile Include="src\zs-math.cpp" />
+    <ClCompile Include="src\zs-mesh-loader.cpp" />
+    <ClCompile Include="src\zs-mesh.cpp" />
+    <ClCompile Include="src\zs-shader.cpp" />
+    <ClCompile Include="src\zs-texture.cpp" />
+    <ClCompile Include="src\zs-transform.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -1,4 +1,7 @@
 
+#define SHADER_DIFFUSE_TEXTURE_SLOT 0
+#define SHADER_NORMAL_TEXTURE_SLOT 1
+
 #ifndef ZSRESOURCE
 #include "zs-resource.h"
 #endif

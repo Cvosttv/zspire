@@ -13,6 +13,14 @@
 
 #include "../includes/zs-forward-render.h"
 
+#ifdef _WIN32
+#include <glew.h>
+#endif
+
+#ifdef __linux__
+#include <GL/glew.h>
+#endif
+
 ZSpire::Shader* object_shader;
 
 void ZSpire::ForwardRender::setForwardObjectShader(Shader* shader) {
@@ -20,6 +28,7 @@ void ZSpire::ForwardRender::setForwardObjectShader(Shader* shader) {
 }
 
 void ZSpire::ForwardRender::RenderScene(Scene* scene) {
+	glEnable(GL_CULL_FACE);
 	object_shader->Use();
 
 	Camera::setCameraMode(CAMERA_MODE_SCENE);

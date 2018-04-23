@@ -1,3 +1,4 @@
+
 #define _CRT_SECURE_NO_WARNINGS
 
 #include "imgui.h"
@@ -26,6 +27,10 @@
 
 float cam_pitch = 0;
 float cam_yaw = 0;
+
+float cam_speed = 0.2f;
+
+bool isMouseRelative = false;
 
 ZSpire::Shader obj_shader;
 
@@ -117,23 +122,53 @@ int main(int argc, char* argv[])
 			if (event.type == SDL_QUIT)
 				done = true;
 
-			if(event.type == SDL_MOUSEMOTION) {
+			if (event.type == SDL_KEYDOWN) {
+				if (event.key.keysym.sym == SDLK_LALT) {
+					if (isMouseRelative == false) {
+						isMouseRelative = true;
+						SDL_SetRelativeMouseMode(SDL_TRUE);
+					}
+					else {
+						SDL_SetRelativeMouseMode(SDL_FALSE);
+						isMouseRelative = false;
+					}
+				}
+
+				if (event.key.keysym.sym == SDLK_w) {
+					ZSpire::setCameraPosition(ZSpire::getCameraPos() + ZSpire::getCameraFront() * cam_speed);
+				}
+				if (event.key.keysym.sym == SDLK_s) {
+					ZSpire::setCameraPosition(ZSpire::getCameraPos() - ZSpire::getCameraFront() * cam_speed);
+				}
+				if (event.key.keysym.sym == SDLK_a) {
+					ZSpire::setCameraPosition(ZSpire::getCameraPos() - ZSpire::getCameraRight() * cam_speed);
+				}
+				if (event.key.keysym.sym == SDLK_d) {
+					ZSpire::setCameraPosition(ZSpire::getCameraPos() + ZSpire::getCameraRight() * cam_speed);
+				}
+			
+			}
 				
-				cam_yaw += event.motion.xrel * 0.06f;
-				cam_pitch += event.motion.yrel * 0.06f;
+			
 
-			//	if (cam_pitch > 89.0f)
-				//	cam_pitch = 89.0f;
-				//if (cam_pitch < -89.0f)
-					//cam_pitch = -89.0f;
+			if (event.type == SDL_MOUSEMOTION) {
+				if (isMouseRelative == true) {
+					cam_yaw += event.motion.xrel * 0.06f;
+					cam_pitch += event.motion.yrel * 0.06f;
 
-				ZSVECTOR3 front;
-				front.X = cos(DegToRad(cam_yaw)) * cos(DegToRad(cam_pitch));
-				front.Y = sin(DegToRad(cam_pitch));
-				front.Z = sin(DegToRad(cam_yaw)) * cos(DegToRad(cam_pitch));
-				vNormalize(&front);
+						if (cam_pitch > 89.0f)
+							cam_pitch = 89.0f;
+						if (cam_pitch < -89.0f)
+							cam_pitch = -89.0f;
 
-				ZSpire::setCameraFront(front);
+					ZSVECTOR3 front;
+					front.X = (float)(cos(DegToRad(cam_yaw)) * cos(DegToRad(cam_pitch)));
+					front.Y = -sin(DegToRad(cam_pitch));
+					front.Z = sin(DegToRad(cam_yaw)) * cos(DegToRad(cam_pitch));
+					vNormalize(&front);
+
+					ZSpire::setCameraFront(front);
+				}
 			}
 
 		}

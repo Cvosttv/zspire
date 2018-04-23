@@ -13,10 +13,6 @@
 
 bool ZSpire::AudioSource::Open(const char* Filename)
 {
-	
-
-	//mLooped = Looped;
-
 	alGenSources(1, &mSourceID);
 	if (!CheckALError()) return false;
 
@@ -27,8 +23,6 @@ bool ZSpire::AudioSource::Open(const char* Filename)
 	alSourcef(mSourceID, AL_GAIN, 1.0f);
 	alSource3f(mSourceID, AL_POSITION, 0,0,0);
 	alSource3f(mSourceID, AL_VELOCITY, 0,0,0);
-	//alSourcei(mSourceID, AL_LOOPING, mLooped);
-
 	
 	ALsizei size, freq;
 	ALenum format;

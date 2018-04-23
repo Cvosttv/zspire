@@ -34,4 +34,8 @@ namespace ZSpire {
 
 		ZSMATRIX4x4 getCameraProjectionMatrix();
 		ZSMATRIX4x4 getCameraViewMatrix();
+
+		ZSVECTOR3 getCameraPos();
+		ZSVECTOR3 getCameraFront();
+		ZSVECTOR3 getCameraRight();
 }

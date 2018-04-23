@@ -182,3 +182,10 @@
 
 		return Ret;
 	}
+
+	inline ZSVECTOR3 operator*(const ZSVECTOR3& l, const float& f)
+	{
+		ZSVECTOR3 Ret(l.X * f, l.Y *f, l.Z * f);
+
+		return Ret;
+	}

@@ -12,8 +12,6 @@
 
 #include "../includes/zs-app.h"
 
-
-
 #include "../includes/zs-shader.h"
 
 #include "../includes/zs-text-renderer.h"
@@ -24,10 +22,6 @@
 
 #ifdef _WIN32
 #include <windows.h>
-#endif
-
-
-#ifdef _WIN32
 #include <glew.h>
 #endif
 
@@ -44,7 +38,7 @@
 SDL_Window *window;
 SDL_GLContext glcontext;
 
-bool ZSpire::ZSpireApp::createWindow(ZSWindowDesc desc){
+bool ZSpire::ZSpireApp::createWindow(ZSWindowDesc desc) {
 
 	if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_TIMER) != 0)
 	{
@@ -52,13 +46,24 @@ bool ZSpire::ZSpireApp::createWindow(ZSWindowDesc desc){
 		return false;
 	}
 
-	Input::setWinWH(desc.WIDTH, desc.HEIGHT);
+	int rWIDTH = desc.WIDTH;
+	int rHeight = desc.HEIGHT;
+	SDL_DisplayMode DM;
+	SDL_GetCurrentDisplayMode(0, &DM);
 
-	Camera::setCameraProjectionResolution((float)desc.WIDTH, (float)desc.HEIGHT);
+	//Check if resilution bigger than monitor
+	if (rWIDTH > DM.w || rHeight > DM.h) {
+		rWIDTH = DM.w;
+		rHeight = DM.h;
+	}
+
+	Input::setWinWH(rWIDTH, rHeight);
+
+	Camera::setCameraProjectionResolution((float)rWIDTH, (float)rHeight);
 	Camera::updateCameraMatrix();
 	
-	setLocalScreenSize(desc.WIDTH, desc.HEIGHT);
-	DefferedRender::set_gBufferSize(desc.WIDTH, desc.HEIGHT);
+	setLocalScreenSize(rWIDTH, rHeight);
+	DefferedRender::set_gBufferSize(rWIDTH, rHeight);
 
 #ifdef USE_GL
 	// Setup window
@@ -100,7 +105,7 @@ bool ZSpire::ZSpireApp::createWindow(ZSWindowDesc desc){
 	GPU_API = SDL_WINDOW_VULKAN;
 #endif
 
-	window = SDL_CreateWindow(desc.WINDOW_TITLE, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, desc.WIDTH, desc.HEIGHT, GPU_API | RESIZABLE_FLAG);
+	window = SDL_CreateWindow(desc.WINDOW_TITLE, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, rWIDTH, rHeight, GPU_API | RESIZABLE_FLAG);
 
 	if (desc.isFullscreen == true) {
 		SDL_SetWindowFullscreen(window, SDL_WINDOW_FULLSCREEN);
@@ -118,6 +123,8 @@ bool ZSpire::ZSpireApp::createWindow(ZSWindowDesc desc){
 		return false;
 	}
 
+	glCullFace(GL_BACK);
+
 	return true;
 }
 
@@ -126,7 +133,7 @@ void ZSpire::ZSpireApp::ZSDestroyWindow() {
 	SDL_DestroyWindow(window);
 	SDL_Quit();
 }
-
+//destroy the whole application
 void ZSpire::ZSpireApp::ZSDestroyApp() {
 	ZSDestroyWindow();
 
@@ -193,6 +200,12 @@ void ZSpire::ZSpireApp::setWindowProperties(ZSWindowDesc desc) {
 
 	rWIDTH = desc.WIDTH;
 	rHeight = desc.HEIGHT;
+
+	//Check if resilution bigger than monitor
+	if (rWIDTH > (unsigned int)DM.w || rHeight > (unsigned int)DM.h) {
+		rWIDTH = DM.w;
+		rHeight = DM.h;
+	}
 
 	SDL_SetWindowSize(window, rWIDTH, rHeight);
 	

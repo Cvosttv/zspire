@@ -70,12 +70,12 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>D:\LIBS\ASSIMP;D:\LIBS\GL;D:\LIBS\OPENAL;D:\LIBS\SDL;$(IncludePath)</IncludePath>
+    <IncludePath>$(IncludePath)</IncludePath>
     <LibraryPath>D:\LIBS\SDL;D:\LIBS;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <IncludePath>D:\LIBS\GL;D:\LIBS\SDL;$(IncludePath)</IncludePath>
-    <LibraryPath>D:\LIBS;$(LibraryPath)</LibraryPath>
+    <IncludePath>D:\LIBS\ASSIMP;D:\LIBS\OPENAL;D:\LIBS\GL;D:\LIBS\SDL;$(IncludePath)</IncludePath>
+    <LibraryPath>D:\LIBS\SDL;%LIBSDIR%;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -91,12 +91,13 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>%ZSlibs%\ASSIMP;%ZSlibs%\VK;%ZSlibs%\OPENAL;%ZSlibs%\SDL;%ZSlibs%\GL;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <AdditionalDependencies>SDL2.lib;SDL2main.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <Lib>
-      <AdditionalDependencies>SDL2.lib;SDL2main.lib;glew32s.lib;glew32.lib;opengl32.lib;assimp_x64.lib;OpenAL_x64.lib;alut_X64.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>SDL2.lib;SDL2main.lib;glew32s.lib;glew32.lib;opengl32.lib;assimp_x64.lib;OpenAL_x64.lib;alut_X64.lib;vulkan-1.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -127,7 +128,7 @@
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
     <Lib>
-      <AdditionalDependencies>SDL2.lib;SDL2main.lib;glew32.lib;glew32s.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>SDL2.lib;SDL2main.lib;glew32s.lib;glew32.lib;opengl32.lib;assimp_x64.lib;OpenAL_x64.lib;alut_X64.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -141,6 +142,7 @@
     <ClCompile Include="src\zs-game-object.cpp" />
     <ClCompile Include="src\zs-input.cpp" />
     <ClCompile Include="src\zs-light.cpp" />
+    <ClCompile Include="src\zs-logger.cpp" />
     <ClCompile Include="src\zs-math.cpp" />
     <ClCompile Include="src\zs-mesh-loader.cpp" />
     <ClCompile Include="src\zs-mesh.cpp" />
@@ -149,6 +151,8 @@
     <ClCompile Include="src\zs-text-renderer.cpp" />
     <ClCompile Include="src\zs-texture.cpp" />
     <ClCompile Include="src\zs-transform.cpp" />
+    <ClCompile Include="src\zs-ui.cpp" />
+    <ClCompile Include="src\zs-vulkan.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="includes\zs-app.h" />
@@ -161,14 +165,19 @@
     <ClInclude Include="includes\zs-game-object.h" />
     <ClInclude Include="includes\zs-input.h" />
     <ClInclude Include="includes\zs-light.h" />
+    <ClInclude Include="includes\zs-logger.h" />
     <ClInclude Include="includes\zs-math.h" />
     <ClInclude Include="includes\zs-mesh-loader.h" />
     <ClInclude Include="includes\zs-mesh.h" />
+    <ClInclude Include="includes\zs-resource.h" />
     <ClInclude Include="includes\zs-scene.h" />
+    <ClInclude Include="includes\zs-settings.h" />
     <ClInclude Include="includes\zs-shader.h" />
     <ClInclude Include="includes\zs-text-renderer.h" />
     <ClInclude Include="includes\zs-texture.h" />
     <ClInclude Include="includes\zs-transform.h" />
+    <ClInclude Include="includes\zs-ui.h" />
+    <ClInclude Include="includes\zs-vulkan.h" />
     <ClInclude Include="includes\zspire.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

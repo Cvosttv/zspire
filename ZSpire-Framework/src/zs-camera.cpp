@@ -59,7 +59,7 @@ void ZSpire::Camera::updateCameraMatrix() {
 
 	VIEW = matrixLookAt(camera_pos, camera_target, camera_up);
 
-	PROJECTION_UI = getOrthogonal(0, CAMERA_PROJ_WIDTH, 0, CAMERA_PROJ_HEIGHT, ZNearPlane, ZFarPlane);
+	PROJECTION_UI = getOrthogonal(0, CAMERA_PROJ_WIDTH, 0, CAMERA_PROJ_HEIGHT);
 }
 
 void ZSpire::Camera::setCameraProjectionResolution(float WIDTH, float HEIGHT) {

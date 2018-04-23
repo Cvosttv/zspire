@@ -16,8 +16,6 @@
 
 #include "../includes/zs-camera.h"
 
-//#include "../includes/zs-light.h"
-
 #include "../includes/zs-shader.h"
 
 void ZSpire::Shader::InitializeShader() {
@@ -150,16 +148,20 @@ void ZSpire::Shader::updateCamera(){
 }
 
 void ZSpire::Shader::setLight(unsigned int index, Light* light) {
+	std::string type;
+	type = "lights[" + std::to_string(index) + "].type";
+	
 	std::string pos;
 	pos = "lights[" + std::to_string(index) + "].pos";
 
 	std::string color;
-	pos = "lights[" + std::to_string(index) + "].color";
+	color = "lights[" + std::to_string(index) + "].color";
 
 	std::string dir;
-	pos = "lights[" + std::to_string(index) + "].dir";
+	dir = "lights[" + std::to_string(index) + "].dir";
 
+	setUniformInt(type.c_str(), light->type);
 	setUniformVec3(pos.c_str(), light->pos);
-	//setUniformVec3(dir.c_str(), light->getDirection());
-	//setUniformVec3(pos.c_str(), light->getPosition());
+	setUniformVec3(dir.c_str(), light->direction);
+	setUniformColor3(color.c_str(), light->light_color);
 }

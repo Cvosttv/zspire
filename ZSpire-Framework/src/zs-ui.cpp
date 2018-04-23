@@ -1,5 +1,13 @@
 #define _CRT_SECURE_NO_WARNINGS
 
+#ifdef _WIN32
+#include <glew.h>
+#endif
+
+#ifdef __linux__
+#include <GL/glew.h>
+#endif
+
 #include "../includes/zs-ui.h"
 
 #include "../includes/zs-mesh.h"
@@ -34,8 +42,8 @@ void ZSpire::UI::SpriteUI::setPosition(ZSVECTOR2 pos) {
 //Button
 void ZSpire::UI::ButtonUI::setText(const wchar_t* text){
 	wcscpy(this->text, text);
-	this->text_len = ZSpire::GetStringLength(text);
-	this->text_max_h = ZSpire::GetMaximumLetterHeight(text);
+	this->text_len = (float)ZSpire::GetStringLength(text);
+	this->text_max_h = (float)ZSpire::GetMaximumLetterHeight(text);
 }
 void ZSpire::UI::ButtonUI::setTextColor(ZSRGBCOLOR text_color){
 	this->text_color = text_color;
@@ -79,10 +87,12 @@ void ZSpire::UI::setShader(Shader* shader){
 void ZSpire::UI::setShaderText(Shader* _text_shader){
 	text_shader = _text_shader;
 }
-
+//Render UI
 void ZSpire::UI::ToggleUI() {
 
 	ui_shader->Use();
+	glDisable(GL_CULL_FACE);
+
 	Camera::setCameraMode(CAMERA_MODE_UI);
 	ui_shader->updateCamera();
 	
@@ -100,6 +110,12 @@ void ZSpire::UI::SpriteUI::Draw() {
 
 void ZSpire::UI::TextUI::setText(const wchar_t* text){
 	wcscpy(this->text, text);
+}
+void ZSpire::UI::TextUI::setPosition(ZSVECTOR2 pos){
+	this->pos = pos;
+}
+void ZSpire::UI::TextUI::setTextColor(ZSRGBCOLOR color){
+	this->color = color;
 }
 void ZSpire::UI::TextUI::Draw() {
 	ZSpire::DrawString(text, *text_shader, pos, this->color);

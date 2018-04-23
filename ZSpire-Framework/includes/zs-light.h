@@ -5,10 +5,10 @@
 #define LIGHT_TYPE_DIRECTIONAL 1
 #define LIGHT_TYPE_POINT 2
 #define LIGHT_TYPE_SPOT 3
-
+typedef unsigned int ZSLIGHTTYPE;
 namespace ZSpire {
 
-	typedef unsigned int ZS_LIGHT_TYPE;
+	
 
 	class Light {
 	protected:
@@ -17,13 +17,13 @@ namespace ZSpire {
 
 		ZSVECTOR3 light_direction;
 
-		ZS_LIGHT_TYPE light_type;
+		ZSLIGHTTYPE light_type;
 
 		char label[128];
 
 	public:
 
-		void setLightType(ZS_LIGHT_TYPE light_type);
+		void setLightType(ZSLIGHTTYPE light_type);
 
 		void setLightPosition(ZSVECTOR3 position);
 		void setLightDirection(ZSVECTOR3 dir);
@@ -33,6 +33,7 @@ namespace ZSpire {
 		ZSVECTOR3 getPosition();
 		ZSVECTOR3 getDirection();
 		ZSRGBCOLOR getDiffuseColor();
+		ZSLIGHTTYPE getLightType();
 
 		char* getLabel();
 		void setLabel(const char* label);

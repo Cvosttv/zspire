@@ -52,7 +52,7 @@ void ZSpire::updateCameraMatrix() {
 		PROJECTION = getPerspective(FOV, CAMERA_PROJ_WIDTH / CAMERA_PROJ_HEIGHT, ZNearPlane, ZFarPlane);
 	}
 
-	VIEW = matrixLookAt(camera_pos, camera_target, camera_up);
+	VIEW = matrixLookAt(camera_pos, camera_pos + camera_target, camera_up);
 
 	CAMMATRIX = PROJECTION * VIEW;
 }
@@ -77,4 +77,16 @@ void ZSpire::setCameraPosition(ZSVECTOR3 position) {
 void ZSpire::setCameraFront(ZSVECTOR3 front) {
 	camera_target = front;
 	updateCameraMatrix();
+}
+
+ZSVECTOR3 ZSpire::getCameraPos(){
+	return camera_pos;
+}
+
+ZSVECTOR3 ZSpire::getCameraFront(){
+	return camera_target;
+}
+
+ZSVECTOR3 ZSpire::getCameraRight(){
+	return vCross(camera_target, camera_up);
 }

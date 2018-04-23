@@ -2,6 +2,9 @@
 #include <glew.h>
 #endif
 
+#define SHADER_DIFFUSE_TEXTURE_SLOT 0
+#define SHADER_NORMAL_TEXTURE_SLOT 1
+
 #ifdef __linux__
 #include <GL/glew.h>
 #endif
@@ -27,14 +30,13 @@ void ZSpire::Shader::InitializeShader() {
 
 	SHADER_GL_ID = glCreateProgram();
 }
-
 void ZSpire::Shader::Use() {
 	glUseProgram(this->SHADER_GL_ID);
 }
 
 void ZSpire::Shader::bindUniforms() {
-	setUniformInt("diffuse", 0);
-	setUniformInt("normal", 1);
+	setUniformInt("diffuse", SHADER_DIFFUSE_TEXTURE_SLOT);
+	setUniformInt("normal", SHADER_NORMAL_TEXTURE_SLOT);
 
 	setUniformInt("b_diffuse", 5);
 	setUniformInt("b_normal", 6);
@@ -122,13 +124,13 @@ bool ZSpire::Shader::compileFromFile(const char* VS_SHADER_PATH, const char* FS_
 }
 
 
-
+//Send INT variable to shader
 void ZSpire::Shader::setUniformInt(const char* uniform_string, int value){
 	Use();
 	unsigned int uniform_id = glGetUniformLocation(this->SHADER_GL_ID, uniform_string);
 	glUniform1i(uniform_id, value);
 }
-
+//Send FLOAT variable to shader
 void ZSpire::Shader::setUniformFloat(const char* uniform_string, float value) {
 	Use();
 	unsigned int uniform_id = glGetUniformLocation(this->SHADER_GL_ID, uniform_string);
@@ -158,7 +160,7 @@ void ZSpire::Shader::setTransform( ZSpire::Transform* translation) {
 	unsigned int uniform_id = glGetUniformLocation(this->SHADER_GL_ID, "object_transform");
 	glUniformMatrix4fv(uniform_id, 1, GL_FALSE, &translation->translation_matrix.m[0][0]);
 }
-
+//Send camera data
 void ZSpire::Shader::updateCamera(){
 	unsigned int proj_id = glGetUniformLocation(this->SHADER_GL_ID, "cam_projection");
 	unsigned int view_id = glGetUniformLocation(this->SHADER_GL_ID, "cam_view");
@@ -167,19 +169,24 @@ void ZSpire::Shader::updateCamera(){
 	glUniformMatrix4fv(view_id, 1, GL_FALSE, &Camera::getCameraViewMatrix().m[0][0]);
 }
 
+//Send light to shader
 void ZSpire::Shader::setLight(unsigned int index, Light* light) {
+	std::string type;
+	type = "lights[" + std::to_string(index) + "].type";
+	
 	std::string pos;
 	pos = "lights[" + std::to_string(index) + "].pos";
 
 	std::string color;
-	pos = "lights[" + std::to_string(index) + "].color";
+	color = "lights[" + std::to_string(index) + "].color";
 
 	std::string dir;
-	pos = "lights[" + std::to_string(index) + "].dir";
+	dir = "lights[" + std::to_string(index) + "].dir";
 
+	setUniformInt(type.c_str(), (int)light->getLightType());
 	setUniformVec3(pos.c_str(), light->getPosition());
 	setUniformVec3(dir.c_str(), light->getDirection());
-	setUniformVec3(pos.c_str(), light->getPosition());
+	setUniformColor3(color.c_str(), light->getDiffuseColor());
 }
 
 void ZSpire::Shader::updateFrameResolution(){

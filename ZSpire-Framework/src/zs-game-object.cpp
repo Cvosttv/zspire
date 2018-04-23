@@ -45,13 +45,13 @@ void ZSpire::GameObject::setNormalTexture(Texture* texture){
 void ZSpire::GameObject::Draw() {
 
 	if(hasTextureDiffuse == true)
-	diffuse_texture->Use(0);
+		diffuse_texture->Use(SHADER_DIFFUSE_TEXTURE_SLOT);
 
 	if (hasNormalTexture == true)
-		normal_texture->Use(1);
+		normal_texture->Use(SHADER_NORMAL_TEXTURE_SLOT);
 
 	if(hasMesh == true)
-	mesh->Draw();
+		mesh->Draw();
 }
 
 ZSpire::Transform* ZSpire::GameObject::getTransform() {
