@@ -222,6 +222,30 @@ bool ZSpire::LoadSceneFromFile(const char* file_path, Scene* result) {
 
 					obj.setLabel(label);
 				}
+				if (strcmp(header0, "type") == 0) {
+					fseek(scene_file, 1, SEEK_CUR);
+					ZSLIGHTTYPE type;
+					fread(&type, sizeof(int), 1, scene_file);
+
+					obj.setLightType(type);
+
+					fseek(scene_file, 1, SEEK_CUR);
+				}
+
+				if (strcmp(header0, "prms") == 0) {
+					fseek(scene_file, 1, SEEK_CUR);
+
+					float intensity;
+					float range;
+
+					fread(&intensity, sizeof(float), 1, scene_file);
+					fread(&range, sizeof(float), 1, scene_file);
+
+					obj.setLightIntensity(intensity);
+					obj.setLightRange(range);
+
+					fseek(scene_file, 1, SEEK_CUR);
+				}
 
 				if (strcmp(header0, "pos") == 0) {
 					fseek(scene_file, 1, SEEK_CUR);
@@ -234,7 +258,7 @@ bool ZSpire::LoadSceneFromFile(const char* file_path, Scene* result) {
 
 					fseek(scene_file, 1, SEEK_CUR);
 				}
-				if (strcmp(header0, "dir") == 0) {
+				if (strcmp(header0, "rot") == 0) {
 					fseek(scene_file, 1, SEEK_CUR);
 
 					ZSVECTOR3 rotation;
@@ -243,7 +267,22 @@ bool ZSpire::LoadSceneFromFile(const char* file_path, Scene* result) {
 					fread(&rotation.Y, sizeof(float), 1, scene_file);
 					fread(&rotation.Z, sizeof(float), 1, scene_file);
 
-					obj.setLightDirection(rotation);
+					obj.setLightRotation(rotation);
+
+					fseek(scene_file, 1, SEEK_CUR);
+				}
+
+				if (strcmp(header0, "color") == 0) {
+					fseek(scene_file, 1, SEEK_CUR);
+
+					ZSRGBCOLOR color;
+
+					fread(&color.r, sizeof(int), 1, scene_file);
+					fread(&color.g, sizeof(int), 1, scene_file);
+					fread(&color.b, sizeof(int), 1, scene_file);
+
+					color.updateGL();
+					obj.setLightColor(color);
 
 					fseek(scene_file, 1, SEEK_CUR);
 				}

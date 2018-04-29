@@ -10,6 +10,7 @@
 #include "../includes/Light.h"
 #include "../includes/zs-transform.h"
 #include "../includes/GameObject.h"
+#include "../includes/zs-shader.h"
 #include "../includes/property_inspector.h"
 
 #include "../includes/zs-mesh-loader.h"
@@ -27,6 +28,12 @@ static bool hdr = false;
 char resource_prev_path[64];
 
 int misc_flags = (hdr ? ImGuiColorEditFlags_HDR : 0) | (alpha_half_preview ? ImGuiColorEditFlags_AlphaPreviewHalf : (alpha_preview ? ImGuiColorEditFlags_AlphaPreview : 0)) | (options_menu ? 0 : ImGuiColorEditFlags_NoOptions);
+
+ZSpire::Shader* obj_shader;
+
+void ZSWindows::Inspector::setObjectShader(ZSpire::Shader* shader) {
+	obj_shader = shader;
+}
 
 void ZSWindows::DrawInspectorWindow(SDL_Window* window){
 
@@ -139,16 +146,28 @@ void ZSWindows::DrawInspectorWindow(SDL_Window* window){
 
 		ImGui::InputText("Label", obj->label, 255);
 
+		int type = obj->type;
+		ImGui::RadioButton("Directional", &type, LIGHTSOURCE_DIRECTIONAL);
+		ImGui::RadioButton("Point", &type, LIGHTSOURCE_POINT);
+		ImGui::RadioButton("Spot", &type, LIGHTSOURCE_SPOT);
+
+		obj->type = type;
+
 		float translation[3] = { obj->pos.X, obj->pos.Y, obj->pos.Z };
-		float direction[3] = { obj->direction.X, obj->direction.Y, obj->direction.Z };
+		float rotation[3] = { obj->rotation.X, obj->rotation.Y, obj->rotation.Z };
 
 		ImGui::Separator();
 
 		ImGui::InputFloat3("Translation", translation);
-		ImGui::InputFloat3("Direction", direction);
+		ImGui::InputFloat3("Direction", rotation);
+
+		ImGui::InputFloat("Range", &obj->range);
+		ImGui::InputFloat("Intensity", &obj->intensity);
 
 		obj->pos = ZSVECTOR3(translation[0], translation[1], translation[2]);
-		obj->direction = ZSVECTOR3(direction[0], direction[1], direction[2]);
+		obj->rotation = ZSVECTOR3(rotation[0], rotation[1], rotation[2]);
+
+		obj->direction = getDirection(obj->rotation.X, obj->rotation.Y, obj->rotation.Z);
 
 		float color[3] = { (float)obj->light_color.r / 256, (float)obj->light_color.g / 256, (float)obj->light_color.b / 256 };
 
@@ -161,6 +180,8 @@ void ZSWindows::DrawInspectorWindow(SDL_Window* window){
 		obj->light_color.updateGL();
 		if (ImGui::Button("Delete") == true) {
 			obj->deleted = true;
+			obj->type = 0;
+			obj_shader->deleteLight(selected_light);
 			selected_light = NON_SHOWING;
 		}
 

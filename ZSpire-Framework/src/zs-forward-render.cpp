@@ -31,6 +31,8 @@ void ZSpire::ForwardRender::RenderScene(Scene* scene) {
 	glEnable(GL_CULL_FACE);
 	object_shader->Use();
 
+	object_shader->setUniformInt("lights_amount", scene->getObjectsCount());
+
 	Camera::setCameraMode(CAMERA_MODE_SCENE);
 
 	object_shader->updateCamera();

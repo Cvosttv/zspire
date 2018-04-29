@@ -1,7 +1,3 @@
-#ifndef ZSSHADER
-#define ZSSHADER
-#endif
-
 #ifndef ZSMATH
 #include "zs-math.h"
 #endif
@@ -14,6 +10,8 @@
 #include "zs-transform.h"
 #endif // !ZSTRANSFORM
 
+#ifndef ZSSHADER
+#define ZSSHADER
 
 namespace ZSpire {
 	class Shader {
@@ -40,6 +38,10 @@ namespace ZSpire {
 
 		void setTransform(Transform* translation);
 		void setLight(unsigned int index, Light* light);
+		void deleteLight(unsigned int index);
 		void updateCamera();
+
+		
 	};
 }
+#endif

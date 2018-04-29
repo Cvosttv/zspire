@@ -203,9 +203,33 @@ void LoadScene(const char* path){
 					strcpy(obj.label, label);
 				}
 
-				
+				if (strcmp(header0, "type") == 0) {
+					fseek(scene_file, 1, SEEK_CUR);
 
+					int ltype;
+
+					fread(&ltype, sizeof(float), 1, scene_file);
+
+					obj.type = ltype;
+
+					fseek(scene_file, 1, SEEK_CUR);
+				}
 				
+				if (strcmp(header0, "prms") == 0) {
+					fseek(scene_file, 1, SEEK_CUR);
+
+					float intensity;
+					float range;
+
+					fread(&intensity, sizeof(float), 1, scene_file);
+					fread(&range, sizeof(float), 1, scene_file);
+
+					obj.intensity = intensity;
+					obj.range = range;
+
+					fseek(scene_file, 1, SEEK_CUR);
+				}
+
 				if (strcmp(header0, "pos") == 0) {
 					fseek(scene_file, 1, SEEK_CUR);
 
@@ -222,7 +246,23 @@ void LoadScene(const char* path){
 					fseek(scene_file, 1, SEEK_CUR);
 				}
 				
-				if (strcmp(header0, "dir") == 0) {
+				if (strcmp(header0, "color") == 0) {
+					fseek(scene_file, 1, SEEK_CUR);
+
+					int colorR;
+					int colorG;
+					int colorB;
+
+					fread(&colorR, sizeof(float), 1, scene_file);
+					fread(&colorG, sizeof(float), 1, scene_file);
+					fread(&colorB, sizeof(float), 1, scene_file);
+
+					obj.light_color = ZSRGBCOLOR(colorR, colorG, colorB);
+
+					fseek(scene_file, 1, SEEK_CUR);
+				}
+
+				if (strcmp(header0, "rot") == 0) {
 					fseek(scene_file, 1, SEEK_CUR);
 
 					float dirX;
@@ -233,7 +273,8 @@ void LoadScene(const char* path){
 					fread(&dirY, sizeof(float), 1, scene_file);
 					fread(&dirZ, sizeof(float), 1, scene_file);
 
-					obj.direction = ZSVECTOR3(dirX, dirY, dirZ);
+					obj.rotation = ZSVECTOR3(dirX, dirY, dirZ);
+					obj.direction = getDirection(obj.rotation.X, obj.rotation.Y, obj.rotation.Z);
 
 					fseek(scene_file, 1, SEEK_CUR);
 				}
@@ -432,13 +473,31 @@ void saveScene(){
 		if (strlen(obj.label) >= 1)
 			fprintf(scene_write, "str %s\n", obj.label);
 
+		int ltype = (int)obj.type;
+
+		float intensity = obj.intensity;
+		float range = obj.range;
+
 		float posX = obj.pos.X;
 		float posY = obj.pos.Y;
 		float posZ = obj.pos.Z;
 
-		float dirX = obj.direction.X;
-		float dirY = obj.direction.Y;
-		float dirZ = obj.direction.Z;
+		float dirX = obj.rotation.X;
+		float dirY = obj.rotation.Y;
+		float dirZ = obj.rotation.Z;
+
+		int colorR = obj.light_color.r;
+		int colorG = obj.light_color.g;
+		int colorB = obj.light_color.b;
+
+		fprintf(scene_write, "type ");
+		fwrite(&ltype, sizeof(int), 1, scene_write);
+		fprintf(scene_write, "\n");
+
+		fprintf(scene_write, "prms ");
+		fwrite(&intensity, sizeof(float), 1, scene_write);
+		fwrite(&range, sizeof(float), 1, scene_write);
+		fprintf(scene_write, "\n");
 
 		fprintf(scene_write, "pos ");
 		fwrite(&posX, sizeof(float), 1, scene_write);
@@ -446,10 +505,16 @@ void saveScene(){
 		fwrite(&posZ, sizeof(float), 1, scene_write);
 		fprintf(scene_write, "\n");
 
-		fprintf(scene_write, "dir ");
+		fprintf(scene_write, "rot ");
 		fwrite(&dirX, sizeof(float), 1, scene_write);
 		fwrite(&dirY, sizeof(float), 1, scene_write);
 		fwrite(&dirZ, sizeof(float), 1, scene_write);
+		fprintf(scene_write, "\n");
+
+		fprintf(scene_write, "color ");
+		fwrite(&colorR, sizeof(int), 1, scene_write);
+		fwrite(&colorG, sizeof(int), 1, scene_write);
+		fwrite(&colorB, sizeof(int), 1, scene_write);
 		fprintf(scene_write, "\n");
 
 		fprintf(scene_write, "end\n");

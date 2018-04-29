@@ -10,10 +10,13 @@ struct Light{
 	vec3 pos;
 	vec3 dir;
 	vec3 color;
+	float range;
+	float intensity;
 };
 
 out vec4 FragColor;
 
+in vec3 FragPos;
 in vec2 UVCoord;
 in vec3 n_Normal;
 
@@ -29,9 +32,15 @@ void main(){
 	
 	for(int lg = 0; lg < lights_amount; lg ++){
 		if(lights[lg].type == LIGHTSOURCE_DIR){
-			float lightcoeff = max(dot(n_Normal, normalize(lights[lg].dir)), 0.0);
+			float lightcoeff = max(dot(n_Normal, normalize(lights[lg].dir)), 0.0) * lights[lg].intensity;
 			vec3 rlight = lightcoeff * lights[lg].color;
 			result += rlight;
+		}
+		
+		if(lights[lg].type == LIGHTSOURCE_POINT){
+			float dist = length(lights[lg].pos - FragPos);
+			float factor = 1.0 / ( 1.0 + 1.0 / lights[lg].range * dist + 1.0 / lights[lg].range * dist * dist) * lights[lg].intensity;
+			result += lights[lg].color * factor;
 		}
 	}
 	

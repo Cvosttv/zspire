@@ -148,20 +148,37 @@ void ZSpire::Shader::updateCamera(){
 }
 
 void ZSpire::Shader::setLight(unsigned int index, Light* light) {
+	if (light->type > 0) {
+		std::string type;
+		type = "lights[" + std::to_string(index) + "].type";
+
+		std::string pos;
+		pos = "lights[" + std::to_string(index) + "].pos";
+
+		std::string color;
+		color = "lights[" + std::to_string(index) + "].color";
+
+		std::string dir;
+		dir = "lights[" + std::to_string(index) + "].dir";
+
+		std::string range;
+		range = "lights[" + std::to_string(index) + "].range";
+
+		std::string intensity;
+		intensity = "lights[" + std::to_string(index) + "].intensity";
+
+		setUniformInt(type.c_str(), light->type);
+		setUniformVec3(pos.c_str(), light->pos);
+		setUniformVec3(dir.c_str(), light->direction);
+		setUniformFloat(range.c_str(), light->range);
+		setUniformFloat(intensity.c_str(), light->intensity);
+		setUniformColor3(color.c_str(), light->light_color);
+	}
+}
+
+void ZSpire::Shader::deleteLight(unsigned int index) {
 	std::string type;
 	type = "lights[" + std::to_string(index) + "].type";
-	
-	std::string pos;
-	pos = "lights[" + std::to_string(index) + "].pos";
 
-	std::string color;
-	color = "lights[" + std::to_string(index) + "].color";
-
-	std::string dir;
-	dir = "lights[" + std::to_string(index) + "].dir";
-
-	setUniformInt(type.c_str(), light->type);
-	setUniformVec3(pos.c_str(), light->pos);
-	setUniformVec3(dir.c_str(), light->direction);
-	setUniformColor3(color.c_str(), light->light_color);
+	setUniformInt(type.c_str(), 0);
 }

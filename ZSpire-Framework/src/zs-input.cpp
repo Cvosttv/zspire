@@ -1,5 +1,7 @@
 #include "../includes/zs-input.h"
 
+#include <sdl.h>
+
 int pressed_keys[MAX_KEYS];
 
 int keys_pressed_amount = 0;
@@ -8,6 +10,8 @@ ZSpire::Input::MouseState mouse_state;
 
 unsigned int WIN_WIDTH;
 unsigned int WIN_HEIGHT;
+
+ZSMOUSEINPUTSTYLE MOUSE_INPUT_STYLE = false;
 
 void ZSpire::Input::setWinWH(unsigned int W, unsigned int H) {
 	WIN_WIDTH = W;
@@ -91,4 +95,19 @@ bool ZSpire::Input::isButtonClicked(UI::ButtonUI* button){
 	if (mouse_state.LEFT_BTN_DOWN == true && isButtonHoveredByCursor(button) == true)
 		return true;
 	return false;
+}
+
+void ZSpire::Input::setMouseInputStyle(ZSMOUSEINPUTSTYLE style) {
+	switch (style) {
+	case MOUSE_STYLE_NORMAL: {
+		MOUSE_INPUT_STYLE = MOUSE_STYLE_NORMAL;
+		SDL_SetRelativeMouseMode(SDL_FALSE);
+		break;
+	}
+	case MOUSE_STYLE_RELATIVE: {
+		MOUSE_INPUT_STYLE = MOUSE_STYLE_RELATIVE;
+		SDL_SetRelativeMouseMode(SDL_TRUE);
+		break;
+	}
+	}
 }

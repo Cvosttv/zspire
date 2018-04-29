@@ -23,8 +23,8 @@ int main() {
 	ZSpire::Camera::InitializeCamera();
 
 	ZSpire::ZSWindowDesc dec;
-	dec.WIDTH = 1280;
-	dec.HEIGHT = 720;
+	dec.WIDTH = 1366;
+	dec.HEIGHT = 768;
 	dec.isResizable = false;
 	strcpy_s(dec.WINDOW_TITLE , "Demo");
 	dec.isFullscreen = false;
@@ -66,9 +66,9 @@ int main() {
 	ZSpire::UI::setShader(&shader);
 	ZSpire::UI::setShaderText(&text_shader);
 	ZSpire::LoadSceneFromFile("scene.scn", &scene);
-	//ZSpire::ForwardRender::setForwardObjectShader(&shader);
-	ZSpire::DefferedRender::Init_gBuffer();
-	ZSpire::DefferedRender::setDefferedShaders(&deffered_object_shader, &deffered_light_shader);
+	ZSpire::ForwardRender::setForwardObjectShader(&shader);
+	//ZSpire::DefferedRender::Init_gBuffer();
+	//ZSpire::DefferedRender::setDefferedShaders(&deffered_object_shader, &deffered_light_shader);
 	
 	ZSpire::Camera::setCameraProjectionType(CAMERA_PROJECTION_PERSPECTIVE);
 	ZSpire::Camera::updateCameraMatrix();
@@ -102,8 +102,8 @@ int main() {
 		app.gl_clear();
 
 
-		//ZSpire::ForwardRender::RenderScene(&scene);
-		ZSpire::DefferedRender::RenderScene(&scene);
+		ZSpire::ForwardRender::RenderScene(&scene);
+		//ZSpire::DefferedRender::RenderScene(&scene);
 
 		ZSpire::UI::ToggleUI();
 

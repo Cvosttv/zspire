@@ -6,12 +6,6 @@
 
 std::vector<Light> lights;
 
-void Light::setLightAttenuationParams(float linear, float quadratic, float maxlight) {
-	this->linear = linear;
-	this->quadratic = quadratic;
-	this->maxlight = maxlight;
-
-}
 
 void createNewLight() {
 	Light light;

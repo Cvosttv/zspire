@@ -1,3 +1,4 @@
+
 #ifdef _WIN32
 #include <glew.h>
 #endif
@@ -183,11 +184,21 @@ void ZSpire::Shader::setLight(unsigned int index, Light* light) {
 	std::string dir;
 	dir = "lights[" + std::to_string(index) + "].dir";
 
+	std::string range;
+	range = "lights[" + std::to_string(index) + "].range";
+
+	std::string intensity;
+	intensity = "lights[" + std::to_string(index) + "].intensity";
+
 	setUniformInt(type.c_str(), (int)light->getLightType());
 	setUniformVec3(pos.c_str(), light->getPosition());
 	setUniformVec3(dir.c_str(), light->getDirection());
+	setUniformFloat(range.c_str(), light->getLightRange());
+	setUniformFloat(intensity.c_str(), light->getLightIntensity());
 	setUniformColor3(color.c_str(), light->getDiffuseColor());
 }
+
+//void ZSpire::Shader::deleteLight(unsigned int index){}
 
 void ZSpire::Shader::updateFrameResolution(){
 	ZSVECTOR2 res = Camera::getCameraResolution();

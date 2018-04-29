@@ -100,6 +100,7 @@ int main(int argc, char* argv[])
 	obj_shader.InitializeShader();
 	obj_shader.compileFromFile("shaders/object.vs", "shaders/object.fs");
 	ZSpire::Renderer::setObjectShaderPtr(&obj_shader);
+	ZSWindows::Inspector::setObjectShader(&obj_shader);
 
 	ImGui::CreateContext();
 	ImGuiIO& io = ImGui::GetIO(); (void)io;

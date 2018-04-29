@@ -163,6 +163,8 @@
 	ZSMATRIX4x4 getRotationY(float thetaN);
 	ZSMATRIX4x4 getRotationZ(float thetaN);
 
+	ZSVECTOR3 getDirection(float pitch, float yaw, float roll);
+
 	inline ZSMATRIX4x4 operator*(const ZSMATRIX4x4& l, const ZSMATRIX4x4& r)
 	{
 		return matrixMM(l, r);

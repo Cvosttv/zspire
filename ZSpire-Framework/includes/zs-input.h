@@ -86,6 +86,10 @@ enum
 #include "zs-ui.h"
 #endif
 
+typedef unsigned int ZSMOUSEINPUTSTYLE;
+#define MOUSE_STYLE_NORMAL 0
+#define MOUSE_STYLE_RELATIVE 1
+
 namespace ZSpire {
 	namespace Input {
 		struct MouseState {
@@ -98,6 +102,7 @@ namespace ZSpire {
 			bool LEFT_BTN_DOWN = false;
 			bool RIGHT_BTN_DOWN = false;
 		};
+
 
 		void setWinWH(unsigned int W, unsigned int H);
 
@@ -114,5 +119,7 @@ namespace ZSpire {
 		void setMouseStateLeftButtonDownBool(bool left_down);
 		void setMouseStateRightButtonDownBool(bool right_down);
 		void setMouseStateWheelButtonDownBool(bool wheel_down);
+
+		void setMouseInputStyle(ZSMOUSEINPUTSTYLE style);
 	}
 }
