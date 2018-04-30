@@ -19,12 +19,15 @@ out vec4 FragColor;
 in vec3 FragPos;
 in vec2 UVCoord;
 in vec3 n_Normal;
+//in ivec4 bone;
 
 //textures
 uniform sampler2D diffuse;
 
 uniform Light lights[60];
 uniform int lights_amount = 0;
+
+
 
 void main(){
 
@@ -46,4 +49,5 @@ void main(){
 	
 	
 	FragColor = vec4(result, 1.0);
+	//FragColor = vec4(bone, 1, 1, 1);
 }

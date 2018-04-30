@@ -226,9 +226,7 @@ void ZSpire::ZSpireApp::postFrame() {
 	SDL_GL_SwapWindow(window);
 }
 
-void ZSpire::ZSpireApp:: gl_clear() {
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-}
+
 
 char* ZSpire::ZSpireApp::getGpuNameGL() {
 

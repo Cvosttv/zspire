@@ -13,6 +13,8 @@
 
 #include "../includes/GameObject.h"
 
+#include "../includes/pdem_loader.h"
+
 std::vector<MeshResource> meshes;
 
 std::vector<TextureResource> textures;
@@ -68,14 +70,29 @@ MeshResource* getMeshAt(unsigned int index) {
 }
 
 void addMesh(MeshResource mesh) {
-	if (strlen(mesh.file_path) > 0) {
-		mesh.meshes = ZSpire::LoadMeshesFromFile(mesh.file_path);
-		mesh.isLoaded = true;
+	if (mesh.file_path[strlen(mesh.file_path) - 1] == 'm') {
+		if (strlen(mesh.file_path) > 0) {
+			ZSpire::Mesh* meshs = new ZSpire::Mesh;
+			LoadPDEM(mesh.file_path, 3, meshs);
+			mesh.meshes = meshs;
+			//mesh.meshes = ZSpire::LoadMeshesFromFile(mesh.file_path);
+			mesh.isLoaded = true;
+		}
+		meshes.push_back(mesh);
+
+		RefreshObjectsData();
 	}
-	meshes.push_back(mesh);
+	else {
 
-	RefreshObjectsData();
 
+		if (strlen(mesh.file_path) > 0) {
+			mesh.meshes = ZSpire::LoadMeshesFromFile(mesh.file_path);
+			mesh.isLoaded = true;
+		}
+		meshes.push_back(mesh);
+
+		RefreshObjectsData();
+	}
 }
 
 unsigned int getTexturesCount() {

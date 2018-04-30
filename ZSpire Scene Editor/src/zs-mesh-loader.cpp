@@ -36,6 +36,7 @@ void processMesh(aiMesh* mesh, const aiScene* scene) {
 			ZSVECTOR3(vertex_normal.x, vertex_normal.y, vertex_normal.z), ZSVECTOR3(vertex_tangent.x, vertex_tangent.y, vertex_tangent.z),
 			ZSVECTOR3(vertex_bitangent.x, vertex_bitangent.y, vertex_bitangent.z)
 			);
+
 	}
 
 	for (unsigned int i = 0; i < faces; i++)

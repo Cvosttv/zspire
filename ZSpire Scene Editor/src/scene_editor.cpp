@@ -25,14 +25,18 @@
 
 #include "../includes/resources_window.h"
 
+
+
 float cam_pitch = 0;
 float cam_yaw = 0;
 
-float cam_speed = 0.2f;
+float cam_speed;
 
 bool isMouseRelative = false;
 
 ZSpire::Shader obj_shader;
+
+const Uint8* state;
 
 int main(int argc, char* argv[])
 {
@@ -43,6 +47,8 @@ int main(int argc, char* argv[])
 	ZSpire::setCameraProjectionResolution(1280.0f, 720.0f);
 
 	ZSpire::updateCameraMatrix();
+
+
 
 	int WIDTH;
 	int HEIGHT;
@@ -67,6 +73,10 @@ int main(int argc, char* argv[])
 
 		if (strcmp(pr, "window_height") == 0) {
 			fscanf(config_file, "%d", &HEIGHT);
+		}
+
+		if (strcmp(pr, "speed") == 0) {
+			fscanf(config_file, "%f", &cam_speed);
 		}
 
 	}
@@ -111,6 +121,8 @@ int main(int argc, char* argv[])
 
 	ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
 
+
+
 	// Main loop
 	bool done = false;
 	while (!done)
@@ -119,7 +131,10 @@ int main(int argc, char* argv[])
 		SDL_Event event;
 		while (SDL_PollEvent(&event))
 		{
-			ImGui_ImplSdlGL3_ProcessEvent(&event);
+			
+			if (isMouseRelative == false) {
+				ImGui_ImplSdlGL3_ProcessEvent(&event);
+			}
 			if (event.type == SDL_QUIT)
 				done = true;
 
@@ -171,8 +186,13 @@ int main(int argc, char* argv[])
 					ZSpire::setCameraFront(front);
 				}
 			}
-
+			
 		}
+		
+	
+
+		
+
 		ImGui_ImplSdlGL3_NewFrame(window);
 
 		if (IsSceneLoaded() == false) {

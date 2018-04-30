@@ -2,6 +2,7 @@
 #include <vector>
 
 	#include <zs-app.h>
+	#include <zs-base-structs.h>
 	#include <zs-math.h>
 	#include <zs-transform.h>
 	#include <zs-light.h>

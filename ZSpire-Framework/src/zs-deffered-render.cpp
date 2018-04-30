@@ -8,7 +8,7 @@
 
 #include <vector>
 
-
+#include "../includes/zs-base-structs.h"
 
 #include "../includes/zs-camera.h"
 
@@ -43,17 +43,33 @@ unsigned int gBufferDepthBuffer;
 
 bool isActive = false;
 
+ZSpire::ZSRENDERRULE renderRulesDef;
+GLbitfield clearModeDef = GL_COLOR_BUFFER_BIT;
+
 void ZSpire::DefferedRender::setDefferedShaders(Shader* obj_shader, Shader* lighting_shader) {
 	deff_obj_shader = obj_shader;
 	light_shader = lighting_shader;
 }
 
+void ZSpire::DefferedRender::setRenderRule(ZSRENDERRULE rule) {
+	renderRulesDef = rule;
+
+	if (rule.depthTest == true) {
+		clearModeDef = clearModeDef | GL_DEPTH_BUFFER_BIT;
+	}
+}
+
 void ZSpire::DefferedRender::RenderScene(Scene* scene) {
 
 	glBindFramebuffer(GL_FRAMEBUFFER, gBufferFBO);
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	glEnable(GL_DEPTH_TEST);
-	glEnable(GL_CULL_FACE);
+	glClear(clearModeDef);
+	
+	if (renderRulesDef.depthTest == true) {
+		glEnable(GL_DEPTH_TEST);
+	}
+	if (renderRulesDef.cullFaces == true) {
+		glEnable(GL_CULL_FACE);
+	}
 
 	deff_obj_shader->Use();
 
@@ -73,7 +89,7 @@ void ZSpire::DefferedRender::RenderScene(Scene* scene) {
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
 	light_shader->Use();
-
+	light_shader->setUniformInt("lights_amount", scene->getLightsCount());
 	for (unsigned int light = 0; light < scene->getLightsCount(); light++) {
 		light_shader->setLight(light, scene->getLightAt(light));
 	}

@@ -3,6 +3,7 @@
 #include "string.h"
 #include <zspire.h>
 
+
 ZSpire::ZSpireApp app;
 
 ZSpire::Shader shader;
@@ -18,7 +19,14 @@ ZSpire::AudioSource asurce;
 
 ZSpire::UI::ButtonUI butto;
 
+ZSpire::ZSRENDERRULE rules;
+
 int main() {
+	//Set render rules
+	rules.cullFaces = true;
+	rules.depthTest = true;
+
+	ZSpire::ForwardRender::setRenderRule(rules);
 
 	ZSpire::Camera::InitializeCamera();
 
@@ -99,7 +107,7 @@ int main() {
 		//	app.setWindowProperties(wd);
 		}
 
-		app.gl_clear();
+		
 
 
 		ZSpire::ForwardRender::RenderScene(&scene);
@@ -109,8 +117,10 @@ int main() {
 
 		butto.Draw();
 
-		if (ZSpire::Input::isButtonClicked(&butto) == true)
+		if (ZSpire::Input::isButtonClicked(&butto) == true) {
+			scene.Release();
 			app.ZSDestroyApp();
+		}
 
 		app.postFrame();
 

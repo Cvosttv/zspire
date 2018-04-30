@@ -4,6 +4,7 @@
 #include "../includes/scene_loader.h"
 #include "../includes/startup_window.h"
 
+
 void ZSWindows::DrawStartupWindow(SDL_Window * window) {
 	ImGui::Begin("Startup Window"); // создаём окно
 	char SceneLoadPath[256] = "scene.scn";
@@ -19,6 +20,9 @@ void ZSWindows::DrawStartupWindow(SDL_Window * window) {
 		//window->setTitle(buf);
 
 		LoadScene(SceneLoadPath);
+
+		//ZSpire::Mesh mesh;
+	//	LoadPDEM("remy.pdem", 3, &mesh);
 
 		//window->setTitle(SceneLoadPath);
 	}

@@ -53,6 +53,8 @@
 
 	};
 
+	
+
 	struct ZSVERTEX {
 
 		ZSVECTOR3 pos;
@@ -101,6 +103,10 @@
 		}
 	};
 
+	struct ZSBONE {
+		char label[120];
+		ZSMATRIX4x4 offset;
+	};
 
 	class ZSRGBCOLOR {
 	public:

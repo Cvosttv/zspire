@@ -14,10 +14,9 @@ float ZFarPlane;
 float CAMERA_PROJ_WIDTH;
 float CAMERA_PROJ_HEIGHT;
 
-ZSVECTOR3 camera_up = ZSVECTOR3(0.0f, 1.0f, 0.0f);
-ZSVECTOR3 camera_pos = ZSVECTOR3(0.0f, 0.0f, -3.0f);
-ZSVECTOR3 camera_target = ZSVECTOR3(0.0f, 0.0f, -1.0f);
-
+ZSVECTOR3 camera_up;
+ZSVECTOR3 camera_pos;
+ZSVECTOR3 camera_target;
 ZSMATRIX4x4 PROJECTION;
 ZSMATRIX4x4 VIEW;
 
@@ -29,6 +28,10 @@ void ZSpire::Camera::InitializeCamera(){
 	ZFarPlane = 1000.0f;
 	projection_type = CAMERA_PROJECTION_ORTHOGRAPHIC;
 	camera_mode = CAMERA_MODE_SCENE;
+	//Camera View matrix defaults
+	camera_up = ZSVECTOR3(0.0f, 1.0f, 0.0f);
+	camera_pos = ZSVECTOR3(0.0f, 0.0f, -3.0f);
+	camera_target = ZSVECTOR3(0.0f, 0.0f, -1.0f);
 
 	if(CAMERA_PROJ_WIDTH == 0)
 		CAMERA_PROJ_WIDTH = 640;
@@ -91,6 +94,10 @@ ZSMATRIX4x4 ZSpire::Camera::getCameraViewMatrix() {
 
 void ZSpire::Camera::setCameraPosition(ZSVECTOR3 position) {
 	camera_pos = position;
+}
+
+void ZSpire::Camera::setCameraTarget(ZSVECTOR3 target) {
+	camera_target = target;
 }
 
 void ZSpire::Camera::setCameraMode(ZSCAMERAMODE mode){

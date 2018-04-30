@@ -16,9 +16,15 @@ namespace ZSpire {
 		unsigned int meshVBO;
 		unsigned int meshIBO;
 
+		
+	public:
+
+		ZSBONE * bones;
+
 		unsigned int IndicesCount;
 		int VerticesCount = MESH_NO_INDICES;
-	public:
+		int BonesCount = 0;
+
 		unsigned int resource_index = 0;
 		char resource_string[64];
 		//ZSResourceDesc resource_desc;

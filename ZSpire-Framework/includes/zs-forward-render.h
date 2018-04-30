@@ -6,6 +6,10 @@
 #include "zs-ui.h"
 #endif
 
+#ifndef ZSBASESTRUCTS
+#include "zs-base-structs.h"
+#endif
+
 namespace ZSpire {
 	
 	namespace ForwardRender {
@@ -13,5 +17,6 @@ namespace ZSpire {
 
 		void RenderScene(Scene* scene);
 
+		void setRenderRule(ZSRENDERRULE rule);
 	}
 }

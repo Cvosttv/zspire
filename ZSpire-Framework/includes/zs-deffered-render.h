@@ -2,6 +2,10 @@
 #include "zs-scene.h"
 #endif
 
+#ifndef ZSBASESTRUCTS
+#include "zs-base-structs.h"
+#endif
+
 namespace ZSpire {
 
 	namespace DefferedRender {
@@ -12,5 +16,7 @@ namespace ZSpire {
 
 		void destroy_gBuffer();
 		void resize_gBuffer(unsigned int W, unsigned int H);
+
+		void setRenderRule(ZSRENDERRULE rule);
 	}
 }

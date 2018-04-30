@@ -199,7 +199,6 @@ void ZSpire::DrawString(const wchar_t* text, Shader text_shader, ZSVECTOR2 pos, 
 		}
 	}
 	glDisable(GL_BLEND);
-	glEnable(GL_DEPTH_TEST);
 }
 
 

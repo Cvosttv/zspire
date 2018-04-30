@@ -133,8 +133,6 @@ unsigned int ZSpire::Texture::getTextureGL_ID() {
 	return this->TEXTURE_ID;
 }
 
-
-
 bool ZSpire::Texture::loadFromResourceDesk(){
 	FILE* file = fopen(resource_desc.packFilePath, "rb");
 
